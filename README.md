@@ -14,7 +14,9 @@ A **Cooperative Profiling System** designed to manage member information efficie
 ---
 
 ## 🛠 Tech Stack
-- **Frontend:** *(choose your stack)*
+web or desktop? 
+python or Php with laravel? 
+- **Frontend:** *(choose your stack)* 
 - **Backend:** *(choose your stack)*
 - **Database:** PostgreSQL
 - **Biometric Integration:** Fingerprint scanning API
