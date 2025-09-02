@@ -4,7 +4,7 @@ A **Cooperative Profiling System** designed to manage member information efficie
 
 ---
 
-## 📌 Features (not a final feature just for display)
+## 📌 Features (not a final features just for display)
 - ✅ Member profiling and management
 - ✅ Biometric integration for secure identity verification
 - ✅ Web-based interface for easy access
