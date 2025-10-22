@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Member;
+use App\Models\Installment;
+use App\Models\LedgerEntry;
 
 class Transaction extends Model
 {
@@ -15,7 +18,13 @@ class Transaction extends Model
         'type',
         'member_id',
     ];
-
+    public const TYPES = [
+        'SHARE_CAPITAL_CONTRIBUTION',
+        'LOAN_DISBURSEMENT',
+        'LOAN_PAYMENT',
+        'DIVIDEND_REINVESTMENT',
+        'DIVIDEND_CREDIT',
+    ];
     public function member()
     {
         return $this->belongsTo(Member::class);
@@ -30,4 +39,5 @@ class Transaction extends Model
     {
         return $this->hasMany(LedgerEntry::class, 'trans_id');
     }
+    public $timestamps = false;
 }

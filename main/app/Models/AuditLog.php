@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\User;
 class AuditLog extends Model
 {
     use HasFactory;
 
     protected $table = 'audit_logs';
-
+    
     protected $fillable = [
         'type',
         'description',
@@ -33,4 +33,5 @@ class AuditLog extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public $timestamps = false;
 }

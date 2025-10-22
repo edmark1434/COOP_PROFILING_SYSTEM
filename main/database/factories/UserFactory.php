@@ -5,12 +5,15 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Models\User;
+use database\factories\MemberFactory;
+use App\Models\Member;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
     /**
      * The current password being used by the factory.
      */
@@ -32,6 +35,11 @@ class UserFactory extends Factory
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
             'two_factor_confirmed_at' => now(),
+            'is_member' => $this->faker->boolean(70), // 70% chance true
+            'is_teller' => $this->faker->boolean(20),
+            'is_loan_officer' => $this->faker->boolean(15),
+            'is_admin' => $this->faker->boolean(10),
+            'member_id' => Member::factory(),
         ];
     }
 

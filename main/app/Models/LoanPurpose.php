@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Loan;
 class LoanPurpose extends Model
 {
     use HasFactory;
@@ -19,4 +19,5 @@ class LoanPurpose extends Model
     {
         return $this->hasMany(Loan::class, 'purpose_id');
     }
+    public $timestamps = false;
 }

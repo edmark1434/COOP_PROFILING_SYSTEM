@@ -3,9 +3,20 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Account;
+use App\Models\AuditLog;
+use App\Models\Transaction;
+use App\Models\LedgerEntry;
+use App\Models\Installment;
+use App\Models\BiometricData;
+use App\Models\Loan;
+use App\Models\LoanPurpose;
+use App\Models\Member;
+use App\Models\Notification;
+use App\Models\Setting;
+use App\Models\ShareSnapshot;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,15 +25,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        User::factory(5)->create();
+        Account::factory(5)->create();
+        AuditLog::factory(5)->create();
+        Transaction::factory(5)->create();
+        LedgerEntry::factory(5)->create();
+        Installment::factory(5)->create();
+        BiometricData::factory(5)->create();
+        Loan::factory(5)->create();
+        LoanPurpose::factory(5)->create();
+        Member::factory(5)->create();
+        Notification::factory(5)->create();
+        Setting::factory(5)->create();
+        ShareSnapshot::factory(5)->create();
     }
 }

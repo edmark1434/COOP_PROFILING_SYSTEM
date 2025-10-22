@@ -7,59 +7,74 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $members = Member::all();
+        return response()->json(["members" => $members], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_coop' => 'required|string|unique:members,id_coop',
+            'first_name' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'suffix' => 'nullable|string|max:20',
+            'contact_num' => 'required|string|unique:members,contact_num',
+            'status' => 'sometimes|required|in:' . implode(",", Member::STATUS),
+            'join_date' => 'required|date',
+            'exit_date' => 'nullable|date',
+        ]);
+
+        $member = Member::create($request->all());
+
+        return response()->json([
+            "member" => $member,
+            "message" => "Member created successfully"
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Member $member)
     {
-        //
+        return response()->json(["member" => $member], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Member $member)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Member $member)
     {
-        //
+        $request->validate([
+            'id_coop' => 'sometimes|required|string|unique:members,id_coop,' . $member->id,
+            'first_name' => 'sometimes|required|string|max:50',
+            'middle_name' => 'sometimes|nullable|string|max:100',
+            'last_name' => 'sometimes|required|string|max:100',
+            'suffix' => 'sometimes|nullable|string|max:20',
+            'contact_num' => 'sometimes|required|string|unique:members,contact_num,' . $member->id,
+            'status' => 'sometimes|required|in:' . implode(",", Member::STATUS),
+            'join_date' => 'sometimes|required|date',
+            'exit_date' => 'sometimes|nullable|date',
+        ]);
+
+        $member->update($request->all());
+
+        return response()->json([
+            "member" => $member,
+            "message" => "Member updated successfully"
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Member $member)
     {
-        //
+        $member->delete();
+        return response()->json(["message" => "Member deleted successfully"], 204);
     }
 }
