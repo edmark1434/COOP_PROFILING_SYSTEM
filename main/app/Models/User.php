@@ -22,6 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'name',
+        'is_member',
+        'is_teller',
+        'is_loan_officer',
+        'is_admin',
+        'member_id',
     ];
 
     /**
@@ -45,5 +51,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public $timestamps = false;
+
+    // Relationships
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function auditLogs()
+    {
+        return $this->hasMany(AuditLog::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function biometricData()
+    {
+        return $this->hasOne(BiometricData::class);
     }
 }
