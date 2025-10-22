@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Member;
+use App\Models\LedgerEntry;
+use App\Models\ShareSnapshot;
 class Account extends Model
 {
     use HasFactory;
@@ -16,11 +18,13 @@ class Account extends Model
         'balance',
         'member_id',
     ];
-
+    
     protected $attributes = [
         'status' => 'ACTIVE',
         'balance' => 0.00,
     ];
+    public const STATUS = ['ACTIVE','INACTIVE','CLOSED'];
+    public const TYPES = ['ASSET', 'LIABILITY', 'EQUITY', 'INCOME', 'EXPENSE'];
 
     public $timestamps = false;
 

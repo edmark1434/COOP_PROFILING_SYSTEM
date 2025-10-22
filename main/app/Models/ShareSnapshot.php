@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Account;
 
 class ShareSnapshot extends Model
 {
@@ -25,4 +26,5 @@ class ShareSnapshot extends Model
     {
         return $this->belongsTo(Account::class);
     }
+    public $timestamps = false;
 }

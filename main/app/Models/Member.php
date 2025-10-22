@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\User;
+use App\Models\Account;
+use App\Models\Loan;
+use App\Models\Transaction;
 class Member extends Model
 {
     use HasFactory;
-
+    public const STATUS = ['ACTIVE','INACTIVE','SUSPENDED','TERMINATED','DECEASED'];
     protected $fillable = [
         'id_coop',
         'first_name',

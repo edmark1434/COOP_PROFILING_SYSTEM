@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name', 100);
             $table->string('suffix', 20)->nullable();
             $table->string('contact_num', 20)->unique();
-            $table->string('status', 20)->default('ACTIVE');
+            $table->enum('status',["ACTIVE", "INACTIVE", "SUSPENDED", "TERMINATED", "DECEASED"], 20)->default('ACTIVE');
             $table->date('join_date');
             $table->date('exit_date')->nullable();
         });

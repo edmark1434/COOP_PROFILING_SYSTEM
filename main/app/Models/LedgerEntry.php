@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Transaction;
+use App\Models\Account;
 class LedgerEntry extends Model
 {
     use HasFactory;
@@ -32,4 +33,5 @@ class LedgerEntry extends Model
     {
         return $this->belongsTo(Account::class);
     }
+    public $timestamps = false;
 }

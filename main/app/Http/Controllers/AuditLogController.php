@@ -28,7 +28,18 @@ class AuditLogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type' => 'required|in:'.implode(",", AuditLog::TYPES),
+            'description' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $auditLog = AuditLog::create($request->all());
+
+        return response()->json([
+            "audit_log" => $auditLog,
+            "message" => "Audit log created successfully"
+        ], 201);
     }
 
     /**
@@ -36,7 +47,7 @@ class AuditLogController extends Controller
      */
     public function show(AuditLog $auditLog)
     {
-        //
+        return response()->json(["audit_log" => $auditLog], 200);
     }
 
     /**
@@ -52,7 +63,18 @@ class AuditLogController extends Controller
      */
     public function update(Request $request, AuditLog $auditLog)
     {
-        //
+        $request->validate([
+            'type' => 'sometimes|required|in:'.implode(",", AuditLog::TYPES),
+            'description' => 'sometimes|required|string',
+            'user_id' => 'sometimes|required|exists:users,id',
+        ]);
+
+        $auditLog->update($request->all());
+
+        return response()->json([
+            "audit_log" => $auditLog,
+            "message" => "Audit log updated successfully"
+        ], 200);
     }
 
     /**
@@ -60,6 +82,7 @@ class AuditLogController extends Controller
      */
     public function destroy(AuditLog $auditLog)
     {
-        //
+        $auditLog->delete();
+        return response()->json(["message" => "Audit log deleted successfully"], 204);
     }
 }

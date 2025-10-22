@@ -7,59 +7,52 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $notifications = Notification::all();
+        return response()->json(["notifications" => $notifications], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'message' => 'required|string',
+            'is_read' => 'sometimes|boolean',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $notification = Notification::create($request->all());
+
+        return response()->json([
+            "notification" => $notification,
+            "message" => "Notification created successfully"
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Notification $notification)
     {
-        //
+        return response()->json(["notification" => $notification], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Notification $notification)
     {
-        //
+        $request->validate([
+            'message' => 'sometimes|required|string',
+            'is_read' => 'sometimes|required|boolean',
+            'user_id' => 'sometimes|required|exists:users,id',
+        ]);
+
+        $notification->update($request->all());
+
+        return response()->json([
+            "notification" => $notification,
+            "message" => "Notification updated successfully"
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Notification $notification)
     {
-        //
+        $notification->delete();
+        return response()->json(["message" => "Notification deleted successfully"], 204);
     }
 }

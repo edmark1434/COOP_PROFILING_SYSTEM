@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Models\Member;
+use App\Models\AuditLog;
+use App\Models\Notification;
+use App\Models\BiometricData;
 
 class User extends Authenticatable
 {
