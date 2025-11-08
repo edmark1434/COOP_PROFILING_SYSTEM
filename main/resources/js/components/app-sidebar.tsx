@@ -15,13 +15,40 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import admin from "@/routes/admin";
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard(),
+        title: 'Overview',
+        href: admin.overview(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Members',
+        href: admin.members(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Accounts',
+        href: admin.accounts(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Loans',
+        href: admin.loans(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Transactions',
+        href: admin.transactions(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Staff',
+        href: admin.staff(),
+        icon: LayoutGrid,
+    },
+
 ];
 
 const footerNavItems: NavItem[] = [
