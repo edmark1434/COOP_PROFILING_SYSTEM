@@ -38,7 +38,7 @@ function OverviewCardContent({ className, ...props }: React.ComponentProps<"div"
     return (
         <div
             data-slot="overview-card-content"
-            className={cn("flex flex-col p-5 py-3", className)}
+            className={cn("flex flex-col p-5", className)}
             {...props}
         />
     );

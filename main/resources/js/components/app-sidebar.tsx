@@ -1,4 +1,3 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,11 +12,11 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {BookOpen, Building, DollarSign, FileText, Folder, LayoutGrid, UserCog, Users} from 'lucide-react';
 import AppLogo from './app-logo';
 import admin from "@/routes/admin";
 
-const mainNavItems: NavItem[] = [
+const adminNavItems: NavItem[] = [
     {
         title: 'Overview',
         href: admin.overview(),
@@ -26,29 +25,28 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Members',
         href: admin.members(),
-        icon: LayoutGrid,
+        icon: Users,
     },
     {
         title: 'Accounts',
         href: admin.accounts(),
-        icon: LayoutGrid,
+        icon: Building,
     },
     {
         title: 'Loans',
         href: admin.loans(),
-        icon: LayoutGrid,
+        icon: DollarSign,
     },
     {
         title: 'Transactions',
         href: admin.transactions(),
-        icon: LayoutGrid,
+        icon: FileText,
     },
     {
         title: 'Staff',
         href: admin.staff(),
-        icon: LayoutGrid,
+        icon: UserCog,
     },
-
 ];
 
 const footerNavItems: NavItem[] = [
@@ -80,7 +78,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={adminNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
