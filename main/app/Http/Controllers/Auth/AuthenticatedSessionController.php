@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,7 +30,20 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {
+    {   
+        $validate = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+        $user = User::where('email', $validate['email'])->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
+        }else if (!$user->change_password) {
+            if(Hash::check($validate['password'], $user->temporary_password)){
+                return back()->withErrors(['email' => 'You must change your temporary password before logging in.']);
+            }
+            return back()->withErrors(['password' => 'The provided credentials do not match our records.']);
+        }
         $user = $request->validateCredentials();
 
         if (Features::enabled(Features::twoFactorAuthentication()) && $user->hasEnabledTwoFactorAuthentication()) {
@@ -40,7 +54,6 @@ class AuthenticatedSessionController extends Controller
 
             return to_route('two-factor.login');
         }
-
         Auth::login($user, $request->boolean('remember'));
 
         $request->session()->regenerate();
