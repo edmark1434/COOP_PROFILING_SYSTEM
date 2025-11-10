@@ -110,6 +110,7 @@ export default function AdminOverview() {
             type: "Teller",
             member: "Jodeci Abria Pacibe",
         },
+
     ];
     const auditLogs = [
         {
@@ -225,24 +226,9 @@ export default function AdminOverview() {
                                 data: loans
                             },
                             {
-                                value: "staff",
-                                label: "Staff",
-                                data: staff
-                            },
-                            {
                                 value: "transactions",
                                 label: "Transactions",
                                 data: transactions
-                            },
-                            {
-                                value: "auditLogs",
-                                label: "Audit Logs",
-                                data: auditLogs
-                            },
-                            {
-                                value: "installments",
-                                label: "Installments",
-                                data: installments
                             },
                         ]}
                     />

@@ -57,7 +57,7 @@ export function TabbedTable({
             )}
             {...props}
         >
-            <Tabs defaultValue={defaultTab || tabs[0]?.value} className="w-full">
+            <Tabs defaultValue={tabs[0]?.value} className="w-full">
                 {/* Tabs header */}
                 <TabsList>
                     {tabs.map((tab) => (
@@ -71,7 +71,7 @@ export function TabbedTable({
                 {tabs.map((tab) => {
                     // Determine which row component to use
                     const RowComponent =
-                        tab.RowComponent || rowComponentRegistry[tab.value] || null
+                        tab.RowComponent || rowComponentRegistry[tab.value.split("-")[0]] || null
 
                     return (
                         <TabsContent

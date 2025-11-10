@@ -1,7 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import * as React from "react";
+import {LoanRow} from "@/components/rows/loan";
+import {profile} from "@/routes/member";
+import {ProfileCard} from "@/components/ui/profile-card";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {ArrowUpDown, Search, Settings2} from "lucide-react";
@@ -9,17 +12,27 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVal
 import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
-import * as React from "react";
-import {TransactionRow} from "@/components/rows/transaction";
+import {TabbedTable} from "@/components/tabbed-table";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Transactions',
-        href: admin.transactions().url
+        title: 'Members/ID',
+        href: profile().url
     },
 ];
 
-export default function AdminTransactions() {
+export default function Profile() {
+    const member = {
+        initial: "JP",
+        id: "1231231",
+        member: "Jodeci Abria Pacibe",
+        rate: "60",
+        shareCapital: "₱ 5,125.00",
+        dateJoined: "October 12, 2023",
+        email: "1234@gmail.com",
+        contact: "0912345123",
+        status: "Active",
+    };
     const transactions = [
         {
             type: "Loan Payment",
@@ -41,62 +54,49 @@ export default function AdminTransactions() {
             member: "Jodeci Abria Pacibe",
             processedBy: "Dan Bejec",
             amount: "₱ 35,000.00"
+        }
+    ];
+    const loans = [
+        {
+            initial: "JP",
+            type: "Educational Loan",
+            member: "Jodeci Abria Pacibe",
+            amount: "₱ 5,125.00"
         },
         {
-            type: "Savings Deposit",
-            date: "September 20, 2025 · 10:45 AM",
-            member: "Carla Mae Espino",
-            processedBy: "Mika Santos",
-            amount: "₱ 10,000.00"
-        },
-        {
-            type: "Loan Payment",
-            date: "September 15, 2025 · 3:20 PM",
-            member: "Dan Bejec",
-            processedBy: "Carla Mae Espino",
-            amount: "₱ 3,200.00"
-        },
-        {
-            type: "Loan Disbursement",
-            date: "September 10, 2025 · 9:10 AM",
-            member: "Mika Santos",
-            processedBy: "Jodeci Abria Pacibe",
-            amount: "₱ 25,000.00"
-        },
-        {
-            type: "Share Capital Withdrawal",
-            date: "September 5, 2025 · 4:40 PM",
-            member: "Angelica Cruz",
-            processedBy: "Dan Bejec",
+            initial: "JP",
+            type: "Housing Loan",
+            member: "Jodeci Abria Pacibe",
             amount: "₱ 15,000.00"
         },
         {
-            type: "Savings Withdrawal",
-            date: "August 28, 2025 · 11:05 AM",
-            member: "Carla Mae Espino",
-            processedBy: "Mika Santos",
+            initial: "JP",
+            type: "Personal Loan",
+            member: "Jodeci Abria Pacibe",
             amount: "₱ 8,500.00"
         },
         {
-            type: "Loan Payment",
-            date: "August 18, 2025 · 2:15 PM",
-            member: "Angelica Cruz",
-            processedBy: "Dan Bejec",
-            amount: "₱ 4,000.00"
+            initial: "JP",
+            type: "Car Loan",
+            member: "Jodeci Abria Pacibe",
+            amount: "₱ 25,000.00"
         },
         {
-            type: "Share Capital Contribution",
-            date: "August 10, 2025 · 10:00 AM",
-            member: "Mika Santos",
-            processedBy: "Carla Mae Espino",
-            amount: "₱ 20,000.00"
-        }
+            initial: "JP",
+            type: "Business Loan",
+            member: "Jodeci Abria Pacibe",
+            amount: "₱ 50,000.00"
+        },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Transactions" />
+            <Head title="Members/id" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
+                    <ProfileCard data={member} />
+                    <ProfileCard data={member} />
+                </div>
                 <div className="flex flex-row h-fit w-full justify-between">
                     <Popover>
                         <PopoverTrigger asChild>
@@ -149,12 +149,23 @@ export default function AdminTransactions() {
                         <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
                     </InputGroup>
                 </div>
-                <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <div className="divide-y h-fit">
-                        {transactions.map((item, i) => (
-                            <TransactionRow key={i} data={item} />
-                        ))}
-                    </div>
+                <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
+                    <TabbedTable
+                        variant="bordered"
+                        defaultTab="transactions"
+                        tabs={[
+                            {
+                                value: "loans",
+                                label: "Loans",
+                                data: loans
+                            },
+                            {
+                                value: "transactions",
+                                label: "Transactions",
+                                data: transactions
+                            },
+                        ]}
+                    />
                 </div>
             </div>
         </AppLayout>

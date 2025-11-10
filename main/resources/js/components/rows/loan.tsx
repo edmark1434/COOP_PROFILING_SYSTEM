@@ -29,6 +29,11 @@ export function LoanRow({
                 </div>
             </div>
 
+            {data.remarks && (
+                <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
+                    Remarks: {data.remarks}
+                </div>
+            )}
 
             <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
                 {data.amount}
