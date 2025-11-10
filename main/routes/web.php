@@ -33,6 +33,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('admin/staff', []);
         })->name('staff');
     });
+
+    Route::prefix('member')->name('member.')->group(function () {
+
+        Route::get('/profile', function () {
+            return Inertia::render('member/profile',[]);
+        })->name('profile');
+
+    });
 });
 
 require __DIR__.'/settings.php';
