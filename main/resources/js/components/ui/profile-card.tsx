@@ -1,20 +1,17 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import {
-    OverviewCard,
-    OverviewCardContent, OverviewCardFooter,
-    OverviewCardHeader,
-    OverviewCardTitle,
-    OverviewCardValue
-} from "@/components/ui/overview-card";
 
 interface ProfileCardProps extends React.ComponentProps<"div"> {
+    title?: string
+    type? : "member" | "staff"
     data? : any
 }
 
 export function ProfileCard({
-                               data,
-                               className,
+                                title="Profile",
+                                type,
+                                data,
+                                className,
                                ...props
                            }: ProfileCardProps) {
     return (
@@ -27,47 +24,90 @@ export function ProfileCard({
             {...props}
         >
             <div className="flex flex-col p-5 py-2.5 border-b">
-                <div className="text-sm font-medium text-gray-600">Profile</div>
+                <div className="text-sm font-medium text-(--color-primary)">{title}</div>
             </div>
-            <div className="flex flex-col p-5 gap-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div className="flex flex-row gap-4 items-center">
-                        <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
-                            <p className="font-semibold text-2xl">{data.initial}</p>
+
+            {type=="member" && (
+                <div className="flex flex-col p-5 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row gap-4 items-center">
+                            <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
+                                <p className="font-semibold text-2xl">{data.initial}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="font-semibold text-md">{data.member}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                            </div>
                         </div>
-                        <div className="flex-1 min-w-[200px]">
-                            <p className="font-semibold text-md">{data.member}</p>
-                            <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                        <div className="flex-1 w-fit text-right">
+                            <p className="text-xs text-muted-foreground">Delinquency Rate</p>
+                            <p className="font-semibold text-(--color-destructive-foreground) text-lg">{data.rate}%</p>
                         </div>
-                    </div>
-                    <div className="flex-1 w-fit text-right">
-                        <p className="text-xs text-muted-foreground">Delinquency Rate</p>
-                        <p className="font-semibold text-(--color-chart-5) text-lg">{data.rate}%</p>
-                    </div>
-                </div>
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <p className="text-xs text-muted-foreground">Share Capital</p>
-                    <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
-                        <p className="text-xs text-muted-foreground">Joined Since</p>
-                        <p className="text-xs text-muted-foreground text-right">{data.dateJoined}</p>
-                    </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
-                        <p className="text-xs text-muted-foreground">Email</p>
-                        <p className="text-xs text-muted-foreground text-right">{data.email}</p>
-                    </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
-                        <p className="text-xs text-muted-foreground">Contact Number</p>
-                        <p className="text-xs text-muted-foreground text-right">{data.contact}</p>
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <p className="text-xs text-muted-foreground">Status</p>
-                        <p className="text-xs text-muted-foreground text-right">{data.status}</p>
+                        <p className="text-xs text-muted-foreground">Share Capital</p>
+                        <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Joined Since</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.dateJoined}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Email</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.email}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Contact Number</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.contact}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Status</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.status}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+            {type=="staff" && (
+                <div className="flex flex-row p-5 gap-4 justify-between">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row gap-4 items-center">
+                            <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
+                                <p className="font-semibold text-2xl">{data.initial}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="font-semibold text-md">{data.member}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-row w-[50%]">
+                        <div className="flex flex-col gap-2 w-[50%]">
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Type</p>
+                                <p className="text-sm font-semibold text-primary">{data.type}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Joined Since</p>
+                                <p className="text-sm font-semibold text-primary">{data.dateJoined}</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 w-[50%]">
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Status</p>
+                                <p className="text-sm font-semibold ttext-primary">{data.status}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Email</p>
+                                <p className="text-sm font-semibold text-primary">{data.email}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+
         </div>
 
     )

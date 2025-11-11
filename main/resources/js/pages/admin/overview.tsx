@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/overview-card";
 import admin from "@/routes/admin";
 import {TabbedTable} from "@/components/tabbed-table";
-import auditLogs from "@/routes/audit-logs";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -194,9 +192,6 @@ export default function AdminOverview() {
             date: "October 10, 2025",
         }
     ];
-
-
-
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
