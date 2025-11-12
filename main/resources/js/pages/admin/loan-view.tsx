@@ -10,13 +10,13 @@ import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
 import {TabbedTable} from "@/components/tabbed-table";
-import {memberProfile} from "@/routes/member";
 import {ProfileCard} from "@/components/ui/profile-card";
+import admin from "@/routes/admin";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Loan/ID',
-        href: memberProfile().url
+        href: admin.loanView().url
     },
 ];
 
