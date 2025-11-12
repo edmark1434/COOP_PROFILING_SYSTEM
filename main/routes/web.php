@@ -32,15 +32,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/staff', function () {
             return Inertia::render('admin/staff', []);
         })->name('staff');
+        Route::get('/staff/id', function () {
+            return Inertia::render('admin/staff-profile', []);
+        })->name('staff-profile');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
 
         Route::get('/profile', function () {
             return Inertia::render('member/profile',[]);
-        })->name('profile');
+        })->name('member-profile');
 
     });
+
+    Route::get('/loans/id', function () {
+        return Inertia::render('admin/loan-view', []);
+    })->name('loan-view');
 });
 
 require __DIR__.'/settings.php';
