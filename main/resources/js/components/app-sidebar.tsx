@@ -11,9 +11,10 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import {Link, usePage} from '@inertiajs/react';
 import {BookOpen, Building, DollarSign, FileText, Folder, LayoutGrid, UserCog, Users} from 'lucide-react';
 import AppLogo from './app-logo';
+import {sidebarConfigs} from "@/layouts/app/sidebar-config";
 import admin from "@/routes/admin";
 
 const adminNavItems: NavItem[] = [
@@ -63,6 +64,8 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const role = window.location.pathname.split("/")[1] || "loan_officer"
+    const items = sidebarConfigs[role] || []
     return (
         <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
@@ -78,7 +81,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={adminNavItems} />
+                <NavMain items={items} />
             </SidebarContent>
 
             <SidebarFooter>

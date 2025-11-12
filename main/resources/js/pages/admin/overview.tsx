@@ -22,10 +22,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function AdminOverview() {
     let stats;
     const overviewCards = [
-        { title: 'Total Members', value: '000', description: '+3 more today' },
-        { title: 'Total Loans', value: '000', description: '+3 more today'},
-        { title: 'Active Accounts', value: '000', description: '+3 more today' },
-        { title: 'Staff Count', value: '000', description: '+3 more today' },
+        { title: 'Members', value: '000', description: '+3 more today' },
+        { title: 'Share Capital', value: '000', description: '+3 more today'},
+        { title: 'Active Loans', value: '000', description: '+3 more today' },
+        { title: 'Transactions', value: '000', description: '+3 more today' },
     ];
     const transactions = [
         {
