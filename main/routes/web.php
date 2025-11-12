@@ -12,7 +12,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard',[]);
     })->name('dashboard');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/overview', function () {
             return Inertia::render('admin/overview',[]);
@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('staff-profile');
     });
 
-    Route::prefix('member')->name('member.')->group(function () {
+    Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
 
         Route::get('/profile', function () {
             return Inertia::render('member/profile',[]);

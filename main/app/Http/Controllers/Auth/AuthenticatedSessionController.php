@@ -31,19 +31,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {   
-        $validate = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
-        $user = User::where('email', $validate['email'])->first();
-        if (!$user) {
-            return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
-        }else if (!$user->change_password) {
-            if(Hash::check($validate['password'], $user->temporary_password)){
-                return back()->withErrors(['email' => 'You must change your temporary password before logging in.']);
-            }
-            return back()->withErrors(['password' => 'The provided credentials do not match our records.']);
-        }
         $user = $request->validateCredentials();
 
         if (Features::enabled(Features::twoFactorAuthentication()) && $user->hasEnabledTwoFactorAuthentication()) {
@@ -58,7 +45,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $route = match (true) {
+            $user->is_admin => 'dashboard',
+            $user->is_loan_officer => 'dashboard',
+            $user->is_teller => 'teller.dashboard',
+            default => 'dashboard',
+        };
+        return redirect()->intended(route($route,absolute: false));
     }
 
     /**

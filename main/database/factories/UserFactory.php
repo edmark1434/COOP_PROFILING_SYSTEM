@@ -32,7 +32,6 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => $password,
-            'temporary_password' => $password,
             'remember_token' => Str::random(10),
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
@@ -42,7 +41,6 @@ class UserFactory extends Factory
             'is_loan_officer' => $this->faker->boolean(15),
             'is_admin' => $this->faker->boolean(10),
             'member_id' => Member::factory(),
-            'change_password' => $this->faker->boolean(30),
         ];
         if(static::$userCount < 1){
             static::$userCount++;

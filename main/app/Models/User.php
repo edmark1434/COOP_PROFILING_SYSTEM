@@ -26,14 +26,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'temporary_password',
         'name',
         'is_member',
         'is_teller',
         'is_loan_officer',
         'is_admin',
         'member_id',
-        'change_password',
     ];
     
     /**
