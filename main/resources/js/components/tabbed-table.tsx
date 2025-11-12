@@ -19,7 +19,8 @@ import {InstallmentRow} from "@/components/rows/installment";
 
 // Map tab.value -> component
 const rowComponentRegistry: Record<string, React.ComponentType<{ data: any }>> = {
-    transactions: TellerTransactionRow,
+    tellerTransactions: TellerTransactionRow,
+    transactions: TransactionRow,
     loans: LoanRow,
     staff: StaffRow,
     auditLogs: AuditLogRow,
