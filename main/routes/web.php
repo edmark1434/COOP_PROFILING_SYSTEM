@@ -12,7 +12,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard',[]);
     })->name('dashboard');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
         Route::get('/overview', function () {
             return Inertia::render('admin/overview',[]);
         })->name('overview');
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('loan-view');
     });
 
-    Route::prefix('loan-officer')->name('loan-officer.')->group(function () {
+    Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
         Route::get('/overview', function () {
             return Inertia::render('loan-officer/overview',[]);
         })->name('overview');
@@ -60,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('loan-view');
     });
 
-    Route::prefix('teller')->name('teller.')->group(function () {
+    Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
         Route::get('/overview', function () {
             return Inertia::render('teller/overview', []);
         })->name('overview');
@@ -72,7 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('transactions');
     });
 
-    Route::prefix('member')->name('member.')->group(function () {
+    Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
         Route::get('/overview', function () {
             return Inertia::render('member/overview',[]);
         })->name('overview');

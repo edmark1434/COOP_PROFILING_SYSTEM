@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_loan_officer')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedBigInteger('member_id')->nullable();

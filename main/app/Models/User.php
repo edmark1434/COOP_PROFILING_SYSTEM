@@ -16,12 +16,12 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+    protected $table = 'users';
     protected $fillable = [
         'name',
         'email',
@@ -33,7 +33,7 @@ class User extends Authenticatable
         'is_admin',
         'member_id',
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
