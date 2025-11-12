@@ -54,148 +54,43 @@ export default function AdminOverview() {
         {
             initial: "JP",
             type: "Educational Loan",
+            status: "Ongoing",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 5,125.00"
         },
         {
             initial: "JP",
             type: "Housing Loan",
+            status: "Ongoing",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 15,000.00"
         },
         {
             initial: "JP",
             type: "Personal Loan",
+            status: "Ongoing",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 8,500.00"
         },
         {
             initial: "JP",
             type: "Car Loan",
+            status: "Ongoing",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 25,000.00"
         },
         {
             initial: "JP",
             type: "Business Loan",
+            status: "Ongoing",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 50,000.00"
         },
     ];
-    const staff = [
-        {
-            initial: "JP",
-            type: "Teller",
-            member: "Jodeci Abria Pacibe",
-        },
-        {
-            initial: "JP",
-            type: "Loan Officer",
-            member: "Jodeci Abria Pacibe",
-        },
-        {
-            initial: "JP",
-            type: "Teller",
-            member: "Jodeci Abria Pacibe",
-        },
-        {
-            initial: "JP",
-            type: "Loan Officer",
-            member: "Jodeci Abria Pacibe",
-        },
-        {
-            initial: "JP",
-            type: "Teller",
-            member: "Jodeci Abria Pacibe",
-        },
-
-    ];
-    const auditLogs = [
-        {
-            description: "Recorded a Transaction",
-            type: "Loan Payment",
-            id: "12342342",
-            time: "2:02 PM",
-            date: "October 23, 2025",
-        },
-        {
-            description: "Recorded a Transaction",
-            type: "Loan Disbursement",
-            id: "12342343",
-            time: "10:15 AM",
-            date: "October 21, 2025",
-        },
-        {
-            description: "Recorded a Transaction",
-            type: "Share Capital Contribution",
-            id: "12342344",
-            time: "1:30 PM",
-            date: "October 20, 2025",
-        },
-        {
-            description: "Recorded a Transaction",
-            type: "Loan Payment",
-            id: "12342345",
-            time: "3:45 PM",
-            date: "October 18, 2025",
-        },
-        {
-            description: "Recorded a Transaction",
-            type: "Educational Loan Payment",
-            id: "12342346",
-            time: "11:00 AM",
-            date: "October 15, 2025",
-        },
-        {
-            description: "Recorded a Transaction",
-            type: "Loan Disbursement",
-            id: "12342347",
-            time: "4:20 PM",
-            date: "October 12, 2025",
-        }
-    ];
-    const installments = [
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 50,000.00",
-            date: "October 23, 2025",
-        },
-        {
-            status: "Paid",
-            badgeType: "outline",
-            amount: "₱ 5,000.00",
-            date: "October 20, 2025",
-        },
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 10,000.00",
-            date: "October 18, 2025",
-        },
-        {
-            status: "Overdue",
-            badgeType: "destructive",
-            amount: "₱ 7,500.00",
-            date: "October 15, 2025",
-        },
-        {
-            status: "Paid",
-            badgeType: "outline",
-            amount: "₱ 12,500.00",
-            date: "October 12, 2025",
-        },
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 15,000.00",
-            date: "October 10, 2025",
-        }
-    ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="Overview" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-4">
                     {overviewCards.map((card, index) => (

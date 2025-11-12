@@ -8,7 +8,7 @@ interface LoanRowProps extends React.ComponentProps<"div"> {
 }
 
 export function LoanRow({
-                                isMember,
+                                isMember=false,
                                 data,
                                 className,
                                 ...props
@@ -30,7 +30,7 @@ export function LoanRow({
                 )}
                 <div className="flex-1 min-w-[200px]">
                     <p className="font-semibold text-sm">{data.member}</p>
-                    {data.status && (
+                    {data.status && isMember==true && (
                         <Badge variant="secondary">{data.status}</Badge>
                     )}
                     {data.type && (
@@ -42,6 +42,12 @@ export function LoanRow({
             {data.remarks && (
                 <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
                     Remarks: {data.remarks}
+                </div>
+            )}
+
+            {data.status && isMember==false &&  (
+                <div className="text-left min-w-44 md:mt-0 mt-2">
+                    <Badge variant="secondary">{data.status}</Badge>
                 </div>
             )}
 
