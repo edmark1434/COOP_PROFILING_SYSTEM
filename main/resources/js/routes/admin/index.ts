@@ -503,6 +503,148 @@ staffProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     staffProfile.form = staffProfileForm
+/**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+export const memberProfile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: memberProfile.url(options),
+    method: 'get',
+})
+
+memberProfile.definition = {
+    methods: ["get","head"],
+    url: '/admin/member-profile',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+memberProfile.url = (options?: RouteQueryOptions) => {
+    return memberProfile.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+memberProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: memberProfile.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: memberProfile.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+    const memberProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: memberProfile.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+        memberProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: memberProfile.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:37
+ * @route '/admin/member-profile'
+ */
+        memberProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: memberProfile.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    memberProfile.form = memberProfileForm
+/**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+export const loanView = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: loanView.url(options),
+    method: 'get',
+})
+
+loanView.definition = {
+    methods: ["get","head"],
+    url: '/admin/loans/id',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+loanView.url = (options?: RouteQueryOptions) => {
+    return loanView.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: loanView.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: loanView.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+    const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: loanView.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+        loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: loanView.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:40
+ * @route '/admin/loans/id'
+ */
+        loanViewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: loanView.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    loanView.form = loanViewForm
 const admin = {
     overview: Object.assign(overview, overview),
 members: Object.assign(members, members),
@@ -511,6 +653,8 @@ loans: Object.assign(loans, loans),
 transactions: Object.assign(transactions, transactions),
 staff: Object.assign(staff, staff),
 staffProfile: Object.assign(staffProfile, staffProfile),
+memberProfile: Object.assign(memberProfile, memberProfile),
+loanView: Object.assign(loanView, loanView),
 }
 
 export default admin

@@ -70,9 +70,9 @@ export function LoanRow({
           <p className="font-semibold text-sm">
             {data?.member?.first_name} {data?.member?.last_name}
           </p>
-          {data?.status && <Badge variant="secondary">{data.status}</Badge>}
+          {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
           {data?.type && (
-            <p className="text-xs text-muted-foreground">{data.type}</p>
+            <p className="text-xs text-muted-foreground">{data?.type}</p>
           )}
         </div>
       </div>
@@ -80,7 +80,7 @@ export function LoanRow({
       {/* Remarks */}
       {data?.remarks && (
         <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
-          Remarks: {data.remarks}
+          Remarks: {data?.remarks}
         </div>
       )}
 
