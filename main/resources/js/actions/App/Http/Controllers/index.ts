@@ -1,5 +1,4 @@
 import Auth from './Auth'
-import AdminOverviewController from './AdminOverviewController'
 import Settings from './Settings'
 import UserController from './UserController'
 import MemberController from './MemberController'
@@ -16,7 +15,6 @@ import BiometricDataController from './BiometricDataController'
 import SettingController from './SettingController'
 const Controllers = {
     Auth: Object.assign(Auth, Auth),
-AdminOverviewController: Object.assign(AdminOverviewController, AdminOverviewController),
 Settings: Object.assign(Settings, Settings),
 UserController: Object.assign(UserController, UserController),
 MemberController: Object.assign(MemberController, MemberController),

@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
 export const overview = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ overview.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
 overview.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ overview.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
 overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -33,8 +33,8 @@ overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
 overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -43,8 +43,8 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
     const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,8 +53,8 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
         overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,8 +62,8 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\AdminOverviewController::overview
- * @see app/Http/Controllers/AdminOverviewController.php:13
+* @see \AdminOverviewController::overview
+ * @see [unknown]:0
  * @route '/admin/overview'
  */
         overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
