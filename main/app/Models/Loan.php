@@ -14,13 +14,13 @@ class Loan extends Model
 
     protected $fillable = [
         'ref_no',
-        'amount',
+        'amount', 
         'interest_rate',
         'term_months',
         'status',
         'remarks',
-        'purpose_id',
-        'member_id',
+        'purpose_id', 
+        'member_id', 
     ];
 
     protected $attributes = [

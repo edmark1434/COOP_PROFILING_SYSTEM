@@ -26,7 +26,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'name',
         'is_member',
         'is_teller',
         'is_loan_officer',
@@ -77,5 +76,9 @@ class User extends Authenticatable
     public function biometricData()
     {
         return $this->hasOne(BiometricData::class);
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }
