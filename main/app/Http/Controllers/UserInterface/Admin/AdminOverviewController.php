@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\UserInterface\Admin;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Loan;
 use App\Models\Transaction;
 use App\Models\Account;
+use App\Http\Controllers\Controller;
 
 class AdminOverviewController extends Controller
 {

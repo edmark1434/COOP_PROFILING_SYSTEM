@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
 export const memberProfile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +14,7 @@ memberProfile.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
 memberProfile.url = (options?: RouteQueryOptions) => {
@@ -22,7 +22,7 @@ memberProfile.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
 memberProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -30,7 +30,7 @@ memberProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
 memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -39,7 +39,7 @@ memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
 })
 
     /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
     const memberProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -48,7 +48,7 @@ memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
     })
 
             /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
         memberProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -56,7 +56,7 @@ memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
             method: 'get',
         })
             /**
- * @see routes/web.php:40
+ * @see routes/web.php:41
  * @route '/member/profile'
  */
         memberProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

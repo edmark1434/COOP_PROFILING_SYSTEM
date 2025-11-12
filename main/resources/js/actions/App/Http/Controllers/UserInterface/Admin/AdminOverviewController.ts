@@ -1,7 +1,7 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../../../wayfinder'
 /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ index.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ index.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -33,8 +33,8 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -43,8 +43,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,8 +53,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,8 +62,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \AdminOverviewController::index
- * @see [unknown]:0
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::index
+ * @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
  * @route '/admin/overview'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
