@@ -4,12 +4,12 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFo
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-export const notice = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: notice.url(options),
+export const Fortifynotice = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Fortifynotice.url(options),
     method: 'get',
 })
 
-notice.definition = {
+Fortifynotice.definition = {
     methods: ["get","head"],
     url: '/email/verify',
 } satisfies RouteDefinition<["get","head"]>
@@ -19,8 +19,8 @@ notice.definition = {
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-notice.url = (options?: RouteQueryOptions) => {
-    return notice.definition.url + queryParams(options)
+Fortifynotice.url = (options?: RouteQueryOptions) => {
+    return Fortifynotice.definition.url + queryParams(options)
 }
 
 /**
@@ -28,8 +28,8 @@ notice.url = (options?: RouteQueryOptions) => {
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: notice.url(options),
+Fortifynotice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Fortifynotice.url(options),
     method: 'get',
 })
 /**
@@ -37,8 +37,8 @@ notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: notice.url(options),
+Fortifynotice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Fortifynotice.url(options),
     method: 'head',
 })
 
@@ -47,8 +47,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-    const noticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: notice.url(options),
+    const FortifynoticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: Fortifynotice.url(options),
         method: 'get',
     })
 
@@ -57,8 +57,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-        noticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: notice.url(options),
+        FortifynoticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Fortifynotice.url(options),
             method: 'get',
         })
             /**
@@ -66,8 +66,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see vendor/laravel/fortify/src/Http/Controllers/EmailVerificationPromptController.php:18
  * @route '/email/verify'
  */
-        noticeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: notice.url({
+        FortifynoticeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Fortifynotice.url({
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -76,18 +76,18 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
     
-    notice.form = noticeForm
+    Fortifynotice.form = FortifynoticeForm
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-export const notice = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: notice.url(options),
+export const Appnotice = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Appnotice.url(options),
     method: 'get',
 })
 
-notice.definition = {
+Appnotice.definition = {
     methods: ["get","head"],
     url: '/verify-email',
 } satisfies RouteDefinition<["get","head"]>
@@ -97,8 +97,8 @@ notice.definition = {
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-notice.url = (options?: RouteQueryOptions) => {
-    return notice.definition.url + queryParams(options)
+Appnotice.url = (options?: RouteQueryOptions) => {
+    return Appnotice.definition.url + queryParams(options)
 }
 
 /**
@@ -106,8 +106,8 @@ notice.url = (options?: RouteQueryOptions) => {
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: notice.url(options),
+Appnotice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Appnotice.url(options),
     method: 'get',
 })
 /**
@@ -115,8 +115,8 @@ notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: notice.url(options),
+Appnotice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Appnotice.url(options),
     method: 'head',
 })
 
@@ -125,8 +125,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-    const noticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: notice.url(options),
+    const AppnoticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: Appnotice.url(options),
         method: 'get',
     })
 
@@ -135,8 +135,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-        noticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: notice.url(options),
+        AppnoticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Appnotice.url(options),
             method: 'get',
         })
             /**
@@ -144,8 +144,8 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  * @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
  * @route '/verify-email'
  */
-        noticeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: notice.url({
+        AppnoticeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Appnotice.url({
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -154,18 +154,18 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
     
-    notice.form = noticeForm
+    Appnotice.form = AppnoticeForm
 /**
 * @see \Laravel\Fortify\Http\Controllers\VerifyEmailController::verify
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-export const verify = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: verify.url(args, options),
+export const Fortifyverify = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Fortifyverify.url(args, options),
     method: 'get',
 })
 
-verify.definition = {
+Fortifyverify.definition = {
     methods: ["get","head"],
     url: '/email/verify/{id}/{hash}',
 } satisfies RouteDefinition<["get","head"]>
@@ -175,7 +175,7 @@ verify.definition = {
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-verify.url = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions) => {
+Fortifyverify.url = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     id: args[0],
@@ -190,7 +190,7 @@ verify.url = (args: { id: string | number, hash: string | number } | [id: string
                                 hash: args.hash,
                 }
 
-    return verify.definition.url
+    return Fortifyverify.definition.url
             .replace('{id}', parsedArgs.id.toString())
             .replace('{hash}', parsedArgs.hash.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -201,8 +201,8 @@ verify.url = (args: { id: string | number, hash: string | number } | [id: string
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-verify.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: verify.url(args, options),
+Fortifyverify.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Fortifyverify.url(args, options),
     method: 'get',
 })
 /**
@@ -210,8 +210,8 @@ verify.get = (args: { id: string | number, hash: string | number } | [id: string
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-verify.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: verify.url(args, options),
+Fortifyverify.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Fortifyverify.url(args, options),
     method: 'head',
 })
 
@@ -220,8 +220,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-    const verifyForm = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: verify.url(args, options),
+    const FortifyverifyForm = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: Fortifyverify.url(args, options),
         method: 'get',
     })
 
@@ -230,8 +230,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-        verifyForm.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: verify.url(args, options),
+        FortifyverifyForm.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Fortifyverify.url(args, options),
             method: 'get',
         })
             /**
@@ -239,8 +239,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see vendor/laravel/fortify/src/Http/Controllers/VerifyEmailController.php:18
  * @route '/email/verify/{id}/{hash}'
  */
-        verifyForm.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: verify.url(args, {
+        FortifyverifyForm.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Fortifyverify.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -249,18 +249,18 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
             method: 'get',
         })
     
-    verify.form = verifyForm
+    Fortifyverify.form = FortifyverifyForm
 /**
 * @see \App\Http\Controllers\Auth\VerifyEmailController::__invoke
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-export const verify = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: verify.url(args, options),
+export const Appverify = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Appverify.url(args, options),
     method: 'get',
 })
 
-verify.definition = {
+Appverify.definition = {
     methods: ["get","head"],
     url: '/verify-email/{id}/{hash}',
 } satisfies RouteDefinition<["get","head"]>
@@ -270,7 +270,7 @@ verify.definition = {
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-verify.url = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions) => {
+Appverify.url = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     id: args[0],
@@ -285,7 +285,7 @@ verify.url = (args: { id: string | number, hash: string | number } | [id: string
                                 hash: args.hash,
                 }
 
-    return verify.definition.url
+    return Appverify.definition.url
             .replace('{id}', parsedArgs.id.toString())
             .replace('{hash}', parsedArgs.hash.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -296,8 +296,8 @@ verify.url = (args: { id: string | number, hash: string | number } | [id: string
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-verify.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: verify.url(args, options),
+Appverify.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: Appverify.url(args, options),
     method: 'get',
 })
 /**
@@ -305,8 +305,8 @@ verify.get = (args: { id: string | number, hash: string | number } | [id: string
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-verify.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: verify.url(args, options),
+Appverify.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: Appverify.url(args, options),
     method: 'head',
 })
 
@@ -315,8 +315,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-    const verifyForm = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: verify.url(args, options),
+    const AppverifyForm = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: Appverify.url(args, options),
         method: 'get',
     })
 
@@ -325,8 +325,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-        verifyForm.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: verify.url(args, options),
+        AppverifyForm.get = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Appverify.url(args, options),
             method: 'get',
         })
             /**
@@ -334,8 +334,8 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
  * @see app/Http/Controllers/Auth/VerifyEmailController.php:14
  * @route '/verify-email/{id}/{hash}'
  */
-        verifyForm.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: verify.url(args, {
+        AppverifyForm.head = (args: { id: string | number, hash: string | number } | [id: string | number, hash: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: Appverify.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -344,7 +344,7 @@ verify.head = (args: { id: string | number, hash: string | number } | [id: strin
             method: 'get',
         })
     
-    verify.form = verifyForm
+    Appverify.form = AppverifyForm
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationNotificationController::send
  * @see app/Http/Controllers/Auth/EmailVerificationNotificationController.php:14
@@ -401,8 +401,8 @@ send.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     
     send.form = sendForm
 const verification = {
-    notice: Object.assign(notice, notice),
-verify: Object.assign(verify, verify),
+    notice: Object.assign(Fortifynotice, Appnotice),
+verify: Object.assign(Fortifyverify, Appverify),
 send: Object.assign(send, send),
 }
 
