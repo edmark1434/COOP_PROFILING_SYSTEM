@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import * as React from "react";
-import {ProfileCard} from "@/components/ui/profile-card";
+import {TransactionRow} from "@/components/rows/transaction";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {ArrowUpDown, Search, Settings2} from "lucide-react";
@@ -10,92 +10,59 @@ import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVal
 import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
-import {TabbedTable} from "@/components/tabbed-table";
-import {memberProfile} from "@/routes/member";
+import member from "@/routes/member";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Members/ID',
-        href: memberProfile().url
+        title: 'My Transactions',
+        href: member.myTransactions().url
     },
 ];
 
-export default function Profile() {
-    const member = {
-        initial: "JP",
-        id: "1231231",
-        member: "Jodeci Abria Pacibe",
-        rate: "60",
-        shareCapital: "₱ 5,125.00",
-        dateJoined: "October 12, 2023",
-        email: "1234@gmail.com",
-        contact: "0912345123",
-        status: "Active",
-    };
+export default function MemberTransactions() {
     const transactions = [
         {
             type: "Loan Payment",
             date: "October 4, 2025 · 1:32 PM",
             member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
             amount: "₱ 5,125.00"
         },
         {
             type: "Loan Disbursement",
             date: "October 1, 2025 · 1:30 PM",
             member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
             amount: "₱ 50,000.00"
         },
         {
             type: "Share Capital Contribution",
             date: "September 29, 2025 · 12:00 PM",
             member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
             amount: "₱ 35,000.00"
-        }
-    ];
-    const loans = [
+        },
         {
-            initial: "JP",
-            type: "Educational Loan",
+            type: "Loan Payment",
+            date: "October 4, 2025 · 1:32 PM",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 5,125.00"
         },
         {
-            initial: "JP",
-            type: "Housing Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 15,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Personal Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 8,500.00"
-        },
-        {
-            initial: "JP",
-            type: "Car Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 25,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Business Loan",
+            type: "Loan Disbursement",
+            date: "October 1, 2025 · 1:30 PM",
             member: "Jodeci Abria Pacibe",
             amount: "₱ 50,000.00"
         },
+        {
+            type: "Share Capital Contribution",
+            date: "September 29, 2025 · 12:00 PM",
+            member: "Jodeci Abria Pacibe",
+            amount: "₱ 35,000.00"
+        }
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Members/id" />
+            <Head title="My Transactions" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
-                    <ProfileCard type="member" data={member} />
-                    <ProfileCard type="member" data={member} />
-                </div>
                 <div className="flex flex-row h-fit w-full justify-between">
                     <Popover>
                         <PopoverTrigger asChild>
@@ -148,23 +115,12 @@ export default function Profile() {
                         <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
                     </InputGroup>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
-                    <TabbedTable
-                        variant="bordered"
-                        defaultTab="transactions"
-                        tabs={[
-                            {
-                                value: "loans",
-                                label: "Loans",
-                                data: loans
-                            },
-                            {
-                                value: "transactions",
-                                label: "Transactions",
-                                data: transactions
-                            },
-                        ]}
-                    />
+                <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                    <div className="divide-y h-fit">
+                        {transactions.map((item, i) => (
+                            <TransactionRow key={i} data={item} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </AppLayout>

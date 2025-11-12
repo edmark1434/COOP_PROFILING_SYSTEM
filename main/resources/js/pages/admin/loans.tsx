@@ -2,7 +2,6 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
 import {TabbedTable} from "@/components/tabbed-table";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
@@ -12,6 +11,7 @@ import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
 import * as React from "react";
+import admin from "@/routes/admin";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

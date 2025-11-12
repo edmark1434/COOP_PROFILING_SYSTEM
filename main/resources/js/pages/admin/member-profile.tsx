@@ -11,16 +11,16 @@ import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
 import {TabbedTable} from "@/components/tabbed-table";
-import member from "@/routes/member";
+import {memberProfile} from "@/routes/admin";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Overview',
-        href: member.overview().url
+        title: 'Members/ID',
+        href: memberProfile().url
     },
 ];
 
-export default function MemberOverview() {
+export default function MemberProfile() {
     const member = {
         initial: "JP",
         id: "1231231",

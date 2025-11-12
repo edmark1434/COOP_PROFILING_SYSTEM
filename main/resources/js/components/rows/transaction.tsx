@@ -24,12 +24,16 @@ export function TransactionRow({
                 <p className="text-xs text-muted-foreground">{data.date}</p>
             </div>
 
-            {data.member && data.processed && (
-                <div className="flex-1 min-w-[200px] mt-2 md:mt-0">
+
+            <div className="flex-1 min-w-[200px] mt-2 md:mt-0">
+                {data.member && (
                     <p className="text-xs text-muted-foreground">Member: {data.member}</p>
-                    <p className="text-xs text-muted-foreground">Processed by: {data.processedBy}</p>
-                </div>
-            )}
+                )}
+                {data.processedBy && (
+                   <p className="text-xs text-muted-foreground">Processed by: {data.processedBy}</p>
+                )}
+            </div>
+
 
             <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
                 {data.amount}

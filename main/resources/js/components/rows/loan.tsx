@@ -1,14 +1,17 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import {Badge} from "@/components/ui/badge";
 
 interface LoanRowProps extends React.ComponentProps<"div"> {
+    isMember? : boolean
     data? : any
 }
 
 export function LoanRow({
-                                   data,
-                                   className,
-                                   ...props
+                                isMember,
+                                data,
+                                className,
+                                ...props
                                }: LoanRowProps) {
     return (
         <div
@@ -20,12 +23,19 @@ export function LoanRow({
             {...props}
         >
             <div className="flex flex-row gap-4">
-                <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
-                    <p className="font-semibold text-sm">{data.initial}</p>
-                </div>
+                {isMember==true && (
+                    <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
+                        <p className="font-semibold text-sm">{data.initial}</p>
+                    </div>
+                )}
                 <div className="flex-1 min-w-[200px]">
                     <p className="font-semibold text-sm">{data.member}</p>
-                    <p className="text-xs text-muted-foreground">{data.type}</p>
+                    {data.status && (
+                        <Badge variant="secondary">{data.status}</Badge>
+                    )}
+                    {data.type && (
+                        <p className="text-xs text-muted-foreground">{data.type}</p>
+                    )}
                 </div>
             </div>
 
