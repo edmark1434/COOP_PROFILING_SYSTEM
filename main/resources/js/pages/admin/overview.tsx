@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/overview-card";
 import admin from "@/routes/admin";
 import {TabbedTable} from "@/components/tabbed-table";
+import { useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,70 +19,29 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: admin.overview().url
     },
 ];
-
-export default function AdminOverview() {
+interface AdminOverviewProps {
+    memberCount: number,
+    loanCount: number,
+    transactionCount:number,
+    loans : any[],
+    shareCapital: number,
+    transactions: any[],
+    newMembersToday: number,
+    newLoanToday: number,
+    newTransactionToday: number,
+    newShareCapitalToday: number,
+}
+export default function AdminOverview({memberCount,loanCount,transactionCount,loans,
+    shareCapital,transactions, newMembersToday, newLoanToday, newTransactionToday,newShareCapitalToday
+}: AdminOverviewProps) {
     let stats;
     const overviewCards = [
-        { title: 'Total Members', value: '000', description: '+3 more today' },
-        { title: 'Total Loans', value: '000', description: '+3 more today'},
-        { title: 'Active Accounts', value: '000', description: '+3 more today' },
-        { title: 'Staff Count', value: '000', description: '+3 more today' },
+        { title: 'Total Members', value: memberCount, description: `${newMembersToday} new today` },
+        { title: 'Share Capital', value: `₱ ${Number(shareCapital).toLocaleString("en-US")}`, description: `${newShareCapitalToday} new today`},
+        { title: 'Active Loans', value: loanCount, description: `${newLoanToday} new today` },
+        { title: 'Total Transactions', value: transactionCount, description: `${newTransactionToday} new today` },
     ];
-    const transactions = [
-        {
-            type: "Loan Payment",
-            date: "October 4, 2025 · 1:32 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 5,125.00"
-        },
-        {
-            type: "Loan Disbursement",
-            date: "October 1, 2025 · 1:30 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 50,000.00"
-        },
-        {
-            type: "Share Capital Contribution",
-            date: "September 29, 2025 · 12:00 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 35,000.00"
-        }
-    ];
-    const loans = [
-        {
-            initial: "JP",
-            type: "Educational Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 5,125.00"
-        },
-        {
-            initial: "JP",
-            type: "Housing Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 15,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Personal Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 8,500.00"
-        },
-        {
-            initial: "JP",
-            type: "Car Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 25,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Business Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 50,000.00"
-        },
-    ];
+    
     const staff = [
         {
             initial: "JP",

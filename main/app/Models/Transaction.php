@@ -17,6 +17,7 @@ class Transaction extends Model
         'amount',
         'type',
         'member_id',
+        'user_id',
     ];
     public const TYPES = [
         'SHARE_CAPITAL_CONTRIBUTION',
@@ -38,6 +39,10 @@ class Transaction extends Model
     public function ledgerEntries()
     {
         return $this->hasMany(LedgerEntry::class, 'trans_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
     public $timestamps = false;
 }

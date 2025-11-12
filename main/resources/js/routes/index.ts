@@ -353,7 +353,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     dashboard.form = dashboardForm
 /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
 export const loanView = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -367,7 +367,7 @@ loanView.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
 loanView.url = (options?: RouteQueryOptions) => {
@@ -375,7 +375,7 @@ loanView.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
 loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -383,7 +383,7 @@ loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
 loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -392,7 +392,7 @@ loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
     const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -401,7 +401,7 @@ loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
         loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -409,7 +409,7 @@ loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
- * @see routes/web.php:48
+ * @see routes/web.php:46
  * @route '/loans/id'
  */
         loanViewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
