@@ -5,17 +5,19 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard',[]);
-    })->name('dashboard');
+    Route::get('/dashboard', function () {
+    return Inertia::render('dashboard', []);
+})->name('dashboard');
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard',[AdminOverviewController::class,'index'])->name('dashboard');
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/accounts', function () {
