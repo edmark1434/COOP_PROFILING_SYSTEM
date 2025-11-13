@@ -6,8 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/main/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/main/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
       <sourceFolder url="file://$MODULE_DIR$/main/tests" isTestSource="true" packagePrefix="Tests\" />
-      <sourceFolder url="file://$MODULE_DIR$/main/tests/Feature" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/main/tests/Unit" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/main/vendor/bacon/bacon-qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/main/vendor/brianium/paratest" />
       <excludeFolder url="file://$MODULE_DIR$/main/vendor/brick/math" />
