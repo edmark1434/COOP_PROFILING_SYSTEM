@@ -1,0 +1,58 @@
+import * as React from "react"
+import { cn } from "@/lib/utils"
+
+interface MemberRowProps extends React.ComponentProps<"div"> {
+    data? : any
+}
+
+export function MemberRow({
+  data,
+  className,
+  ...props
+}: MemberRowProps) {
+  const getInitials = (name: string) => {
+    const names = name.split(" ");
+    const initials = names.map((n) => n.charAt(0).toUpperCase());
+    return initials.join("");
+  };
+
+  return (
+    <div
+      data-slot="member-row"
+      className={cn(
+        "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+        className
+      )}
+      {...props}
+    >
+      <div className="flex flex-row gap-4 items-center">
+        {/* Member initials */}
+        <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
+          <p className="font-semibold text-sm">
+            {getInitials(
+              (data?.member?.first_name ?? "") +
+                " " +
+                (data?.member?.last_name ?? "")
+            )}
+          </p>
+        </div>
+
+        {/* Member info */}
+        <div className="flex-1 min-w-[200px]">
+          <p className="font-semibold text-sm">
+            {data?.member?.first_name} {data?.member?.middle_name ?? ""}{" "}
+            {data?.member?.last_name} {data?.member?.suffix ?? ""}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {data?.purpose?.name}
+          </p>
+        </div>
+      </div>
+
+      {/* Amount */}
+      <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
+        ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
+      </div>
+    </div>
+  );
+}
