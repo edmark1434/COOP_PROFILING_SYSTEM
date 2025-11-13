@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
+use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -21,9 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/accounts', function () {
             return Inertia::render('admin/accounts', []);
         })->name('accounts');
-        Route::get('/loans', function () {
-            return Inertia::render('admin/loans', []);
-        })->name('loans');
+        Route::get('/loans', [AdminLoanController::class, 'index'
+        ])->name('loans');
         Route::get('/transactions', function () {
             return Inertia::render('admin/transactions', []);
         })->name('transactions');
