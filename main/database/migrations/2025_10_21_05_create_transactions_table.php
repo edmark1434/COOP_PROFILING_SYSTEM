@@ -24,7 +24,8 @@ return new class extends Migration
             ]);
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('member_id');
-
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
         });
     }

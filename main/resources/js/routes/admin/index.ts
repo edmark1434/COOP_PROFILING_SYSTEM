@@ -1,6 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 export const overview = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +15,8 @@ overview.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 overview.url = (options?: RouteQueryOptions) => {
@@ -26,7 +28,8 @@ overview.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +38,8 @@ overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +48,8 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,7 +58,8 @@ const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,7 +68,8 @@ overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:17
+* @see \App\Http\Controllers\UserInterface\Admin\AdminOverviewController::overview
+* @see app/Http/Controllers/UserInterface/Admin/AdminOverviewController.php:14
 * @route '/admin/overview'
 */
 overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -78,7 +85,7 @@ overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 overview.form = overviewForm
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 export const members = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -92,7 +99,7 @@ members.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 members.url = (options?: RouteQueryOptions) => {
@@ -104,7 +111,7 @@ members.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 members.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -113,7 +120,7 @@ members.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 members.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +129,7 @@ members.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 const membersForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -131,7 +138,7 @@ const membersForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 })
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 membersForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -140,7 +147,7 @@ membersForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 })
 
 /**
-* @see routes/web.php:20
+* @see routes/web.php:18
 * @route '/admin/members'
 */
 membersForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -156,7 +163,7 @@ membersForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 members.form = membersForm
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 export const accounts = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -170,7 +177,7 @@ accounts.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 accounts.url = (options?: RouteQueryOptions) => {
@@ -182,7 +189,7 @@ accounts.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 accounts.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -191,7 +198,7 @@ accounts.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 accounts.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -200,7 +207,7 @@ accounts.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 const accountsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -209,7 +216,7 @@ const accountsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 accountsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -218,7 +225,7 @@ accountsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:21
 * @route '/admin/accounts'
 */
 accountsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -234,7 +241,7 @@ accountsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 accounts.form = accountsForm
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 export const loans = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -248,7 +255,7 @@ loans.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 loans.url = (options?: RouteQueryOptions) => {
@@ -260,7 +267,7 @@ loans.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 loans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +276,7 @@ loans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 loans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -278,7 +285,7 @@ loans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 const loansForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -287,7 +294,7 @@ const loansForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 })
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 loansForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -296,7 +303,7 @@ loansForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:26
+* @see routes/web.php:24
 * @route '/admin/loans'
 */
 loansForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -312,7 +319,7 @@ loansForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 loans.form = loansForm
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 export const transactions = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -326,7 +333,7 @@ transactions.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 transactions.url = (options?: RouteQueryOptions) => {
@@ -338,7 +345,7 @@ transactions.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 transactions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -347,7 +354,7 @@ transactions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 transactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -356,7 +363,7 @@ transactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 const transactionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -365,7 +372,7 @@ const transactionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get
 })
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 transactionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -374,7 +381,7 @@ transactionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 })
 
 /**
-* @see routes/web.php:29
+* @see routes/web.php:27
 * @route '/admin/transactions'
 */
 transactionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -390,7 +397,7 @@ transactionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 transactions.form = transactionsForm
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 export const staff = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -404,7 +411,7 @@ staff.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 staff.url = (options?: RouteQueryOptions) => {
@@ -416,7 +423,7 @@ staff.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 staff.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -425,7 +432,7 @@ staff.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 staff.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -434,7 +441,7 @@ staff.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 const staffForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -443,7 +450,7 @@ const staffForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 })
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 staffForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -452,7 +459,7 @@ staffForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:32
+* @see routes/web.php:30
 * @route '/admin/staff'
 */
 staffForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -468,7 +475,7 @@ staffForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 staff.form = staffForm
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 export const staffProfile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -482,7 +489,7 @@ staffProfile.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 staffProfile.url = (options?: RouteQueryOptions) => {
@@ -494,7 +501,7 @@ staffProfile.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 staffProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -503,7 +510,7 @@ staffProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 staffProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -512,7 +519,7 @@ staffProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 const staffProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -521,7 +528,7 @@ const staffProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get
 })
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 staffProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -530,7 +537,7 @@ staffProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 })
 
 /**
-* @see routes/web.php:35
+* @see routes/web.php:33
 * @route '/admin/staff/id'
 */
 staffProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -546,7 +553,7 @@ staffProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 staffProfile.form = staffProfileForm
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 export const memberProfile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -560,7 +567,7 @@ memberProfile.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 memberProfile.url = (options?: RouteQueryOptions) => {
@@ -572,7 +579,7 @@ memberProfile.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 memberProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -581,7 +588,7 @@ memberProfile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -590,7 +597,7 @@ memberProfile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
 })
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 const memberProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -599,7 +606,7 @@ const memberProfileForm = (options?: RouteQueryOptions): RouteFormDefinition<'ge
 })
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 memberProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -608,7 +615,7 @@ memberProfileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 })
 
 /**
-* @see routes/web.php:38
+* @see routes/web.php:36
 * @route '/admin/member-profile'
 */
 memberProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -624,7 +631,7 @@ memberProfileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get
 memberProfile.form = memberProfileForm
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 export const loanView = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -638,7 +645,7 @@ loanView.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 loanView.url = (options?: RouteQueryOptions) => {
@@ -650,7 +657,7 @@ loanView.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -659,7 +666,7 @@ loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -668,7 +675,7 @@ loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -677,7 +684,7 @@ const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -686,7 +693,7 @@ loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:41
+* @see routes/web.php:39
 * @route '/admin/loans/id'
 */
 loanViewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

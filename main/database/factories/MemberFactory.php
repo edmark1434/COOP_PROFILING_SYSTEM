@@ -19,7 +19,7 @@ class MemberFactory extends Factory
     {
 
         return [
-            'id_coop'      => strtoupper($this->faker->bothify('COOP-####')),
+            'id_coop'      => strtoupper($this->faker->unique()->bothify('COOP-####')),
             'first_name'   => $this->faker->firstName(),
             'middle_name'  => $this->faker->optional()->firstName(),
             'last_name'    => $this->faker->lastName(),

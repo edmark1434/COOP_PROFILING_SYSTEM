@@ -53,6 +53,10 @@ class UserFactory extends Factory
                 'two_factor_secret' => null,
                 'two_factor_recovery_codes' => null,
                 'two_factor_confirmed_at' => null,
+                'is_member' => false,
+                'is_teller' => false,
+                'is_loan_officer' => false,
+                'is_admin' => true,
             ];
         }
         static::$userCount++;

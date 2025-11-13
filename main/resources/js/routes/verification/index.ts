@@ -86,7 +86,7 @@ notice.form = noticeForm
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 export const notice = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -101,7 +101,7 @@ notice.definition = {
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 notice.url = (options?: RouteQueryOptions) => {
@@ -114,7 +114,7 @@ notice.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -124,7 +124,7 @@ notice.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -134,7 +134,7 @@ notice.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 const noticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -144,7 +144,7 @@ const noticeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 noticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -154,7 +154,7 @@ noticeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\EmailVerificationPromptController::__invoke
-* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:16
+* @see app/Http/Controllers/Auth/EmailVerificationPromptController.php:14
 * @route '/verify-email'
 */
 noticeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

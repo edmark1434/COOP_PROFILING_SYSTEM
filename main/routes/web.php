@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -13,10 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
-        Route::get('/overview', function () {
-            return Inertia::render('admin/overview',[]);
-        })->name('overview');
+        Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
         Route::get('/members', function () {
             return Inertia::render('admin/members',[]);
         })->name('members');
