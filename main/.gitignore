@@ -7,7 +7,9 @@
 /storage/*.key
 /storage/pail
 /resources/js/routes/
-/resources/js/actions/
+main/resources/js/actions/
+main/resources/js/routes/
+
 /vendor
 .DS_Store
 .env
