@@ -48,7 +48,7 @@ class AuthenticatedSessionController extends Controller
         $route = match (true) {
             $user->is_admin => 'admin.overview',
             $user->is_loan_officer => 'dashboard',
-            $user->is_teller => 'teller.dashboard',
+            $user->is_teller => 'dashboard',
             default => 'dashboard',
         };
         return redirect()->intended(route($route,absolute: false));
