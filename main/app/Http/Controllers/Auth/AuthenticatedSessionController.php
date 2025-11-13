@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {   
+    {
         $user = $request->validateCredentials();
 
         if (Features::enabled(Features::twoFactorAuthentication()) && $user->hasEnabledTwoFactorAuthentication()) {
@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $route = match (true) {
-            $user->is_admin => 'dashboard',
+            $user->is_admin => 'admin.overview',
             $user->is_loan_officer => 'dashboard',
             $user->is_teller => 'teller.dashboard',
             default => 'dashboard',
