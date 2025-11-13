@@ -14,12 +14,10 @@ import { TransactionRow } from "@/components/rows/transaction"
 import { LoanRow } from "@/components/rows/loan"
 import {StaffRow} from "@/components/rows/staff";
 import {AuditLogRow} from "@/components/rows/audit-log";
-import {TellerTransactionRow} from "@/components/rows/teller-transaction";
 import {InstallmentRow} from "@/components/rows/installment";
 
 // Map tab.value -> component
 const rowComponentRegistry: Record<string, React.ComponentType<{ data: any }>> = {
-    tellerTransactions: TellerTransactionRow,
     transactions: TransactionRow,
     loans: LoanRow,
     staff: StaffRow,
