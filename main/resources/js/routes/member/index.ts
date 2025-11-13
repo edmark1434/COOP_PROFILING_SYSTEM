@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
 export const overview = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +14,7 @@ overview.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
 overview.url = (options?: RouteQueryOptions) => {
@@ -22,7 +22,7 @@ overview.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
 overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -30,7 +30,7 @@ overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
 overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -39,7 +39,7 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
     const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -48,7 +48,7 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
         overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -56,7 +56,7 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
- * @see routes/web.php:76
+ * @see routes/web.php:75
  * @route '/member/overview'
  */
         overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -71,7 +71,7 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     overview.form = overviewForm
 /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
 export const myTransactions = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -85,7 +85,7 @@ myTransactions.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
 myTransactions.url = (options?: RouteQueryOptions) => {
@@ -93,7 +93,7 @@ myTransactions.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
 myTransactions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -101,7 +101,7 @@ myTransactions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
 myTransactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -110,7 +110,7 @@ myTransactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
 })
 
     /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
     const myTransactionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -119,7 +119,7 @@ myTransactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     })
 
             /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
         myTransactionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -127,7 +127,7 @@ myTransactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
             method: 'get',
         })
             /**
- * @see routes/web.php:79
+ * @see routes/web.php:78
  * @route '/member/my-transactions'
  */
         myTransactionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -142,7 +142,7 @@ myTransactions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     
     myTransactions.form = myTransactionsForm
 /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
 export const myLoans = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -156,7 +156,7 @@ myLoans.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
 myLoans.url = (options?: RouteQueryOptions) => {
@@ -164,7 +164,7 @@ myLoans.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
 myLoans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -172,7 +172,7 @@ myLoans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
 myLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -181,7 +181,7 @@ myLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
     const myLoansForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -190,7 +190,7 @@ myLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
         myLoansForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -198,7 +198,7 @@ myLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
- * @see routes/web.php:82
+ * @see routes/web.php:81
  * @route '/member/my-loans'
  */
         myLoansForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -213,7 +213,7 @@ myLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     myLoans.form = myLoansForm
 /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
 export const notifications = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -227,7 +227,7 @@ notifications.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
 notifications.url = (options?: RouteQueryOptions) => {
@@ -235,7 +235,7 @@ notifications.url = (options?: RouteQueryOptions) => {
 }
 
 /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
 notifications.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -243,7 +243,7 @@ notifications.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
 notifications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -252,7 +252,7 @@ notifications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
 })
 
     /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
     const notificationsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -261,7 +261,7 @@ notifications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
     })
 
             /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
         notificationsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -269,7 +269,7 @@ notifications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
             method: 'get',
         })
             /**
- * @see routes/web.php:85
+ * @see routes/web.php:84
  * @route '/member/notifications'
  */
         notificationsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

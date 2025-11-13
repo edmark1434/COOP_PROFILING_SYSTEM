@@ -14,7 +14,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
         Route::get('/members', function () {
             return Inertia::render('admin/members',[]);
