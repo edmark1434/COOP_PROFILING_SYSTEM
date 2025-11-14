@@ -19,6 +19,8 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
+import { MemberRow } from '@/components/rows/member';
+import member from '@/routes/member';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,41 +28,70 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: admin.members().url
     },
 ];
+interface AdminMembersProps {
+    members: any[],
+    lastNameDesc: any[],
+    lastNameAsc: any[],
+    firstNameAsc: any[],
+    firstNameDesc: any[],
+    typeDesc: any[],
+    typeAsc: any[],
+    dateDesc: any[],
+    dateAsc: any[],
+}
+export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstNameAsc,firstNameDesc,typeAsc,typeDesc,dateAsc,dateDesc}: AdminMembersProps) {
+    const [memberList, setMemberList] = React.useState(members); 
+    const [category, setCategory] = React.useState('fname');
+    const [order, setOrder] = React.useState('comfortable');
+    const [search,setSearch] = React.useState('');
+    const [filteredMembers,setFilteredMembers] = React.useState(members);
+    const searchFilter = (val: string,memberList : any = null): void => {
+        setSearch(val);
+        if(!memberList){
+            setFilteredMembers(memberList || filteredMembers);
+        }
+        // If search bar is cleared, show full list again
+        if (val.trim() === '') {
+            setMemberList(filteredMembers);
+        }
 
-export default function AdminMembers() {
-    const members = [
-        {
-            initial: "JP",
-            type: "Educational Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 5,125.00"
-        },
-        {
-            initial: "JP",
-            type: "Housing Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 15,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Personal Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 8,500.00"
-        },
-        {
-            initial: "JP",
-            type: "Car Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 25,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Business Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 50,000.00"
-        },
-    ];
-
+        const filteredList = filteredMembers.filter((member) => {
+            const query = val.toLowerCase();
+            return (
+            member?.first_name?.toLowerCase().includes(query) ||
+            member?.last_name?.toLowerCase().includes(query) ||
+            member?.middle_name?.toLowerCase().includes(query) ||
+            member?.suffix?.toLowerCase().includes(query)
+            );
+        });
+        setMemberList(filteredList);
+    };
+    const result = ():any[] =>{
+        let members : any[] = [];
+        if(category === 'lname' && order === 'comfortable'){
+            members = lastNameDesc;
+        } else if(category === 'lname' && order === 'default'){
+            members = lastNameAsc;
+        } else if(category === 'fname' && order === 'comfortable'){
+            members = firstNameDesc;
+        } else if(category === 'fname' && order === 'default'){
+            members = firstNameAsc;
+        }else if(category === 'type' && order === 'comfortable'){
+            members = typeDesc;
+        } else if(category === 'type' && order === 'default'){
+            members = typeAsc;
+        }else if(category === 'date' && order === 'comfortable'){
+            members = dateDesc;
+        } else if(category === 'date' && order === 'default'){
+            members = dateAsc;
+        }
+        return members;
+    }
+    React.useEffect(()=>{
+        const members = result();
+        setFilteredMembers(members);
+        searchFilter(search,members);
+    },[category,order,search]);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members" />
@@ -80,13 +111,14 @@ export default function AdminMembers() {
                                         <ArrowUpDown size="16"/>
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select defaultValue="name">
+                                    <Select value={category} onValueChange={(val) => {setCategory(val)}}>
                                         <SelectTrigger className="w-34">
                                             <SelectValue placeholder="Select order" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem value="name">Name</SelectItem>
+                                                <SelectItem value="fname">Firstname</SelectItem>
+                                                <SelectItem value="lname">Lastname</SelectItem>
                                                 <SelectItem value="date">Date</SelectItem>
                                                 <SelectItem value="type">Type</SelectItem>
                                             </SelectGroup>
@@ -95,7 +127,7 @@ export default function AdminMembers() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup defaultValue="comfortable" className="flex gap-6">
+                                    <RadioGroup value={order} onValueChange={(val) => setOrder(val)} className="flex gap-6">
                                         <div className="flex items-center gap-2">
                                             <RadioGroupItem value="default" id="r1" />
                                             <span className="text-sm font-medium">Ascending</span>
@@ -109,20 +141,30 @@ export default function AdminMembers() {
                             </div>
                         </PopoverContent>
                     </Popover>
-                    <InputGroup className="w-sm">
-                        <InputGroupInput placeholder="Search..." />
+                    <InputGroup className="w-sm" >
+                        <InputGroupInput placeholder="Search..." value={search} onChange={(e) => searchFilter(e.target.value)}/>
                         <InputGroupAddon>
                             <Search />
                         </InputGroupAddon>
-                        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                        <InputGroupAddon align="inline-end">{memberList?.length+" "+ "Result(s)"} </InputGroupAddon>
                     </InputGroup>
                 </div>
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
-                        {members.map((item, i) => (
-                            <LoanRow key={i} data={item} />
+                        {memberList.map((member, i) => (
+                            member.accounts && member.accounts.length > 0 ? (
+                            member.accounts.map((account: any, j: number) => (
+                                <MemberRow
+                                key={`${i}-${j}`}
+                                data={{ ...member, account }}
+                                category={category}
+                                />
+                            ))
+                            ) : (
+                            <MemberRow key={i} data={member} category={category} />
+                            )
                         ))}
-                    </div>
+                        </div>
                 </div>
             </div>
         </AppLayout>
