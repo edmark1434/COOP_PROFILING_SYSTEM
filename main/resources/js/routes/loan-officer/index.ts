@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 export const overview = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +14,7 @@ overview.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 overview.url = (options?: RouteQueryOptions) => {
@@ -26,7 +26,7 @@ overview.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ overview.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ overview.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,7 +53,7 @@ const overviewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,7 +62,7 @@ overviewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:47
+* @see routes/web.php:45
 * @route '/loan-officer/overview'
 */
 overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -78,7 +78,7 @@ overviewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 overview.form = overviewForm
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 export const activeLoans = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -92,7 +92,7 @@ activeLoans.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 activeLoans.url = (options?: RouteQueryOptions) => {
@@ -104,7 +104,7 @@ activeLoans.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 activeLoans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -113,7 +113,7 @@ activeLoans.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 activeLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +122,7 @@ activeLoans.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 const activeLoansForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -131,7 +131,7 @@ const activeLoansForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 })
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 activeLoansForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -140,7 +140,7 @@ activeLoansForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 })
 
 /**
-* @see routes/web.php:50
+* @see routes/web.php:48
 * @route '/loan-officer/active-loans'
 */
 activeLoansForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -156,7 +156,7 @@ activeLoansForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 activeLoans.form = activeLoansForm
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 export const loanApplications = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -170,7 +170,7 @@ loanApplications.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 loanApplications.url = (options?: RouteQueryOptions) => {
@@ -182,7 +182,7 @@ loanApplications.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 loanApplications.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -191,7 +191,7 @@ loanApplications.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 loanApplications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -200,7 +200,7 @@ loanApplications.head = (options?: RouteQueryOptions): RouteDefinition<'head'> =
 })
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 const loanApplicationsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -209,7 +209,7 @@ const loanApplicationsForm = (options?: RouteQueryOptions): RouteFormDefinition<
 })
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 loanApplicationsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -218,7 +218,7 @@ loanApplicationsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'g
 })
 
 /**
-* @see routes/web.php:53
+* @see routes/web.php:51
 * @route '/loan-officer/loan-applications'
 */
 loanApplicationsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -234,7 +234,7 @@ loanApplicationsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'
 loanApplications.form = loanApplicationsForm
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 export const memberLookup = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -248,7 +248,7 @@ memberLookup.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 memberLookup.url = (options?: RouteQueryOptions) => {
@@ -260,7 +260,7 @@ memberLookup.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 memberLookup.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +269,7 @@ memberLookup.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 memberLookup.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -278,7 +278,7 @@ memberLookup.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 const memberLookupForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -287,7 +287,7 @@ const memberLookupForm = (options?: RouteQueryOptions): RouteFormDefinition<'get
 })
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 memberLookupForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -296,7 +296,7 @@ memberLookupForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'>
 })
 
 /**
-* @see routes/web.php:56
+* @see routes/web.php:54
 * @route '/loan-officer/member-lookup'
 */
 memberLookupForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -312,7 +312,7 @@ memberLookupForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'
 memberLookup.form = memberLookupForm
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 export const loanView = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -326,7 +326,7 @@ loanView.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 loanView.url = (options?: RouteQueryOptions) => {
@@ -338,7 +338,7 @@ loanView.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -347,7 +347,7 @@ loanView.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -356,7 +356,7 @@ loanView.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -365,7 +365,7 @@ const loanViewForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =
 })
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -374,7 +374,7 @@ loanViewForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 })
 
 /**
-* @see routes/web.php:59
+* @see routes/web.php:57
 * @route '/loan-officer/loans/id'
 */
 loanViewForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
