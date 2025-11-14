@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
+use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -28,9 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/transactions', function () {
             return Inertia::render('admin/transactions', []);
         })->name('transactions');
-        Route::get('/staff', function () {
-            return Inertia::render('admin/staff', []);
-        })->name('staff');
+        Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
         Route::get('/staff/id', function () {
             return Inertia::render('admin/staff-profile', []);
         })->name('staffProfile');
