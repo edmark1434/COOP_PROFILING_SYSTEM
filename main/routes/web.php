@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
+use App\Http\Controllers\UserInterface\Admin\AdminTransactionsController;
+use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
@@ -20,6 +22,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard',[AdminOverviewController::class,'index'])->name('dashboard');
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
+        Route::get('/members', function () {
+            return Inertia::render('admin/members',[]);
+        })->name('members');
+        Route::get('/accounts', [AdminAccountsController::class, 'index'])->name('accounts');
+        Route::get('/loans', function () {
+            return Inertia::render('admin/loans', []);
+        })->name('loans');
+        Route::get('/transactions', [AdminTransactionsController::class, 'index'])->name('transactions');
+        Route::get('/staff', function () {
+            return Inertia::render('admin/staff', []);
+        })->name('staff');
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/accounts', function () {
             return Inertia::render('admin/accounts', []);

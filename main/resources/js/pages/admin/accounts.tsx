@@ -1,12 +1,9 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import {OverviewCard} from "@/components/ui/overview-card";
 import admin from "@/routes/admin";
-import {LoanRow} from "@/components/rows/loan";
 import * as React from "react";
-import {AccountRow} from "@/components/rows/account";
+import { AccountRow } from "@/components/rows/account";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,48 +12,38 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function AdminAccounts() {
-    const accounts = [
-        {
-            type: "Asset",
-            title: "Coop Cash",
-            amount: "₱ 5,125.00"
-        },
-        {
-            type: "Asset",
-            title: "Loan Receivable",
-            amount: "₱ 15,000.00"
-        },
-        {
-            type: "Personal Loan",
-            title: "Dividends Payable",
-            amount: "₱ 8,500.00"
-        },
-        {
-            type: "Income",
-            title: "Interest Income",
-            amount: "₱ 25,000.00"
-        },
-        {
-            type: "Equity",
-            title: "Share Capital Total",
-            amount: "₱ 50,000.00"
-        },
-        {
-            type: "Equity",
-            title: "Retained Earnings",
-            amount: "₱ 50,000.00"
-        },
-    ];
+interface Account {
+    id: number;
+    type: string;
+    title: string;
+    amount: number;
+    member_name: string;
+}
+
+interface AdminAccountsProps {
+    accounts: Account[];
+}
+
+export default function AdminAccounts({ accounts }: AdminAccountsProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accounts" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                {/* Accounts List */}
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
-                        {accounts.map((item, i) => (
-                            <AccountRow key={i} data={item} />
-                        ))}
+                        {accounts.length > 0 ? (
+                            accounts.map((account) => (
+                                <AccountRow 
+                                    key={account.id} 
+                                    data={account} 
+                                />
+                            ))
+                        ) : (
+                            <div className="p-6 text-center text-muted-foreground text-sm">
+                                No accounts found.
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
