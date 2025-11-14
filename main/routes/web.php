@@ -3,34 +3,33 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
+use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
+use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
+use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard',[]);
-    })->name('dashboard');
+    Route::get('/dashboard', function () {
+    return Inertia::render('dashboard', []);
+})->name('dashboard');
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
+        Route::get('/dashboard',[AdminOverviewController::class,'index'])->name('dashboard');
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
-        Route::get('/members', function () {
-            return Inertia::render('admin/members',[]);
-        })->name('members');
+        Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/accounts', function () {
             return Inertia::render('admin/accounts', []);
         })->name('accounts');
-        Route::get('/loans', function () {
-            return Inertia::render('admin/loans', []);
-        })->name('loans');
+        Route::get('/loans', [AdminLoanController::class, 'index'
+        ])->name('loans');
         Route::get('/transactions', function () {
             return Inertia::render('admin/transactions', []);
         })->name('transactions');
-        Route::get('/staff', function () {
-            return Inertia::render('admin/staff', []);
-        })->name('staff');
+        Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
         Route::get('/staff/id', function () {
             return Inertia::render('admin/staff-profile', []);
         })->name('staffProfile');

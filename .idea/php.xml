@@ -168,6 +168,7 @@
       <path value="$PROJECT_DIR$/main/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/main/vendor/voku/portable-ascii" />
       <path value="$PROJECT_DIR$/main/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/main/vendor/tightenco/ziggy" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

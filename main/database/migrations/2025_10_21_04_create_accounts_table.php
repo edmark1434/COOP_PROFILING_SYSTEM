@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum("type",["ASSET","LIABILITY","EQUITY","INCOME","EXPENSE"],20);
             $table->enum("status",["ACTIVE","INACTIVE","CLOSED"],20)->default("ACTIVE");
             $table->decimal("balance",15,2)->default(0.00);
-            $table->unSignedBigInteger('member_id')->nullable();
+            $table->unsignedBigInteger('member_id')->nullable();
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade')->onUpdate('cascade');
         });
     }
