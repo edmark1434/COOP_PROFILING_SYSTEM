@@ -71,7 +71,7 @@ export default function TellerTransactions() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="Transactions" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-row h-fit w-full justify-between">
                     <Popover>

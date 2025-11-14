@@ -11,6 +11,7 @@ use App\Models\Transaction;
 class Member extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
     public const STATUS = ['ACTIVE','INACTIVE','SUSPENDED','TERMINATED','DECEASED'];
     protected $fillable = [
         'id_coop',
