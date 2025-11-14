@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $route = match (true) {
-            $user->is_admin => 'dashboard',
+            $user->is_admin => 'admin.overview',
             $user->is_loan_officer => 'dashboard',
             $user->is_teller => 'teller.dashboard',
             default => 'dashboard',
