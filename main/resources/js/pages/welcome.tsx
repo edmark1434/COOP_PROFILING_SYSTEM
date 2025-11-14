@@ -32,7 +32,7 @@ export default function Welcome() {
                     <div className="flex flex-col gap-5 text-center">
                         <div className="flex flex-col gap-1">
                             <div className="flex flex-col leading-none">
-                                <p className="text-primary font-semibold text-xl">Real-time cooperative profiling and assessment management</p>
+                                <p className="text-primary font-semibold text-xl">Real-time cooperative profiling and management</p>
                                 <p className="text-primary font-semibold text-xl"></p>
                             </div>
                             <div className="flex flex-col leading-none">
