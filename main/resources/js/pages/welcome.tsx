@@ -14,8 +14,8 @@ export default function Welcome() {
                     rel="stylesheet"
                 />
             </Head>
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <div className="flex flex-col w-full items-center justify-center gap-7 opacity-100 transition-opacity duration-750 starting:opacity-0">
+            <div className="flex min-h-screen flex-col items-center bg-[radial-gradient(ellipse_at_bottom,rgba(255,0,0,0.55),rgba(255,0,0,0.10),rgba(255,255,255,1))] p-6 text-[#1b1b18] justify-center lg:p-8 dark:bg-[#0a0a0a]">
+                <div className=" flex flex-col w-full items-center justify-center gap-7 opacity-100 transition-opacity duration-750 starting:opacity-0 ">
                     <div className="flex flex-row gap-4 items-center align-middle">
                         <svg width="52" height="52" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M60 60H0V0C33.137 0 60 26.8626 60 60Z" fill="#DC2626"/>
