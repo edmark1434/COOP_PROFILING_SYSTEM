@@ -19,39 +19,75 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function AdminStaff() {
-    const staff = [
-        {
-            initial: "JP",
-            type: "Teller",
-            member: "Jodeci Abria Pacibe",
-        },
-        {
-            initial: "DB",
-            type: "Loan Officer",
-            member: "Dan Anton Bejec",
-        },
-        {
-            initial: "RR",
-            type: "Teller",
-            member: "Roy Adrian Rondina",
-        },
-        {
-            initial: "JL",
-            type: "Loan Officer",
-            member: "Jayson Gabriel Limosnero",
-        },
-        {
-            initial: "ET",
-            type: "Teller",
-            member: "Edmark Talingting",
-        },
-        {
-            initial: "JN",
-            type: "Teller",
-            member: "Jhon Paul Noquiana",
-        },
-    ];
+interface AdminStaffProps {
+    staff: any[],
+    nameDesc: any[],
+    nameAsc: any[],
+    typeDesc: any[],
+    typeAsc: any[],
+    dateDesc: any[],
+    dateAsc: any[],
+}
+
+export default function AdminStaff({
+    staff,
+    nameDesc,
+    nameAsc,
+    typeAsc,
+    typeDesc,
+    dateAsc,
+    dateDesc
+}: AdminStaffProps) {
+    const [staffList, setStaffList] = React.useState(staff); 
+    const [category, setCategory] = React.useState('name');
+    const [order, setOrder] = React.useState('comfortable');
+    const [search, setSearch] = React.useState('');
+    const [filteredStaff, setFilteredStaff] = React.useState(staff);
+
+    const searchFilter = (val: string, staffList: any = null): void => {
+        setSearch(val);
+        if (!staffList) {
+            setFilteredStaff(staffList || filteredStaff);
+        }
+        // If search bar is cleared, show full list again
+        if (val.trim() === '') {
+            setStaffList(filteredStaff);
+        }
+
+        const filteredList = filteredStaff.filter((staffMember) => {
+            const query = val.toLowerCase();
+            return (
+                staffMember?.name?.toLowerCase().includes(query) ||
+                staffMember?.email?.toLowerCase().includes(query)
+            );
+        });
+        setStaffList(filteredList);
+    };
+
+    const result = (): any[] => {
+        let staffData: any[] = [];
+        if (category === 'name' && order === 'comfortable') {
+            staffData = nameDesc;
+        } else if (category === 'name' && order === 'default') {
+            staffData = nameAsc;
+        } else if (category === 'type' && order === 'comfortable') {
+            staffData = typeDesc;
+        } else if (category === 'type' && order === 'default') {
+            staffData = typeAsc;
+        } else if (category === 'date' && order === 'comfortable') {
+            staffData = dateDesc;
+        } else if (category === 'date' && order === 'default') {
+            staffData = dateAsc;
+        }
+        return staffData;
+    };
+
+    React.useEffect(() => {
+        const staffData = result();
+        setFilteredStaff(staffData);
+        searchFilter(search, staffData);
+    }, [category, order, search]);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Staff" />
@@ -71,7 +107,7 @@ export default function AdminStaff() {
                                         <ArrowUpDown size="16"/>
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select defaultValue="name">
+                                    <Select value={category} onValueChange={(val) => {setCategory(val)}}>
                                         <SelectTrigger className="w-34">
                                             <SelectValue placeholder="Select order" />
                                         </SelectTrigger>
@@ -86,7 +122,7 @@ export default function AdminStaff() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup defaultValue="comfortable" className="flex gap-6">
+                                    <RadioGroup value={order} onValueChange={(val) => setOrder(val)} className="flex gap-6">
                                         <div className="flex items-center gap-2">
                                             <RadioGroupItem value="default" id="r1" />
                                             <span className="text-sm font-medium">Ascending</span>
@@ -101,17 +137,25 @@ export default function AdminStaff() {
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput placeholder="Search..." />
+                        <InputGroupInput 
+                            placeholder="Search..." 
+                            value={search} 
+                            onChange={(e) => searchFilter(e.target.value)}
+                        />
                         <InputGroupAddon>
                             <Search />
                         </InputGroupAddon>
-                        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                        <InputGroupAddon align="inline-end">{staffList?.length + " " + "Result(s)"}</InputGroupAddon>
                     </InputGroup>
                 </div>
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
-                        {staff.map((item, i) => (
-                            <StaffRow key={i} data={item} />
+                        {staffList.map((staffMember, i) => (
+                            <StaffRow
+                                key={i}
+                                data={staffMember}
+                                category={category}
+                            />
                         ))}
                     </div>
                 </div>

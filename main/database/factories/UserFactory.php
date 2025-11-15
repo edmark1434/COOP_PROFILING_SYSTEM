@@ -25,40 +25,99 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {   
+    {
         $password = static::$password ??= Hash::make('password');
+
+        // Default random user
         $data = [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => $password,
-            'remember_token' => Str::random(10),
-            'two_factor_secret' => Str::random(10),
-            'two_factor_recovery_codes' => Str::random(10),
-            'two_factor_confirmed_at' => now(),
-            'is_member' => $this->faker->boolean(70), // 70% chance true
-            'is_teller' => $this->faker->boolean(20),
-            'is_loan_officer' => $this->faker->boolean(15),
-            'is_admin' => $this->faker->boolean(10),
-            'member_id' => Member::factory(),
+            'name'                   => fake()->name(),
+            'email'                  => fake()->unique()->safeEmail(),
+            'email_verified_at'      => now(),
+            'password'               => $password,
+            'remember_token'         => Str::random(10),
+            'two_factor_secret'      => null,
+            'two_factor_recovery_codes' => null,
+            'two_factor_confirmed_at' => null,
+
+            'is_member'        => $this->faker->boolean(70),
+            'is_teller'        => $this->faker->boolean(20),
+            'is_loan_officer'  => $this->faker->boolean(15),
+            'is_admin'         => $this->faker->boolean(10),
+
+            'member_id' => null, // overwritten below
         ];
-        if(static::$userCount < 1){
-            static::$userCount++;
-            $password = Hash::make('admin1234');
-            return [
-                ...$data,
-                'name' => 'Admin User',
-                'email' => 'admin@test.com',
-                'password' => $password,
-                'two_factor_secret' => null,
-                'two_factor_recovery_codes' => null,
-                'two_factor_confirmed_at' => null,
-                'is_member' => false,
-                'is_teller' => false,
-                'is_loan_officer' => false,
-                'is_admin' => true,
-            ];
+
+        // Assign member_id ONLY if is_member
+        if ($data['is_member']) {
+            $data['member_id'] = Member::factory();
         }
+
+        // FIXED: special users
+        switch (static::$userCount) {
+            case 0:
+                // SUPER ADMIN
+                $data = [
+                    ...$data,
+                    'name' => 'Admin User',
+                    'email' => 'admin@test.com',
+                    'password' => Hash::make('admin1234'),
+                    'is_admin' => true,
+                    'is_member' => false,
+                    'is_teller' => false,
+                    'is_loan_officer' => false,
+                    'member_id' => null,
+                    'two_factor_secret' => null,
+                    'two_factor_recovery_codes' => null,
+                    'two_factor_confirmed_at' => null,
+                ];
+                break;
+
+            case 1:
+                // TELLER
+                $data = [
+                    ...$data,
+                    'name' => 'Teller User',
+                    'email' => 'teller@test.com',
+                    'password' => Hash::make('teller1234'),
+                    'is_admin' => false,
+                    'is_member' => false,
+                    'is_teller' => true,
+                    'is_loan_officer' => false,
+                    'member_id' => null,
+                ];
+                break;
+
+            case 2:
+                // LOAN OFFICER
+                $data = [
+                    ...$data,
+                    'name' => 'Loan Officer User',
+                    'email' => 'loanofficer@test.com',
+                    'password' => Hash::make('loanofficer1234'),
+                    'is_admin' => false,
+                    'is_member' => false,
+                    'is_teller' => false,
+                    'is_loan_officer' => true,
+                    'member_id' => null,
+                ];
+                break;
+
+            case 3:
+                // NORMAL MEMBER (NO ADMIN)
+                $data = [
+                    ...$data,
+                    'name' => 'Member User',
+                    'email' => 'member@test.com',
+                    'password' => Hash::make('member1234'),
+                    'is_admin' => false,
+                    'is_member' => true,
+                    'is_teller' => false,
+                    'is_loan_officer' => false,
+                    'member_id' => Member::factory(),
+                ];
+                break;
+        }
+
         static::$userCount++;
         return $data;
     }
