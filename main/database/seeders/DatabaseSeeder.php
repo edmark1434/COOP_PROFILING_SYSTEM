@@ -17,7 +17,7 @@ use App\Models\Member;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\ShareSnapshot;
-
+use Database\Seeders\CustomDataSeeder;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            CustomDataSeeder::class,
+        ]);
         User::factory(5)->create();
         Account::factory(5)->create();
         AuditLog::factory(5)->create();

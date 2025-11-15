@@ -26,7 +26,7 @@ class AdminOverviewController extends Controller
         $transactionCount = count($transactions);
         $newTransactionToday = Transaction::whereDate('created_at',today())->count();
         //share capital
-        $shareCapital = Account::where('type','EQUITY')->sum('balance');
+        $shareCapital = Account::whereNotNull('member_id')->where('type','Equity')->sum('balance');
         $newShareCapitalToday = Transaction::where('type','SHARE_CAPITAL_CONTRIBUTION')->whereDate('created_at','<=',today())->count();
         //return to interface overview
         return Inertia::render('admin/overview',[
