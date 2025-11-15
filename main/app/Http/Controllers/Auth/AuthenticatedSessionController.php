@@ -54,7 +54,18 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route($route,absolute: false));
     }
 
-    
+    public function validateRole(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $route = match (true) {
+            $user->is_admin => 'admin.overview',
+            $user->is_loan_officer => 'loan-officer.overview',
+            $user->is_teller => 'teller.overview',
+            default => 'member.overview',
+        };
+        return redirect()->intended(route($route,absolute: false));
+    }
     /**
      * Destroy an authenticated session.
      */

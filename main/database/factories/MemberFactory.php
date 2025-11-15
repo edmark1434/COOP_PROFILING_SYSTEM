@@ -32,14 +32,10 @@ class MemberFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Member $member) {
-            // Create 1–3 accounts for each member
-            Account::factory()->create([
-                'member_id' => $member->id,
-                'type'      => 'EQUITY',  // force EQUITY
-            ]);
-            Account::factory()->count(rand(1, 2))->create([
-                'member_id' => $member->id
-            ]);
+        Account::factory()
+            ->for($member)   // sets member_id
+            ->state(['type' => 'Equity'])
+            ->create();      // creates only ONE account
         });
     }
 }

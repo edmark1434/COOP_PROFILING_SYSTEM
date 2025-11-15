@@ -15,9 +15,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Account {
     id: number;
     type: string;
-    title: string;
-    amount: number;
-    member_name: string;
+    balance: number;
+    name: string;
 }
 
 interface AdminAccountsProps {

@@ -24,7 +24,7 @@ class Account extends Model
         'balance' => 0.00,
     ];
     public const STATUS = ['ACTIVE','INACTIVE','CLOSED'];
-    public const TYPES = ['ASSET', 'LIABILITY', 'EQUITY', 'INCOME', 'EXPENSE'];
+    public const TYPES = ['Asset', 'Liability', 'Equity', 'Income', 'Expense'];
 
     public $timestamps = false;
 
