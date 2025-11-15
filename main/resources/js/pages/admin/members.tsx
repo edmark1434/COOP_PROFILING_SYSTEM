@@ -152,18 +152,9 @@ export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstName
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
                         {memberList.map((member, i) => (
-                            member.accounts && member.accounts.length > 0 ? (
-                            member.accounts.map((account: any, j: number) => (
-                                <MemberRow
-                                key={`${i}-${j}`}
-                                data={{ ...member, account }}
-                                category={category}
-                                />
-                            ))
-                            ) : (
                             <MemberRow key={i} data={member} category={category} />
-                            )
-                        ))}
+                        )
+                        )}
                         </div>
                 </div>
             </div>
