@@ -33,7 +33,11 @@ class MemberFactory extends Factory
     {
         return $this->afterCreating(function (Member $member) {
             // Create 1–3 accounts for each member
-            Account::factory()->count(rand(1, 3))->create([
+            Account::factory()->create([
+                'member_id' => $member->id,
+                'type'      => 'EQUITY',  // force EQUITY
+            ]);
+            Account::factory()->count(rand(1, 2))->create([
                 'member_id' => $member->id
             ]);
         });

@@ -21,7 +21,7 @@ class RoleMiddleware
             $user->is_admin => 'admin',
             $user->is_member =>'member',
             $user->is_teller => 'teller',
-            $user->is_loan_officer => 'loan_officer',
+            $user->is_loan_officer => 'loan-officer',
             default => null,
         };
 
