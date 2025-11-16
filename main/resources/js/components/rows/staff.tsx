@@ -31,37 +31,6 @@ export function StaffRow({
         return 'Staff';
     };
 
-    const formatJoinDate = (dateString: string) => {
-        // Check if dateString is null, undefined, empty, or just whitespace
-        if (!dateString || dateString.trim() === '') {
-            return 'Not available';
-        }
-        
-        try {
-            const date = new Date(dateString);
-            // Check if the date is valid
-            if (isNaN(date.getTime())) {
-                return 'Not available';
-            }
-            
-            // Format the date properly
-            const datePart = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-            const timePart = date.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: true 
-            }).toUpperCase();
-            
-            return `${datePart} ${timePart}`;
-        } catch (error) {
-            return 'Not available';
-        }
-    };
-
     return (
         <div
             data-slot="staff-row"
@@ -87,16 +56,12 @@ export function StaffRow({
                     <p className="text-xs text-muted-foreground">
                         {data?.email}
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                        Joined: {formatJoinDate(data?.email_verified_at)}
-                    </p>
                 </div>
             </div>
 
             {/* Role/Type */}
-            <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
-                <p>Role: {getRoleName(data) ?? '—'}</p>
-                <p>Status: {data?.email_verified_at ? 'Verified' : 'Pending'}</p>
+            <div className="text-right text-sm min-w-[100px] md:mt-0 mt-2">
+                <p className="font-normal">{getRoleName(data) ?? '—'}</p>
             </div>
         </div>
     );
