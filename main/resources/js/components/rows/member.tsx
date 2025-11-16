@@ -60,8 +60,7 @@ export function MemberRow({
 
       {/* Amount */}
       <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
-        <p>Type: {data.account?.type ?? '—'}</p>
-        <p>₱ {Number(data.account?.balance ?? 0).toLocaleString('en-US')}</p>
+        <p>₱ {(data.accounts ?? []).reduce((sum : number, acc: any) => sum + Number(acc.balance ?? 0),0).toLocaleString('en-US')}</p>
       </div>
     </div>
   );

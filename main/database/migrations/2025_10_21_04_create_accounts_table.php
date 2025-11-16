@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Account;
 return new class extends Migration
 {
     /**
@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string("name",100);
-            $table->enum("type",["ASSET","LIABILITY","EQUITY","INCOME","EXPENSE"],20);
+            $table->enum("type",Account::TYPES,20);
             $table->enum("status",["ACTIVE","INACTIVE","CLOSED"],20)->default("ACTIVE");
             $table->decimal("balance",15,2)->default(0.00);
             $table->unsignedBigInteger('member_id')->nullable();

@@ -47,21 +47,22 @@ class AuthenticatedSessionController extends Controller
 
         $route = match (true) {
             $user->is_admin => 'admin.overview',
-            $user->is_loan_officer => 'dashboard',
-            $user->is_teller => 'dashboard',
-            default => 'dashboard',
+            $user->is_loan_officer => 'loan-officer.overview',
+            $user->is_teller => 'teller.overview',
+            default => 'member.overview',
         };
         return redirect()->intended(route($route,absolute: false));
     }
 
-    public function validateRole(){
+    public function validateRole(Request $request): RedirectResponse
+    {
         $user = Auth::user();
 
         $route = match (true) {
             $user->is_admin => 'admin.overview',
-            $user->is_loan_officer => 'dashboard',
-            $user->is_teller => 'dashboard',
-            default => 'dashboard',
+            $user->is_loan_officer => 'loan-officer.overview',
+            $user->is_teller => 'teller.overview',
+            default => 'member.overview',
         };
         return redirect()->intended(route($route,absolute: false));
     }

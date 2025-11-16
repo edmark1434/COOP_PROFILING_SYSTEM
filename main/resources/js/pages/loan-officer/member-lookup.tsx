@@ -18,7 +18,7 @@ export default function LoanOfficerMemberLookup() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Member Lookup" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto w-full items-center">
+            <div className="bg-[radial-gradient(ellipse_at_bottom,rgba(255,0,0,0.55),rgba(255,0,0,0.10),rgba(255,255,255,1))] flex h-full flex-1 flex-col gap-4 overflow-x-auto w-full items-center">
 
                 <div className="flex flex-col h-full w-full gap-4 justify-center items-center">
                     <div className="flex ">

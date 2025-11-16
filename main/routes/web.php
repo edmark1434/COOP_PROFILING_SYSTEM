@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
+use App\Http\Controllers\UserInterface\Admin\AdminTransactionsController;
+use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
@@ -13,22 +15,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-    return Inertia::render('dashboard', []);
-})->name('dashboard');
-
+    Route::get('/dashboard',[AuthenticatedSessionController::class,'validateRole'])->name('dashboard');
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard',[AdminOverviewController::class,'index'])->name('dashboard');
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
+        Route::get('/accounts', [AdminAccountsController::class, 'index'])->name('accounts');
+        Route::get('/transactions', [AdminTransactionsController::class, 'index'])->name('transactions');
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
-        Route::get('/accounts', function () {
-            return Inertia::render('admin/accounts', []);
-        })->name('accounts');
-        Route::get('/loans', [AdminLoanController::class, 'index'
-        ])->name('loans');
-        Route::get('/transactions', function () {
-            return Inertia::render('admin/transactions', []);
-        })->name('transactions');
+        Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans');
         Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
         Route::get('/staff/id', function () {
             return Inertia::render('admin/staff-profile', []);
@@ -89,4 +83,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-require __DIR__.'/api.php';

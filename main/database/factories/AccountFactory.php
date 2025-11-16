@@ -18,14 +18,14 @@ class AccountFactory extends Factory
     protected $model = Account::class;
     public function definition(): array
     {
-
-
-        return [
+        $data = [
             'name' => $this->faker->company . ' Account',
-            'type' => $this->faker->randomElement(Account::TYPES),
+            'type' => 'Equity',
             'status' => $this->faker->randomElement(Account::STATUS),
             'balance' => $this->faker->randomFloat(2, 0, 50000),
-            'member_id' => Member::factory(), // creates a related Member if not provided
+            'member_id' => Member::factory(), // overwritten below
         ];
+        
+        return $data;
     }
 }

@@ -10,19 +10,33 @@ class AdminMembersController extends Controller
 {
     public function index()
     {
-        $lastNameDesc = Member::with('accounts')->orderBy('last_name','desc')->get();
-        $lastNameAsc = Member::with('accounts')->orderBy('last_name','asc')->get();
-        $firstNameAsc = Member::with('accounts')->orderBy('first_name','asc')->get();
-        $firstNameDesc = Member::with('accounts')->orderBy('first_name','desc')->get();
+        $lastNameDesc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('last_name','desc')->get();
+        $lastNameAsc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('last_name','asc')->get();
+        $firstNameAsc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('first_name','asc')->get();
+        $firstNameDesc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('first_name','desc')->get();
         $typeDesc = Member::with(['accounts' => function ($q) {
-            $q->orderBy('type', 'desc'); // sort accounts per member
+            $q->where('type','Equity')->orderBy('type', 'desc'); // sort accounts per member
         }])->get();
         $typeAsc = Member::with(['accounts' => function ($q) {
-            $q->orderBy('type', 'asc'); // sort accounts per member
+            $q->where('type','Equity')->orderBy('type', 'asc'); // sort accounts per member
         }])->get();
-        $dateDesc = Member::with('accounts')->orderBy('join_date','desc')->get();
-        $dateAsc = Member::with('accounts')->orderBy('join_date','asc')->get();
-        $members = Member::with('accounts')->get();
+        $dateDesc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('join_date','desc')->get();
+        $dateAsc = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->orderBy('join_date','asc')->get();
+        $members = Member::with(['accounts' => function ($q){
+            $q->where('type','Equity');
+        }])->get();
         return Inertia::render('admin/members',[
             'members' => $members,
             'lastNameDesc' => $lastNameDesc,

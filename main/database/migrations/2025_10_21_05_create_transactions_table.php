@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Transaction;
 return new class extends Migration
 {
     /**
@@ -15,13 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('ref_no', 10)->unique();
             $table->decimal('amount', 15, 2);
-            $table->enum('type', [
-                'SHARE_CAPITAL_CONTRIBUTION',
-                'LOAN_DISBURSEMENT',
-                'LOAN_PAYMENT',
-                'DIVIDEND_REINVESTMENT',
-                'DIVIDEND_CREDIT'
-            ]);
+            $table->enum('type',Transaction::TYPES,50); 
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('member_id');
             $table->unsignedBigInteger('user_id');

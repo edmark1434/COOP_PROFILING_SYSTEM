@@ -20,11 +20,11 @@ class Transaction extends Model
         'user_id',
     ];
     public const TYPES = [
-        'SHARE_CAPITAL_CONTRIBUTION',
-        'LOAN_DISBURSEMENT',
-        'LOAN_PAYMENT',
-        'DIVIDEND_REINVESTMENT',
-        'DIVIDEND_CREDIT',
+        'SHARE CAPITAL CONTRIBUTION',
+        'LOAN DISBURSEMENT',
+        'LOAN PAYMENT',
+        'DIVIDEND REINVESTMENT',
+        'DIVIDEND CREDIT',
     ];
     public function member()
     {
