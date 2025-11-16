@@ -24,7 +24,7 @@ function TabsList({
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(
-          "flex text-muted-foreground gap-4 h-9 w-full px-4 border-b border-(--color-border)",
+          "flex text-muted-foreground gap-4 h-9 w-full px-3 border-b border-(--color-border)",
         className
       )}
       {...props}
