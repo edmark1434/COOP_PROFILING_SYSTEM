@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Account;
+use App\Models\LoanPurpose;
 use Faker\Factory as Faker;
 
 class CustomDataSeeder extends Seeder
@@ -23,7 +24,18 @@ class CustomDataSeeder extends Seeder
             ['name' => 'Retained Earnings', 'type' => 'Equity'],
             ['name' => 'Coop Cash', 'type' => 'Asset'],
         ];
-
+        $loanPurpose = [
+            ['name' => 'Business Capital'],
+            ['name' => 'Education'],
+            ['name' => 'Medical Expense'],
+            ['name' => 'Home Improvement'],
+            ['name' => 'Emergency Fund'],
+            ['name' => 'Vehicle Purchase'],
+            ['name' => 'Travel Loan'],
+        ];
+        foreach($loanPurpose as $lp){
+            LoanPurpose::create($lp);
+        }
         foreach ($accounts as $acc) {
             Account::create([
                 ...$acc,
