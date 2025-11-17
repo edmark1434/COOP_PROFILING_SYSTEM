@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+// Admin
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
 use App\Http\Controllers\UserInterface\Admin\AdminTransactionsController;
 use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
@@ -9,6 +10,9 @@ use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+// Member
+use App\Http\Controllers\UserInterface\Member\MemberLoansController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -72,13 +76,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/my-transactions', function () {
             return Inertia::render('member/my-transactions',[]);
         })->name('myTransactions');
-        Route::get('/my-loans', function () {
-            return Inertia::render('member/my-loans',[]);
-        })->name('myLoans');
+        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
         Route::get('/notifications', function () {
             return Inertia::render('member/notifications',[]);
         })->name('notifications');
     });
+
+    // Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
+    //     Route::get('/overview', function () {
+    //         return Inertia::render('member/overview',[]);
+    //     })->name('overview');
+    //     Route::get('/my-transactions', function () {
+    //         return Inertia::render('member/my-transactions',[]);
+    //     })->name('myTransactions');
+    //     Route::get('/my-loans', function () {
+    //         return Inertia::render('member/my-loans',[]);
+    //     })->name('myLoans');
+    //     Route::get('/notifications', function () {
+    //         return Inertia::render('member/notifications',[]);
+    //     })->name('notifications');
+    // });
 });
 
 require __DIR__.'/settings.php';
