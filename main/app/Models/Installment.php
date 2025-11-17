@@ -27,7 +27,7 @@ class Installment extends Model
     // 🔗 Relationships
     public function loan()
     {
-        return $this->belongsTo(Loan::class);
+        return $this->belongsTo(Loan::class,'loan_id');
     }
 
     public function transaction()

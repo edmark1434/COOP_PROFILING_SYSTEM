@@ -34,21 +34,21 @@ class Member extends Model
     // Relationships
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class,'user_id');
     }
 
     public function accounts()
     {
-        return $this->hasMany(Account::class);
+        return $this->hasMany(Account::class,'member_id');
     }
 
     public function loans()
     {
-        return $this->hasMany(Loan::class);
+        return $this->hasMany(Loan::class,'member_id');
     }
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class,'member_id');
     }
 }
