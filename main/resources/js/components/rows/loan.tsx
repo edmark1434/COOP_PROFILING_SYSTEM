@@ -66,23 +66,13 @@ export function LoanRow({
         )}
 
         {/* Status & type */}
-        <div className="flex-1 min-w-[200px]">
-          <p className="font-semibold text-sm">
-            {data?.member?.first_name} {data?.member?.last_name}
-          </p>
+        <div className="flex-1 min-w-[200px] ml-30  text-center">
           {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
-          {data?.type && (
-            <p className="text-xs text-muted-foreground">{data?.type}</p>
-          )}
+          
         </div>
       </div>
 
-      {/* Remarks */}
-      {data?.remarks && (
-        <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
-          Remarks: {data?.remarks}
-        </div>
-      )}
+     
 
       {/* Amount */}
       <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
