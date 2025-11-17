@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/react';
 import admin from "@/routes/admin";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
-import {ArrowUpDown, Search, Settings2} from "lucide-react";
+import {ArrowUpDown, Plus, Search, Settings2} from "lucide-react";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Separator} from "@radix-ui/react-select";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
@@ -38,7 +38,7 @@ export default function AdminStaff({
     dateAsc,
     dateDesc
 }: AdminStaffProps) {
-    const [staffList, setStaffList] = React.useState(staff); 
+    const [staffList, setStaffList] = React.useState(staff);
     const [category, setCategory] = React.useState('name');
     const [order, setOrder] = React.useState('comfortable');
     const [search, setSearch] = React.useState('');
@@ -93,53 +93,59 @@ export default function AdminStaff({
             <Head title="Staff" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-row h-fit w-full justify-between">
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button variant="outline">
-                                <Settings2 className="w-16"/>
-                                Display
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-fit p-0">
-                            <div className="grid">
-                                <div className="flex items-center w-full gap-4 p-3 justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <ArrowUpDown size="16"/>
-                                        <span className="text-sm font-medium">Order by</span>
+                    <div className="flex gap-2">
+                        <Button variant="default" className="bg-primary hover:bg-primary/90" onClick={() => window.location.href = admin.staff().url + "?action=add"}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add Staff
+                        </Button>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline">
+                                    <Settings2 className="w-16"/>
+                                    Display
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-fit p-0">
+                                <div className="grid">
+                                    <div className="flex items-center w-full gap-4 p-3 justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <ArrowUpDown size="16"/>
+                                            <span className="text-sm font-medium">Order by</span>
+                                        </div>
+                                        <Select value={category} onValueChange={(val) => {setCategory(val)}}>
+                                            <SelectTrigger className="w-34">
+                                                <SelectValue placeholder="Select order" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectItem value="name">Name</SelectItem>
+                                                    <SelectItem value="date">Date</SelectItem>
+                                                    <SelectItem value="type">Type</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </div>
-                                    <Select value={category} onValueChange={(val) => {setCategory(val)}}>
-                                        <SelectTrigger className="w-34">
-                                            <SelectValue placeholder="Select order" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectItem value="name">Name</SelectItem>
-                                                <SelectItem value="date">Date</SelectItem>
-                                                <SelectItem value="type">Type</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Separator className="bg-gray-300 h-px" />
+                                    <div className="flex items-center w-full gap-4 p-3">
+                                        <RadioGroup value={order} onValueChange={(val) => setOrder(val)} className="flex gap-6">
+                                            <div className="flex items-center gap-2">
+                                                <RadioGroupItem value="default" id="r1" />
+                                                <span className="text-sm font-medium">Ascending</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <RadioGroupItem value="comfortable" id="r2" />
+                                                <span className="text-sm font-medium">Descending</span>
+                                            </div>
+                                        </RadioGroup>
+                                    </div>
                                 </div>
-                                <Separator className="bg-gray-300 h-px" />
-                                <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup value={order} onValueChange={(val) => setOrder(val)} className="flex gap-6">
-                                        <div className="flex items-center gap-2">
-                                            <RadioGroupItem value="default" id="r1" />
-                                            <span className="text-sm font-medium">Ascending</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <RadioGroupItem value="comfortable" id="r2" />
-                                            <span className="text-sm font-medium">Descending</span>
-                                        </div>
-                                    </RadioGroup>
-                                </div>
-                            </div>
-                        </PopoverContent>
-                    </Popover>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                     <InputGroup className="w-sm">
-                        <InputGroupInput 
-                            placeholder="Search..." 
-                            value={search} 
+                        <InputGroupInput
+                            placeholder="Search..."
+                            value={search}
                             onChange={(e) => searchFilter(e.target.value)}
                         />
                         <InputGroupAddon>

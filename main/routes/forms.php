@@ -27,6 +27,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/transactions/add', function () {
             return Inertia::render('teller/forms/add-transaction',[]);
         })->name('transactionForm');
+        Route::get('/transactions/add/confirm', function () {
+            return Inertia::render('teller/forms/confirm-transaction',[]);
+        })->name('confirmTransaction');
+        Route::get('/confirm-member', function () {
+            return Inertia::render('teller/forms/confirm-member',[]);
+        })->name('confirmMember');
+        Route::get('/confirm-staff', function () {
+            return Inertia::render('teller/forms/confirm-staff',[]);
+        })->name('confirmStaff');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {

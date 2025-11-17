@@ -147,7 +147,7 @@ export default function TransactionForm() {
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
                                         <FieldLabel htmlFor="form-rhf-loan-purpose">
-                                            Member
+                                            Member Name
                                         </FieldLabel>
                                     </FieldContent>
                                     <MemberCombobox
