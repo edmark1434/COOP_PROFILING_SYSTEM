@@ -66,7 +66,7 @@ export function LoanRow({
         )}
 
         {/* Status & type */}
-        <div className="flex-1 min-w-[200px]  text-right">
+        <div className="flex-1 min-w-[200px] ml-30  text-center">
           {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
           
         </div>
