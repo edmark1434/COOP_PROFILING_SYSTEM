@@ -24,20 +24,19 @@ export default function Welcome() {
                             <path d="M120 120H60V60C93.137 60 120 86.8626 120 120Z" fill="#DC2626"/>
                         </svg>
                         <div className="flex flex-col leading-none gap-1">
-                            <p className="text-primary font-semibold">Cooperative</p>
-                            <p className="text-primary font-semibold">Profiling System</p>
+                            <p className="text-foreground font-semibold">Cooperative</p>
+                            <p className="text-foreground font-semibold">Profiling System</p>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-5 text-center">
                         <div className="flex flex-col gap-1">
                             <div className="flex flex-col leading-none">
-                                <p className="text-primary font-semibold text-xl">Real-time cooperative profiling and management</p>
-                                <p className="text-primary font-semibold text-xl"></p>
+                                <p className="text-foreground font-semibold text-xl">Real-time cooperative profiling and management</p>
                             </div>
                             <div className="flex flex-col leading-none">
-                                <p className="text-primary font-light text-sm">CoopProfiling streamlines tracking, evaluating, and managing cooperative</p>
-                                <p className="text-primary font-light text-sm"> members’ profiles and progress in a secure platform.</p>
+                                <p className="text-foreground font-light text-sm">CoopProfiling streamlines tracking, evaluating, and managing cooperative</p>
+                                <p className="text-foreground font-light text-sm"> members’ profiles and progress in a secure platform.</p>
                             </div>
                         </div>
                     </div>

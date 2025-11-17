@@ -5,7 +5,7 @@ function OverviewCard({ className, ...props }: React.ComponentProps<"div">) {
         <div
             data-slot="overview-card"
             className={cn(
-                "bg-card text-card-foreground flex flex-col justify-between rounded-xl border",
+                "bg-card flex flex-col justify-between rounded-xl border",
                 className
             )}
             {...props}
@@ -27,7 +27,7 @@ function OverviewCardTitle({ className, ...props }: React.ComponentProps<"div">)
     return (
         <h3
             data-slot="overview-card-title"
-            className={cn("text-sm font-medium text-primary", className)}
+            className={cn("text-sm font-medium text-foreground", className)}
             {...props}
         />
     );
@@ -47,7 +47,7 @@ function OverviewCardValue({ className, ...props }: React.ComponentProps<"div">)
     return (
         <div
             data-slot="overview-card-value"
-            className={cn("text-2xl font-semibold text-destructive-foreground", className)}
+            className={cn("text-2xl font-semibold text-primary", className)}
             {...props}
         />
     );
