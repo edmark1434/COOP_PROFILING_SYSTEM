@@ -8,8 +8,8 @@ export default function AppLogo() {
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm ">
                 <div className="flex flex-col leading-none gap-1 overflow-ellipsis">
-                    <p className="text-primary font-semibold">Cooperative</p>
-                    <p className="text-primary font-semibold">Profiling System</p>
+                    <p className="text-foreground font-semibold">Cooperative</p>
+                    <p className="text-foreground font-semibold">Profiling System</p>
                 </div>
             </div>
         </>

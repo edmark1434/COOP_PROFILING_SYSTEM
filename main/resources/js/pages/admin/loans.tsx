@@ -110,12 +110,12 @@ export default function AdminLoans({ loansByStatus, totalResults }: AdminLoansPr
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     <Tabs defaultValue="loans-ongoing" className="w-full">
-                        <TabsList className="w-full justify-start rounded-b-none border-b bg-transparent p-0">
+                        <TabsList>
                             {tabs.map((tab) => (
                                 <TabsTrigger
                                     key={tab.value}
                                     value={tab.value}
-                                    className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
+                                    className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
                                 >
                                     {tab.label}
                                 </TabsTrigger>
@@ -128,7 +128,7 @@ export default function AdminLoans({ loansByStatus, totalResults }: AdminLoansPr
                                         <LoanRow key={loan.id} data={loan} />
                                     ))}
                                     {tab.data.length === 0 && (
-                                        <div className="text-center py-8 text-muted-foreground">
+                                        <div className="text-sm text-center py-8 text-muted-foreground">
                                             No loans found
                                         </div>
                                     )}
