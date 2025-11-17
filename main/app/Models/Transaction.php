@@ -28,7 +28,7 @@ class Transaction extends Model
     ];
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function installments()
@@ -42,7 +42,7 @@ class Transaction extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     public $timestamps = false;
 }

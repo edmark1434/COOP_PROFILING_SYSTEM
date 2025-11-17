@@ -29,17 +29,17 @@ class Loan extends Model
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function purpose()
     {
-        return $this->belongsTo(LoanPurpose::class);
+        return $this->belongsTo(LoanPurpose::class,'purpose_id');
     }
 
     public function installments()
     {
-        return $this->hasMany(Installment::class);
+        return $this->hasMany(Installment::class,'loan_id');
     }
     // public $timestamps = false;
 }
