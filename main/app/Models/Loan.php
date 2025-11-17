@@ -41,5 +41,5 @@ class Loan extends Model
     {
         return $this->hasMany(Installment::class,'loan_id');
     }
-    public $timestamps = false;
+    // public $timestamps = false;
 }
