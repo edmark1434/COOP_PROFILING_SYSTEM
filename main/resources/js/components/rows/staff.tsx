@@ -13,15 +13,16 @@ export function StaffRow({
     ...props
 }: StaffRowProps) {
     const getInitials = (name: string) => {
-        const names = name.split(" ").filter(n => n.length > 0); // Filter out empty strings
+        const names = name.split(" ").filter(n => n.length > 0); 
         const initials = names.map((n) => n.charAt(0).toUpperCase());
         
         // Take only first 2 letters maximum
         if (initials.length > 2) {
-            return initials[0] + initials[initials.length - 1]; // First and last initial
+            return initials[0] + initials[initials.length - 1]; 
         }
         
-        return initials.slice(0, 2).join(""); // Take up to 2 initials
+        // Take up to 2 initials
+        return initials.slice(0, 2).join(""); 
     };
 
     const getRoleName = (user: any) => {
