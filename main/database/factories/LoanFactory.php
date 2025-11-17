@@ -27,8 +27,10 @@ class LoanFactory extends Factory
             'term_months' => $this->faker->numberBetween(6, 36),
             'status' => $this->faker->randomElement(Loan::STATUS),
             'remarks' => $this->faker->sentence(),
-            'purpose_id' => LoanPurpose::factory(), // assumes LoanPurposeFactory exists
-            'member_id' => Member::factory(),       // assumes MemberFactory exists
+            'purpose_id' => $this->faker->numberBetween(1,7), // assumes LoanPurposeFactory exists
+            'member_id' => Member::factory(),
+            'created_at' => $this->faker->dateTimeThisYear(),
+            'updated_at' => $this->faker->dateTimeThisYear()     // assumes MemberFactory exists
         ];
     }
 }

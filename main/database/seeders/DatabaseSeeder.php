@@ -36,7 +36,6 @@ class DatabaseSeeder extends Seeder
         Installment::factory(5)->create();
         BiometricData::factory(5)->create();
         Loan::factory(5)->create();
-        LoanPurpose::factory(5)->create();
         Member::factory(5)->create();
         Notification::factory(5)->create();
         Setting::factory(5)->create();
