@@ -27,7 +27,7 @@ function OverviewCardTitle({ className, ...props }: React.ComponentProps<"div">)
     return (
         <h3
             data-slot="overview-card-title"
-            className={cn("text-sm font-medium text-(--color-primary)", className)}
+            className={cn("text-sm font-medium text-primary", className)}
             {...props}
         />
     );
@@ -47,7 +47,7 @@ function OverviewCardValue({ className, ...props }: React.ComponentProps<"div">)
     return (
         <div
             data-slot="overview-card-value"
-            className={cn("text-2xl font-semibold text-(--color-destructive-foreground)", className)}
+            className={cn("text-2xl font-semibold text-destructive-foreground", className)}
             {...props}
         />
     );
@@ -57,7 +57,7 @@ function OverviewCardFooter({ className, ...props }: React.ComponentProps<"div">
     return (
         <div
             data-slot="overview-card-footer"
-            className={cn("text-xs text-(--color-muted-foreground) mt-1", className)}
+            className={cn("text-xs text-muted-foreground mt-1", className)}
             {...props}
         />
     );
