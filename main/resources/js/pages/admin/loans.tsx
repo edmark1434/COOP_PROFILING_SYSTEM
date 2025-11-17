@@ -43,7 +43,12 @@ function LoanRow({ data, className, ...props }: any) {
                     {data?.purpose?.name}
                 </p>
             </div>
-
+            {/* Remarks */}
+            {data?.remarks && data?.status == "REJECTED" && (
+                <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
+                Remarks: {data?.remarks}
+                </div>
+            )}
             {/* Amount ONLY */}
             <div className="text-right font-semibold text-sm min-w-[100px] flex-shrink-0">
                 ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
