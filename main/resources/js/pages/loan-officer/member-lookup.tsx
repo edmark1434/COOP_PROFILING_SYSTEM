@@ -24,7 +24,7 @@ export default function LoanOfficerMemberLookup() {
                     <div className="flex ">
                         <p className="text-sm text-secondary-foreground">Look up a member’s information by ID</p>
                     </div>
-                    <InputGroup className="w-sm">
+                    <InputGroup className="w-sm bg-background">
                         <InputGroupInput placeholder="Search..." />
                         <InputGroupAddon>
                             <Search />
