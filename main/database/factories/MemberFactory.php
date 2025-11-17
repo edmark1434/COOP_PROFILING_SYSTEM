@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Member;
 use App\Models\Account;
+use App\Models\Loan;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
@@ -32,10 +33,15 @@ class MemberFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Member $member) {
-        Account::factory()
-            ->for($member)   // sets member_id
-            ->state(['type' => 'Equity'])
-            ->create();      // creates only ONE account
+            Account::factory()
+                ->for($member)   // sets member_id
+                ->state(['type' => 'Equity'])
+                ->create();      // creates only ONE account
+            Loan::factory()
+                ->count(rand(1,3))
+                ->for($member)  // sets member_id
+                ->create();
         });
+            // creates only ONE account
     }
 }
