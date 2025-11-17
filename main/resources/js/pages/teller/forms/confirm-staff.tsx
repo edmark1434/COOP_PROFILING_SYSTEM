@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import {FingerprintIcon, X} from "lucide-react"
 
-export default function ConfirmTransaction() {
+export default function ConfirmStaff() {
 
     function onScan() {
         toast.error("Fingerprint did not match", {

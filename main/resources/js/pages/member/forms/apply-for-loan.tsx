@@ -120,7 +120,7 @@ export default function LoanApplicationForm() {
                 </Button>
             </CardHeader>
             <CardContent className="px-10">
-                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="form-rhf-loan-application" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
                             name="amount"
@@ -128,7 +128,7 @@ export default function LoanApplicationForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-amount">
+                                        <FieldLabel>
                                             Loan Amount
                                         </FieldLabel>
                                         <FieldDescription>
@@ -141,7 +141,6 @@ export default function LoanApplicationForm() {
                                         </InputGroupAddon>
                                         <InputGroupInput
                                             {...field}
-                                            id="form-rhf-loan-amount"
                                             aria-invalid={fieldState.invalid}
                                             placeholder="0.00"
                                             autoComplete="off"
@@ -159,7 +158,7 @@ export default function LoanApplicationForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-purpose">
+                                        <FieldLabel>
                                             Loan Purpose
                                         </FieldLabel>
                                         <FieldDescription>
@@ -172,7 +171,6 @@ export default function LoanApplicationForm() {
                                         onValueChange={field.onChange}
                                     >
                                         <SelectTrigger
-                                            id="form-rhf-loan-purpose"
                                             aria-invalid={fieldState.invalid}
                                             className="min-w-[120px]"
                                         >
@@ -212,7 +210,6 @@ export default function LoanApplicationForm() {
                                         {plans.map((plan) => (
                                             <FieldLabel
                                                 key={plan.id}
-                                                htmlFor={`form-rhf-radiogroup-${plan.id}`}
                                             >
                                                 <Field
                                                     orientation="horizontal"
@@ -228,7 +225,6 @@ export default function LoanApplicationForm() {
                                                     </FieldContent>
                                                     <RadioGroupItem
                                                         value={plan.id}
-                                                        id={`form-rhf-radiogroup-${plan.id}`}
                                                         aria-invalid={fieldState.invalid}
                                                     />
                                                 </Field>
@@ -249,7 +245,7 @@ export default function LoanApplicationForm() {
                     <Button type="button" variant="outline" onClick={() => form.reset()}>
                         Reset
                     </Button>
-                    <Button type="submit" form="form-rhf-demo">
+                    <Button type="submit" form="form-rhf-loan-application">
                         Submit
                     </Button>
                 </Field>

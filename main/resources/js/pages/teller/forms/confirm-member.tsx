@@ -14,7 +14,7 @@ import {
 
 import {FingerprintIcon, X} from "lucide-react"
 
-export default function ConfirmTransaction() {
+export default function ConfirmMember() {
 
     function onScan() {
         toast.error("Fingerprint did not match", {

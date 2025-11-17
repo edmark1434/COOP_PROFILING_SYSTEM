@@ -102,7 +102,7 @@ export default function TransactionForm() {
                 </Button>
             </CardHeader>
             <CardContent className="px-10">
-                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="form-rhf-transaction" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
                             name="type"
@@ -110,7 +110,7 @@ export default function TransactionForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-purpose">
+                                        <FieldLabel>
                                             Transaction Type
                                         </FieldLabel>
                                     </FieldContent>
@@ -120,7 +120,6 @@ export default function TransactionForm() {
                                         onValueChange={field.onChange}
                                     >
                                         <SelectTrigger
-                                            id="form-rhf-loan-purpose"
                                             aria-invalid={fieldState.invalid}
                                             className="min-w-[120px]"
                                         >
@@ -146,7 +145,7 @@ export default function TransactionForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-purpose">
+                                        <FieldLabel>
                                             Member Name
                                         </FieldLabel>
                                     </FieldContent>
@@ -167,7 +166,7 @@ export default function TransactionForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-amount">
+                                        <FieldLabel>
                                             Transaction Amount
                                         </FieldLabel>
                                     </FieldContent>
@@ -177,7 +176,6 @@ export default function TransactionForm() {
                                         </InputGroupAddon>
                                         <InputGroupInput
                                             {...field}
-                                            id="form-rhf-loan-amount"
                                             aria-invalid={fieldState.invalid}
                                             placeholder="0.00"
                                             autoComplete="off"
@@ -197,7 +195,7 @@ export default function TransactionForm() {
                     <Button type="button" variant="outline" onClick={() => form.reset()}>
                         Reset
                     </Button>
-                    <Button type="submit" form="form-rhf-demo">
+                    <Button type="submit" form="form-rhf-transaction">
                         Submit
                     </Button>
                 </Field>
