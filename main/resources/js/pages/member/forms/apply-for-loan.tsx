@@ -49,7 +49,7 @@ const formSchema = z.object({
         .refine((val) => !isNaN(Number(val)), "Invalid number")
         .refine((val) => Number.isInteger(Number(val)), "Amount must be in whole pesos")
         .refine((val) => Number(val) >= 1, "Invalid loan amount")
-        .refine((val) => Number(val) <= 300000, "Amount exceeds the loan limit: ₱300,000"),
+        .refine((val) => Number(val) <= 300000, "Amount exceeds the loan limit: ₱300,000.00"),
     purpose: z
         .string()
         .min(1, "Choose a loan purpose"),
@@ -222,7 +222,7 @@ export default function LoanApplicationForm() {
                                                         <FieldLabel>{plan.termMonths + " months"}</FieldLabel>
                                                         <FieldDescription>
                                                             {amount && !isNaN(amount)
-                                                                ? `₱ ${((amount * (1 + plan.interestRate / 100)) / plan.termMonths).toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / month`
+                                                                ? `₱ ${Math.ceil((amount * (1 + plan.interestRate / 100)) / plan.termMonths).toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / month`
                                                                 : `at ${plan.interestRate}% interest`}
                                                         </FieldDescription>
                                                     </FieldContent>

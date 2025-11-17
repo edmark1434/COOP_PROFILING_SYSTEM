@@ -24,12 +24,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
-
+        Route::get('/transactions/add', function () {
+            return Inertia::render('teller/forms/add-transaction',[]);
+        })->name('transactionForm');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
         Route::get('/my-loans/apply', function () {
-            return Inertia::render('member/forms/loan-application',[]);
+            return Inertia::render('member/forms/apply-for-loan',[]);
         })->name('loanApplicationForm');
     });
 });
