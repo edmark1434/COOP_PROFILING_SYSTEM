@@ -14,7 +14,7 @@ export default function Welcome() {
                     rel="stylesheet"
                 />
             </Head>
-            <div className="flex min-h-screen flex-col items-center bg-[radial-gradient(ellipse_at_bottom,rgba(255,0,0,0.55),rgba(255,0,0,0.10),rgba(255,255,255,1))] p-6 text-[#1b1b18] justify-center lg:p-8 dark:bg-[#0a0a0a]">
+            <div className="flex min-h-screen flex-col items-center bg-[radial-gradient(ellipse_at_bottom,#dc2626aa_0%,#dc262654_40%,transparent_85%)] p-6 text-[#1b1b18] justify-center lg:p-8 dark:bg-[#0a0a0a]">
                 <div className=" flex flex-col w-full items-center justify-center gap-7 opacity-100 transition-opacity duration-750 starting:opacity-0 ">
                     <div className="flex flex-row gap-4 items-center align-middle">
                         <svg width="52" height="52" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,20 +24,19 @@ export default function Welcome() {
                             <path d="M120 120H60V60C93.137 60 120 86.8626 120 120Z" fill="#DC2626"/>
                         </svg>
                         <div className="flex flex-col leading-none gap-1">
-                            <p className="text-primary font-semibold">Cooperative</p>
-                            <p className="text-primary font-semibold">Profiling System</p>
+                            <p className="text-foreground font-semibold">Cooperative</p>
+                            <p className="text-foreground font-semibold">Profiling System</p>
                         </div>
                     </div>
 
                     <div className="flex flex-col gap-5 text-center">
                         <div className="flex flex-col gap-1">
                             <div className="flex flex-col leading-none">
-                                <p className="text-primary font-semibold text-xl">Real-time cooperative profiling and management</p>
-                                <p className="text-primary font-semibold text-xl"></p>
+                                <p className="text-foreground font-semibold text-xl">Real-time cooperative profiling and management</p>
                             </div>
                             <div className="flex flex-col leading-none">
-                                <p className="text-primary font-light text-sm">CoopProfiling streamlines tracking, evaluating, and managing cooperative</p>
-                                <p className="text-primary font-light text-sm"> members’ profiles and progress in a secure platform.</p>
+                                <p className="text-foreground font-light text-sm">CoopProfiling streamlines tracking, evaluating, and managing cooperative</p>
+                                <p className="text-foreground font-light text-sm"> members’ profiles and progress in a secure platform.</p>
                             </div>
                         </div>
                     </div>
@@ -46,7 +45,7 @@ export default function Welcome() {
                         <nav className="flex items-center justify-end gap-4">
                             <Link
                                 href={login()}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                                className="inline-block rounded-sm bg-foreground px-5 py-1.5 text-sm leading-normal text-primary-foreground"
                             >
                                 Log in
                             </Link>

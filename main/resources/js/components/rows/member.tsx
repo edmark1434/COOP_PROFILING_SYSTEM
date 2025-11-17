@@ -53,7 +53,7 @@ export function MemberRow({
           )
           }
           <p className="text-xs text-muted-foreground">
-            Joined Date: {data?.join_date?.split(" ")[0] + " "+ new Date(data?.join_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}
+            Join Date: {data?.join_date?.split(" ")[0] + " "+ new Date(data?.join_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}
           </p>
         </div>
       </div>
