@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Member;
 use App\Models\Account;
 use App\Models\Loan;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Member>
@@ -36,7 +37,10 @@ class MemberFactory extends Factory
             Account::factory()
                 ->for($member)   // sets member_id
                 ->state(['type' => 'Equity'])
-                ->create();      // creates only ONE account
+                ->create();  
+            User::factory()
+                ->for($member)   // sets member_id
+                ->create();    // creates only ONE account
             Loan::factory()
                 ->count(rand(1,3))
                 ->for($member)  // sets member_id

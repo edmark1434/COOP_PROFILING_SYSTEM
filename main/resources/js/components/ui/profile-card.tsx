@@ -46,7 +46,7 @@ export function ProfileCard({
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
-                        <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
+                        <p className="font-semibold text-sm text-right">{`₱ ${Number(data.shareCapital).toLocaleString("en-US")}`}</p>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">

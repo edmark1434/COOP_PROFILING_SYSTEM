@@ -45,7 +45,7 @@ class UserFactory extends Factory
             'is_loan_officer'  => $this->faker->boolean(15),
             'is_admin'         => $this->faker->boolean(10),
             'status'           => $this->faker->randomElement(['Active','Inactive']),
-            'member_id' => null, // overwritten below
+            'member_id' => Member::factory(), // overwritten below
         ];
 
         // Assign member_id ONLY if is_member
