@@ -22,6 +22,7 @@ class NotificationFactory extends Factory
             'message'   => $this->faker->sentence(),
             'is_read'   => $this->faker->boolean(30), // 30% chance to be true
             'user_id'   => User::factory(), // creates a new user if none exists
+            'created_at' => now()
         ];
     }
 }
