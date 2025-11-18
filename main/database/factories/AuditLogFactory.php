@@ -25,12 +25,12 @@ class AuditLogFactory extends Factory
 
         // Customize description for loan or transaction types
         if (in_array($type, ['Loan Approved', 'Loan Rejected'])) {
-            $randomLoanId = $this->faker->unique()->numberBetween(5000000000, 5099999999);
+            $randomLoanId = $this->faker->unique()->numberBetween(1, 1000);
             $description = "{$loanPurpose} - Loan ID: {$randomLoanId}";
         }
 
         if (in_array($type, ['Transaction Recorded', 'Transaction Updated'])) {
-            $randomTransactionId = $this->faker->unique()->numberBetween(2200000000, 2299999999);
+            $randomTransactionId = $this->faker->unique()->numberBetween(1, 1000);
             $description = "{$transType} - Transaction ID: {$randomTransactionId}";
         }
 
