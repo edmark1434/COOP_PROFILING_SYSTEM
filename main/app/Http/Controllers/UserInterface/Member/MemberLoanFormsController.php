@@ -5,14 +5,17 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-
+use App\Models\LoanPurpose;
 class MemberLoanFormsController extends Controller
 {
     /**
      * Store a new loan application
      */
     public function index(){
-        return Inertia::render('member/forms/apply-for-loan',[]);
+        $loanPurpose = LoanPurpose::all();
+        return Inertia::render('member/forms/apply-for-loan',[
+            'loanPurposes' => $loanPurpose
+        ]);
     }
     public function store(Request $request)
     {

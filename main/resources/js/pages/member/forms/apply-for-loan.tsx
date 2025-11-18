@@ -58,19 +58,16 @@ const formSchema = z.object({
         .min(1, "Choose a plan"),
 })
 
-const loanPurposes = [
-    { name: "Purpose 1", id: "1" },
-    { name: "Purpose 2", id: "2" },
-    { name: "Purpose 3", id: "3" },
-] as const
-
+interface LoanPurpose{
+    loanPurposes : any[]
+}
 const plans = [
     { id: "3-5", termMonths: 3, interestRate: 5 },
     { id: "6-6", termMonths: 6, interestRate: 6 },
     { id: "12-8", termMonths: 12, interestRate: 8 },
 ] as const
 
-export default function LoanApplicationForm() {
+export default function LoanApplicationForm({loanPurposes}:LoanPurpose) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -89,7 +86,7 @@ export default function LoanApplicationForm() {
 
         const submitData = {
             amount: Number(data.amount),
-            purpose: Number(data.purpose),
+            purpose: data.purpose,
             termMonths: termMonths,
             interestRate: interestRate,
         }
@@ -178,7 +175,7 @@ export default function LoanApplicationForm() {
                                         </SelectTrigger>
                                         <SelectContent position="item-aligned">
                                             {loanPurposes.map((purpose) => (
-                                                <SelectItem key={purpose.id} value={purpose.id}>
+                                                <SelectItem key={purpose.id} value={purpose.name}>
                                                     {purpose.name}
                                                 </SelectItem>
                                             ))}
