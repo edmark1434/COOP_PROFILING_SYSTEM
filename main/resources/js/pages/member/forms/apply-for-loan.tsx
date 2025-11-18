@@ -3,7 +3,7 @@
 import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { toast, Toaster } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -93,14 +93,15 @@ export default function LoanApplicationForm() {
                 toast.success("Loan application submitted!")
                 form.reset()
             },
-            onError: () => {
-                toast.error("Error submitting loan application")
+            onError: (errors) => {
+                toast.error('Validation errors occurred. Please check your input.')
             },
         })
     }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
                 <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                     <CardTitle>Apply for Loan</CardTitle>
@@ -229,7 +230,7 @@ export default function LoanApplicationForm() {
                         </FieldGroup>
                     </form>
                 </CardContent>
-                <CardFooter className="px-10 pb-4">
+                <CardFooter className="px-10 pt-2 pb-4">
                     <Field orientation="horizontal">
                         <Button type="button" variant="outline" onClick={() => form.reset()}>
                             Reset

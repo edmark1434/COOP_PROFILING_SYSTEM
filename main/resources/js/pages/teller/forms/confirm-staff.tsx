@@ -30,7 +30,7 @@ export default function ConfirmStaff() {
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-            <Toaster position="bottom-right" />
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Confirm Staff</CardTitle>
@@ -52,7 +52,7 @@ export default function ConfirmStaff() {
                     </div>
                 </div>
             </CardContent>
-            <CardFooter className="px-10 pb-4">
+            <CardFooter className="px-10 pt-2 pb-4">
                 <Button className="w-full" onClick={onScan}>
                     <FingerprintIcon className="mr-2 h-4 w-4" />
                     Scan fingerprint

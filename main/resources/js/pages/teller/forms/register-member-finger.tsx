@@ -14,7 +14,7 @@ import {
 
 import {FingerprintIcon, X} from "lucide-react"
 
-export default function ConfirmMember() {
+export default function RegisterMemberFinger() {
 
     function onScan() {
         toast.error("Fingerprint did not match", {
@@ -34,7 +34,7 @@ export default function ConfirmMember() {
             <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
-                <CardTitle>Confirm Member</CardTitle>
+                <CardTitle>Register Member Fingerprint</CardTitle>
                 <Button variant="outline" size="icon" className="rounded-full">
                     <X />
                 </Button>

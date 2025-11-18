@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
+        Route::get('/add-staff', function () {
+            return Inertia::render('admin/forms/add-staff',[]);
+        })->name('staffAddForm');
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
