@@ -8,6 +8,7 @@ use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
+use App\Http\Controllers\UserInterface\Member\MemberLoanFormsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -24,12 +25,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
-
+        Route::get('/transactions/add', function () {
+            return Inertia::render('teller/forms/add-transaction',[]);
+        })->name('transactionForm');
+        Route::get('/transactions/add/confirm', function () {
+            return Inertia::render('teller/forms/confirm-transaction',[]);
+        })->name('confirmTransaction');
+        Route::get('/confirm-member', function () {
+            return Inertia::render('teller/forms/confirm-member',[]);
+        })->name('confirmMember');
+        Route::get('/confirm-staff', function () {
+            return Inertia::render('teller/forms/confirm-staff',[]);
+        })->name('confirmStaff');
+        Route::get('/register-member', function () {
+            return Inertia::render('teller/forms/register-member',[]);
+        })->name('registerMember');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-        Route::get('/my-loans/apply', function () {
-            return Inertia::render('member/forms/loan-application',[]);
-        })->name('loanApplicationForm');
+        Route::get('/my-loans/apply',[MemberLoanFormsController::class,'index'] )->name('loanApplicationForm');
+        Route::post('/my-loans/apply',[MemberLoanFormsController::class,'store'])->name('saveApplicationForm');
     });
 });

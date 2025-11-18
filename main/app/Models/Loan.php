@@ -8,19 +8,19 @@ use App\Models\Member;
 use App\Models\LoanPurpose;
 use App\Models\Installment;
 class Loan extends Model
-{   
+{
     use HasFactory;
     public const STATUS = ['PENDING','APPROVED','DISBURSED','ONGOING','PAID','OVERDUE','REJECTED'];
 
     protected $fillable = [
         'ref_no',
-        'amount', 
+        'amount',
         'interest_rate',
         'term_months',
         'status',
         'remarks',
-        'purpose_id', 
-        'member_id', 
+        'purpose_id',
+        'member_id',
     ];
 
     protected $attributes = [
@@ -41,5 +41,5 @@ class Loan extends Model
     {
         return $this->hasMany(Installment::class);
     }
-    public $timestamps = false;
+    public $timestamps = true;
 }

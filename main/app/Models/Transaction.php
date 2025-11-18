@@ -20,15 +20,15 @@ class Transaction extends Model
         'user_id',
     ];
     public const TYPES = [
-        'SHARE CAPITAL CONTRIBUTION',
-        'LOAN DISBURSEMENT',
-        'LOAN PAYMENT',
-        'DIVIDEND REINVESTMENT',
-        'DIVIDEND CREDIT',
+        'Share Capital Contribution',
+        'Loan Disbursement',
+        'Loan Payment',
+        'Dividend Reinvestment',
+        'Dividend Credit',
     ];
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function installments()
@@ -42,7 +42,7 @@ class Transaction extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     public $timestamps = false;
 }

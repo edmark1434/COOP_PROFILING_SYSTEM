@@ -30,6 +30,7 @@ class User extends Authenticatable
         'is_teller',
         'is_loan_officer',
         'is_admin',
+        'status',
         'member_id',
     ];
     
@@ -55,30 +56,29 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public $timestamps = false;
 
     // Relationships
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function auditLogs()
     {
-        return $this->hasMany(AuditLog::class);
+        return $this->hasMany(AuditLog::class,'user_id');
     }
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class,'user_id');
     }
 
     public function biometricData()
     {
-        return $this->hasOne(BiometricData::class);
+        return $this->hasOne(BiometricData::class,'user_id');
     }
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class,'user_id');
     }
 }

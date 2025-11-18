@@ -13,6 +13,7 @@ class Member extends Model
     use HasFactory;
     protected $primaryKey = 'id';
     public const STATUS = ['ACTIVE','INACTIVE','SUSPENDED','TERMINATED','DECEASED'];
+    public const SUFFIX = ['Jr.','Sr.','I','II','III','IV','V'];
     protected $fillable = [
         'id_coop',
         'first_name',
@@ -39,16 +40,16 @@ class Member extends Model
 
     public function accounts()
     {
-        return $this->hasMany(Account::class);
+        return $this->hasMany(Account::class,'member_id');
     }
 
     public function loans()
     {
-        return $this->hasMany(Loan::class);
+        return $this->hasMany(Loan::class,'member_id');
     }
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class,'member_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Http\Controllers\CommonLogic;
 
 class AdminStaffController extends Controller
 {
@@ -85,5 +86,44 @@ class AdminStaffController extends Controller
         if ($user->is_loan_officer) return 2;
         if ($user->is_teller) return 1;
         return 0;
+    }
+    public function viewStaffId($id)
+    {
+        $user = User::with('auditLogs')->find($id);
+        if(!$user) return redirect()->route('admin.staff');
+        $role = match(true) {
+            $user->is_admin => 'admin',
+            $user->is_member => 'member',
+            $user->is_teller => 'teller',
+            $user->is_loan_officer => 'loan-officer',
+            default => null,
+        };
+        if(!in_array($role,['admin','teller','loan-officer'])){
+            return redirect()->route('admin.staff');
+        }
+        // Eager load audit logs
+        $user->load('auditLogs');
+
+        // Sort audit logs for frontend
+        $userAuditLogsTypeAsc = $user->auditLogs->sortBy('type')->values();
+        $userAuditLogsTypeDesc = $user->auditLogs->sortByDesc('type')->values();
+        $userAuditLogsDateAsc = $user->auditLogs->sortBy('created_at')->values();
+        $userAuditLogsDateDesc = $user->auditLogs->sortByDesc('created_at')->values();
+        $initials = CommonLogic::getInitials($user->name);
+        return Inertia::render('admin/staff-profile', [
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'type' => $role,
+                'status' => $user->status ?? 'Active',
+                'email' => $user->email,
+                'created_at' => $user->created_at,
+                'initial' => $initials
+            ],
+            'DateAsc' => $userAuditLogsDateAsc,
+            'DateDesc' => $userAuditLogsDateDesc,
+            'typeAsc' => $userAuditLogsTypeAsc,
+            'typeDesc' => $userAuditLogsTypeDesc
+        ]);
     }
 }

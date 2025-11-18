@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_no', 10)->unique();
+            $table->string('ref_no', 20)->unique();
             $table->decimal('amount', 15, 2);
             $table->decimal('interest_rate', 5, 2);
             $table->integer('term_months');

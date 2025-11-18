@@ -20,7 +20,7 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'ref_no' => strtoupper($this->faker->bothify('##########')), // 10-digit ref
+            'ref_no' => $this->faker->unique()->numberBetween(2200000000, 2299999999), // 10-digit ref
             'amount' => $this->faker->randomFloat(2, 100, 50000), // amount between 100 and 50,000
             'type' => $this->faker->randomElement(Transaction::TYPES),
             'member_id' => Member::factory(), // create a related member

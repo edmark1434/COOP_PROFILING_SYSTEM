@@ -30,16 +30,16 @@ class Account extends Model
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function ledgerEntries()
     {
-        return $this->hasMany(LedgerEntry::class);
+        return $this->hasMany(LedgerEntry::class,'account_id');
     }
 
     public function shareSnapshots()
     {
-        return $this->hasMany(ShareSnapshot::class);
+        return $this->hasMany(ShareSnapshot::class,'account_id');
     }
 }
