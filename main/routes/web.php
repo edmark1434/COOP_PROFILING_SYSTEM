@@ -9,6 +9,14 @@ use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\UserInterface\LoanOfficer\OverviewController;
+use App\Http\Controllers\UserInterface\LoanOfficer\LoanApplicationsController;
+use App\Http\Controllers\UserInterface\LoanOfficer\ActiveLoansController;
+use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
+
+
+
+
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -36,21 +44,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
-        Route::get('/overview', function () {
-            return Inertia::render('loan-officer/overview',[]);
-        })->name('overview');
-        Route::get('/active-loans', function () {
-            return Inertia::render('loan-officer/active-loans',[]);
-        })->name('activeLoans');
-        Route::get('/loan-applications', function () {
-            return Inertia::render('loan-officer/loan-applications', []);
-        })->name('loanApplications');
+        Route::get('/overview', [OverviewController::class, 'index'])->name('overview');
+        Route::get('/active-loans',[ActiveLoansController::class, 'index'])->name('active-loans');
+        Route::get('/loan-applications', [LoanApplicationsController::class, 'index'])->name('loan-applications');
+        Route::get('/loans/{id}', [LoanViewController::class, 'show'])->name('loan-view');
+        Route::post('/loans/{id}/approve', [LoanViewController::class, 'approve'])->name('loan-approve');
         Route::get('/member-lookup', function () {
             return Inertia::render('loan-officer/member-lookup', []);
         })->name('memberLookup');
-        Route::get('/loans/id', function () {
-            return Inertia::render('loan-officer/loan-view', []);
-        })->name('loan-view');
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
