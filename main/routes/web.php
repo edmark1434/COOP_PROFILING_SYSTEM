@@ -23,6 +23,7 @@ use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 
 // Member
 use App\Http\Controllers\UserInterface\Member\MemberLoansController;
+use App\Http\Controllers\UserInterface\Member\MemberNotificationsController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -71,9 +72,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('member/my-transactions',[]);
         })->name('myTransactions');
         Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
-        Route::get('/notifications', function () {
-            return Inertia::render('member/notifications',[]);
-        })->name('notifications');
+        Route::get('/notifications', [MemberNotificationsController::class, 'index'])->name('notifications');
+        Route::patch('/notifications/{id}/mark-as-read', [MemberNotificationsController::class, 'markAsRead'])->name('notifications.markAsRead');
+        Route::patch('/notifications/mark-all-as-read', [MemberNotificationsController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     });
 
     // Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
