@@ -17,7 +17,7 @@ class MemberFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_coop'     => strtoupper($this->faker->unique()->bothify('COOP-####')),
+            'id_coop'     => $this->faker->unique()->numberBetween(6700000000, 6799999999),
             'first_name'  => $this->faker->firstName(),
             'middle_name' => $this->faker->optional()->firstName(),
             'last_name'   => $this->faker->lastName(),

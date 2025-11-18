@@ -19,15 +19,7 @@ class LoanPurposeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement([
-                'Business Capital',
-                'Education',
-                'Medical Expense',
-                'Home Improvement',
-                'Emergency Fund',
-                'Vehicle Purchase',
-                'Travel Loan'
-            ]),
+            'name' => $this->faker->randomElement([LoanPurpose::TYPES]),
         ];
     }
 }
