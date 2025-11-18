@@ -7,13 +7,13 @@ import {
     OverviewCardContent,
     OverviewCardFooter,
     OverviewCardHeader,
-    OverviewCardTitle, OverviewCardValue,
+    OverviewCardTitle, 
+    OverviewCardValue,
 } from "@/components/ui/overview-card";
 
 import * as React from "react";
-import {TransactionRow} from "@/components/rows/transaction";
+import { TransactionRow } from "@/components/rows/transaction";
 import teller from "@/routes/teller";
-import {AuditLogRow} from "@/components/rows/audit-log";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,42 +22,74 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function TellerOverview() {
-    let stats;
+interface TellerTransaction {
+    id: number;
+    type: string;
+    date: string;
+    member: string;
+    amount: string;
+    raw_amount: number;
+}
+
+interface TellerOverviewProps {
+    transactionsThisWeek: number;
+    transactionDescription: string;
+    cashOnHand: string;
+    startingCash: string;
+    cashInThisWeek: string;
+    cashInDescription: string;
+    cashOutThisWeek: string;
+    cashOutDescription: string;
+    weekTransactions: TellerTransaction[];
+    weekTransactionCount: number;
+    weekRange: string;
+}
+
+export default function TellerOverview({ 
+    transactionsThisWeek,
+    transactionDescription,
+    cashOnHand,
+    startingCash,
+    cashInThisWeek,
+    cashInDescription,
+    cashOutThisWeek,
+    cashOutDescription,
+    weekTransactions,
+    weekTransactionCount,
+    weekRange
+}: TellerOverviewProps) {
+    
     const overviewCards = [
-        { title: 'Transactions Today', value: '000', description: 'with 32.1% on share capital contributions' },
-        { title: 'Cash On Hand', value: '000', description: 'Started at ₱64,350.00 today'},
-        { title: 'Total Cash In', value: '000', description: 'with 54.2% from loan payments' },
-        { title: 'Total Cash Out', value: '000', description: 'from 6 loan disbursements' },
-    ];
-    const transactions = [
-        {
-            type: "Loan Payment",
-            date: "October 4, 2025 · 1:32 PM",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 5,125.00"
+        { 
+            title: 'Transactions This Week', 
+            value: transactionsThisWeek.toString(), 
+            description: transactionDescription 
         },
-        {
-            type: "Loan Disbursement",
-            date: "October 1, 2025 · 1:30 PM",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 50,000.00"
+        { 
+            title: 'Cash On Hand', 
+            value: cashOnHand, 
+            description: `Started at ${startingCash} today` 
         },
-        {
-            type: "Share Capital Contribution",
-            date: "September 29, 2025 · 12:00 PM",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 35,000.00"
-        }
+        { 
+            title: 'Total Cash In', 
+            value: cashInThisWeek, 
+            description: cashInDescription 
+        },
+        { 
+            title: 'Total Cash Out', 
+            value: cashOutThisWeek, 
+            description: cashOutDescription 
+        },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Overview" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+                {/* Overview Cards */}
+                <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {overviewCards.map((card, index) => (
-                        <OverviewCard>
+                        <OverviewCard key={index}>
                             <OverviewCardHeader>
                                 <OverviewCardTitle>{card.title}</OverviewCardTitle>
                             </OverviewCardHeader>
@@ -68,14 +100,36 @@ export default function TellerOverview() {
                         </OverviewCard>
                     ))}
                 </div>
+
+                {/* Transactions (This Week's) */}
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <div className="flex flex-col px-4 py-2 border-b">
-                        <div className="text-sm font-medium text-(--color-primary)">Transactions</div>
+                    <div className="flex flex-col px-4 py-2 border-b bg-muted/40">
+                        <div className="text-sm font-medium text-primary">Transactions</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                            This week's transactions ({weekTransactionCount} total) - {weekRange}
+                        </div>
                     </div>
                     <div className="divide-y h-fit">
-                        {transactions.map((item, i) => (
-                            <TransactionRow key={i} data={item} />
-                        ))}
+                        {weekTransactions.length > 0 ? (
+                            weekTransactions.map((transaction) => (
+                                <TransactionRow 
+                                    key={transaction.id} 
+                                    data={{
+                                        id: transaction.id,
+                                        type: transaction.type,
+                                        amount: transaction.raw_amount,
+                                        created_at: transaction.date,
+                                        date: transaction.date,
+                                        member_name: transaction.member,
+                                    }}
+                                    variant="teller"
+                                />
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-muted-foreground">
+                                No transactions found for this week
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
