@@ -8,6 +8,8 @@ use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
+use App\Http\Controllers\UserInterface\Teller\TellerOverviewController;
+use App\Http\Controllers\UserInterface\Teller\TellerTransactionsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -54,15 +56,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
-        Route::get('/overview', function () {
-            return Inertia::render('teller/overview', []);
-        })->name('overview');
+        // routes/web.php
+    Route::get('/overview', [TellerOverviewController::class, 'index'])->name('overview');
+    Route::get('/transactions', [TellerTransactionsController::class, 'index'])->name('transactions');
         Route::get('/member-lookup', function () {
             return Inertia::render('teller/member-lookup', []);
         })->name('memberLookup');
-        Route::get('/transactions', function () {
-            return Inertia::render('teller/transactions', []);
-        })->name('transactions');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
