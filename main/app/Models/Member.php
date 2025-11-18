@@ -13,6 +13,7 @@ class Member extends Model
     use HasFactory;
     protected $primaryKey = 'id';
     public const STATUS = ['ACTIVE','INACTIVE','SUSPENDED','TERMINATED','DECEASED'];
+    public const SUFFIX = ['Jr.','Sr.','I','II','III','IV','V'];
     protected $fillable = [
         'id_coop',
         'first_name',

@@ -21,7 +21,7 @@ class MemberFactory extends Factory
             'first_name'  => $this->faker->firstName(),
             'middle_name' => $this->faker->optional()->firstName(),
             'last_name'   => $this->faker->lastName(),
-            'suffix'      => $this->faker->optional()->suffix(),
+            'suffix'      => $this->faker->optional()->randomElement(Member::SUFFIX),
             'contact_num' => $this->faker->phoneNumber(),
             'status'      => $this->faker->randomElement(Member::STATUS),
             'join_date'   => $this->faker->dateTimeBetween('-5 years', 'now'),
