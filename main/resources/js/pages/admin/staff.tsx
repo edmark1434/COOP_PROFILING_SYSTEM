@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import admin, { staffProfile } from "@/routes/admin";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {ArrowUpDown, Plus, Search, Settings2} from "lucide-react";
@@ -11,6 +11,7 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group";
 import * as React from "react";
 import {StaffRow} from "@/components/rows/staff";
+import {Link} from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -157,11 +158,14 @@ export default function AdminStaff({
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
                         {staffList.map((staffMember, i) => (
-                            <StaffRow
-                                key={i}
-                                data={staffMember}
-                                category={category}
-                            />
+                            <Link href={staffProfile(staffMember.id)}>
+                                <StaffRow
+                                    key={i}
+                                    data={staffMember}
+                                    category={category}
+                                    
+                                />
+                            </Link>
                         ))}
                     </div>
                 </div>

@@ -30,6 +30,7 @@ class User extends Authenticatable
         'is_teller',
         'is_loan_officer',
         'is_admin',
+        'status',
         'member_id',
     ];
     
@@ -55,7 +56,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public $timestamps = false;
 
     // Relationships
     public function member()

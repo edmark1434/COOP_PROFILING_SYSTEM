@@ -13,6 +13,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'ref_no',
         'amount',
         'type',
@@ -20,11 +21,11 @@ class Transaction extends Model
         'user_id',
     ];
     public const TYPES = [
-        'SHARE CAPITAL CONTRIBUTION',
-        'LOAN DISBURSEMENT',
-        'LOAN PAYMENT',
-        'DIVIDEND REINVESTMENT',
-        'DIVIDEND CREDIT',
+        'Share Capital Contribution',
+        'Loan Disbursement',
+        'Loan Payment',
+        'Dividend Reinvestment',
+        'Dividend Credit',
     ];
     public function member()
     {

@@ -8,7 +8,7 @@ use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
-use App\Http\Controllers\UserInterface\Member\MemberLoanController;
+use App\Http\Controllers\UserInterface\Member\MemberLoanFormsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -43,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-        Route::get('/my-loans/apply',[MemberLoanController::class,'index'] )->name('loanApplicationForm');
-        Route::post('/my-loans/apply',[MemberLoanController::class,'store'])->name('saveApplicationForm');
+        Route::get('/my-loans/apply',[MemberLoanFormsController::class,'index'] )->name('loanApplicationForm');
+        Route::post('/my-loans/apply',[MemberLoanFormsController::class,'store'])->name('saveApplicationForm');
     });
 });

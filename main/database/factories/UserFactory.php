@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use database\factories\MemberFactory;
 use App\Models\Member;
+use App\Models\AuditLog;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -43,7 +44,7 @@ class UserFactory extends Factory
             'is_teller'        => $this->faker->boolean(20),
             'is_loan_officer'  => $this->faker->boolean(15),
             'is_admin'         => $this->faker->boolean(10),
-
+            'status'           => $this->faker->randomElement(['Active','Inactive']),
             'member_id' => null, // overwritten below
         ];
 
@@ -65,10 +66,8 @@ class UserFactory extends Factory
                     'is_member' => false,
                     'is_teller' => false,
                     'is_loan_officer' => false,
+                    'status' => 'Active',
                     'member_id' => null,
-                    'two_factor_secret' => null,
-                    'two_factor_recovery_codes' => null,
-                    'two_factor_confirmed_at' => null,
                 ];
                 break;
 
@@ -83,6 +82,7 @@ class UserFactory extends Factory
                     'is_member' => false,
                     'is_teller' => true,
                     'is_loan_officer' => false,
+                    'status' => 'Active',
                     'member_id' => null,
                 ];
                 break;
@@ -98,6 +98,7 @@ class UserFactory extends Factory
                     'is_member' => false,
                     'is_teller' => false,
                     'is_loan_officer' => true,
+                    'status' => 'Active',
                     'member_id' => null,
                 ];
                 break;
@@ -113,6 +114,7 @@ class UserFactory extends Factory
                     'is_member' => true,
                     'is_teller' => false,
                     'is_loan_officer' => false,
+                    'status' => 'Active',
                     'member_id' => Member::factory(),
                 ];
                 break;
@@ -142,5 +144,14 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
         ]);
+    }
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            AuditLog::factory()
+                ->count(rand(1,3))
+                ->for($user,'user')  // sets member_id
+                ->create();
+        });
     }
 }

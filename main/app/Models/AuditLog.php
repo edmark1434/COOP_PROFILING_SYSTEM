@@ -23,11 +23,13 @@ class AuditLog extends Model
 
     // Allowed types
     public const TYPES = [
-        'LOAN_APPROVAL',
-        'LOAN_REJECTION',
-        'TRANSACTION_RECORD',
-        'TRANSACTION_UPDATE',
-    ];
+            'Loan Approved',
+            'Loan Rejected',
+            'Member Registered',
+            'Transaction Recorded',
+            'Transaction Updated',
+            'Staff Role Updated'
+        ];
 
     public function user()
     {

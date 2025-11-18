@@ -28,9 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans');
         Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
-        Route::get('/staff/id', function () {
-            return Inertia::render('admin/staff-profile', []);
-        })->name('staffProfile');
+        Route::get('/staff/{id}', [AdminStaffController::class, 'viewStaffId'] )->name('staffProfile');
         Route::get('/member-profile', function () {
             return Inertia::render('admin/member-profile',[]);
         })->name('memberProfile');

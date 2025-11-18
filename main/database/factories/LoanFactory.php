@@ -21,6 +21,7 @@ class LoanFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => $this->faker->unique()->numberBetween(5000000000, 5099999999),
             'ref_no' => strtoupper($this->faker->bothify('LN-####??')),
             'amount' => $this->faker->randomFloat(2, 5000, 100000),
             'interest_rate' => $this->faker->randomFloat(2, 3, 15),
