@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import { Head, Link } from '@inertiajs/react';
+import admin, { loanView } from "@/routes/admin";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -125,7 +125,9 @@ export default function AdminLoans({ loansByStatus, totalResults }: AdminLoansPr
                             <TabsContent key={tab.value} value={tab.value} className="m-0">
                                 <div className="flex flex-col">
                                     {tab.data.map((loan) => (
-                                        <LoanRow key={loan.id} data={loan} />
+                                        <Link href={loanView(loan.id)}>
+                                            <LoanRow key={loan.id} data={loan} />
+                                        </Link>
                                     ))}
                                     {tab.data.length === 0 && (
                                         <div className="text-sm text-center py-8 text-muted-foreground">

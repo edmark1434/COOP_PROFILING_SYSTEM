@@ -30,9 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
         Route::get('/staff/{id}', [AdminStaffController::class, 'viewStaffId'] )->name('staffProfile');
         Route::get('/member-profile/{id}',[AdminMembersController::class,'memberProf'])->name('memberProfile');
-        Route::get('/loans/id', function () {
-            return Inertia::render('admin/loan-view', []);
-        })->name('loan-view');
+        Route::get('/loans/{id}', [AdminLoanController::class, 'loanDetails'])->name('loanView');
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {

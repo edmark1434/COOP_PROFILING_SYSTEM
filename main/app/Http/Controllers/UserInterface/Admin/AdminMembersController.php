@@ -57,6 +57,7 @@ class AdminMembersController extends Controller
     public function memberProf($id)
     {
         $member = Member::with(['accounts','user'])->find($id);
+        if(!$member)return redirect()->route('admin.members');
         $user = User::where('member_id',$id)->first();
 
         $name = $member->first_name . " " . $member->last_name;
@@ -142,7 +143,7 @@ class AdminMembersController extends Controller
                 'dateJoined' => $member->join_date,
                 'email' => $user->email,
                 'contact' => $member->contact_num,
-                'status' => $member->status,
+                'status' => $member->accounts->first()->status,
                 'initial' => $initial
             ],
             'transactionsAscName' => $transactionsAscName,
