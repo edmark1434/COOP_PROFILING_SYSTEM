@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+// Admin
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
 use App\Http\Controllers\UserInterface\Admin\AdminTransactionsController;
 use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
@@ -18,6 +19,9 @@ use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 
 
 
+// Member
+use App\Http\Controllers\UserInterface\Member\MemberLoansController;
+
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
 })->name('home');
@@ -32,15 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans');
         Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
-        Route::get('/staff/id', function () {
-            return Inertia::render('admin/staff-profile', []);
-        })->name('staffProfile');
-        Route::get('/member-profile', function () {
-            return Inertia::render('admin/member-profile',[]);
-        })->name('memberProfile');
-        Route::get('/loans/id', function () {
-            return Inertia::render('admin/loan-view', []);
-        })->name('loan-view');
+        Route::get('/staff/{id}', [AdminStaffController::class, 'viewStaffId'] )->name('staffProfile');
+        Route::get('/member-profile/{id}',[AdminMembersController::class,'memberProf'])->name('memberProfile');
+        Route::get('/loans/{id}', [AdminLoanController::class, 'loanDetails'])->name('loanView');
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
@@ -73,13 +71,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/my-transactions', function () {
             return Inertia::render('member/my-transactions',[]);
         })->name('myTransactions');
-        Route::get('/my-loans', function () {
-            return Inertia::render('member/my-loans',[]);
-        })->name('myLoans');
+        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
         Route::get('/notifications', function () {
             return Inertia::render('member/notifications',[]);
         })->name('notifications');
     });
+
+    // Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
+    //     Route::get('/overview', function () {
+    //         return Inertia::render('member/overview',[]);
+    //     })->name('overview');
+    //     Route::get('/my-transactions', function () {
+    //         return Inertia::render('member/my-transactions',[]);
+    //     })->name('myTransactions');
+    //     Route::get('/my-loans', function () {
+    //         return Inertia::render('member/my-loans',[]);
+    //     })->name('myLoans');
+    //     Route::get('/notifications', function () {
+    //         return Inertia::render('member/notifications',[]);
+    //     })->name('notifications');
+    // });
 });
 
 require __DIR__.'/settings.php';

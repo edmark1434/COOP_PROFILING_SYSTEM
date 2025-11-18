@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_no', 10)->unique();
+            $table->string('ref_no', 20)->unique();
             $table->decimal('amount', 15, 2);
             $table->enum('type',Transaction::TYPES,50); 
             $table->timestamp('created_at')->useCurrent();

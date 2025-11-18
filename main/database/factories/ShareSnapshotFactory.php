@@ -19,7 +19,7 @@ class ShareSnapshotFactory extends Factory
     public function definition(): array
     {
         return [
-            'balance' => $this->faker->randomFloat(2, 100, 10000),
+            'balance' => $this->faker->numberBetween(1100001, 1199999),
             'account_id' => Account::factory(), // creates an Account automatically if none exists
             'created_at' => now(),
         ];

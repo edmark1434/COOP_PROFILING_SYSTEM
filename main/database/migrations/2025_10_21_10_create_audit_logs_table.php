@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\AuditLog;
 return new class extends Migration
 {
     /**
@@ -13,12 +13,7 @@ return new class extends Migration
     {
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', [
-                'LOAN_APPROVAL',
-                'LOAN_REJECTION',
-                'TRANSACTION_RECORD',
-                'TRANSACTION_UPDATE'
-            ]);
+            $table->enum('type',AuditLog::TYPES);
             $table->text('description');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('user_id');

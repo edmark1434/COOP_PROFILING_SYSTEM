@@ -14,7 +14,13 @@ class LoanPurpose extends Model
     protected $fillable = [
         'name',
     ];
-
+    public const TYPES = ['Business Capital',
+                'Education',
+                'Medical Expense',
+                'Home Improvement',
+                'Emergency Fund',
+                'Vehicle Purchase',
+                'Travel Loan'];
     public function loans()
     {
         return $this->hasMany(Loan::class, 'purpose_id');

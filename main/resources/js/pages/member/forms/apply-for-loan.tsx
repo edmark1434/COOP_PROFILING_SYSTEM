@@ -49,7 +49,7 @@ const formSchema = z.object({
         .refine((val) => !isNaN(Number(val)), "Invalid number")
         .refine((val) => Number.isInteger(Number(val)), "Amount must be in whole pesos")
         .refine((val) => Number(val) >= 1, "Invalid loan amount")
-        .refine((val) => Number(val) <= 300000, "Amount exceeds the loan limit: ₱300,000"),
+        .refine((val) => Number(val) <= 300000, "Amount exceeds the loan limit: ₱300,000.00"),
     purpose: z
         .string()
         .min(1, "Choose a loan purpose"),
@@ -58,19 +58,16 @@ const formSchema = z.object({
         .min(1, "Choose a plan"),
 })
 
-const loanPurposes = [
-    { name: "Purpose 1", id: "1" },
-    { name: "Purpose 2", id: "2" },
-    { name: "Purpose 3", id: "3" },
-] as const
-
+interface LoanPurpose{
+    loanPurposes : any[]
+}
 const plans = [
     { id: "3-5", termMonths: 3, interestRate: 5 },
     { id: "6-6", termMonths: 6, interestRate: 6 },
     { id: "12-8", termMonths: 12, interestRate: 8 },
 ] as const
 
-export default function LoanApplicationForm() {
+export default function LoanApplicationForm({loanPurposes}:LoanPurpose) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -89,7 +86,7 @@ export default function LoanApplicationForm() {
 
         const submitData = {
             amount: Number(data.amount),
-            purpose: Number(data.purpose),
+            purpose: data.purpose,
             termMonths: termMonths,
             interestRate: interestRate,
         }
@@ -120,7 +117,7 @@ export default function LoanApplicationForm() {
                 </Button>
             </CardHeader>
             <CardContent className="px-10">
-                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="form-rhf-loan-application" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
                             name="amount"
@@ -128,7 +125,7 @@ export default function LoanApplicationForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-amount">
+                                        <FieldLabel>
                                             Loan Amount
                                         </FieldLabel>
                                         <FieldDescription>
@@ -141,7 +138,6 @@ export default function LoanApplicationForm() {
                                         </InputGroupAddon>
                                         <InputGroupInput
                                             {...field}
-                                            id="form-rhf-loan-amount"
                                             aria-invalid={fieldState.invalid}
                                             placeholder="0.00"
                                             autoComplete="off"
@@ -159,7 +155,7 @@ export default function LoanApplicationForm() {
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldContent>
-                                        <FieldLabel htmlFor="form-rhf-loan-purpose">
+                                        <FieldLabel>
                                             Loan Purpose
                                         </FieldLabel>
                                         <FieldDescription>
@@ -172,7 +168,6 @@ export default function LoanApplicationForm() {
                                         onValueChange={field.onChange}
                                     >
                                         <SelectTrigger
-                                            id="form-rhf-loan-purpose"
                                             aria-invalid={fieldState.invalid}
                                             className="min-w-[120px]"
                                         >
@@ -180,7 +175,7 @@ export default function LoanApplicationForm() {
                                         </SelectTrigger>
                                         <SelectContent position="item-aligned">
                                             {loanPurposes.map((purpose) => (
-                                                <SelectItem key={purpose.id} value={purpose.id}>
+                                                <SelectItem key={purpose.id} value={purpose.name}>
                                                     {purpose.name}
                                                 </SelectItem>
                                             ))}
@@ -212,7 +207,6 @@ export default function LoanApplicationForm() {
                                         {plans.map((plan) => (
                                             <FieldLabel
                                                 key={plan.id}
-                                                htmlFor={`form-rhf-radiogroup-${plan.id}`}
                                             >
                                                 <Field
                                                     orientation="horizontal"
@@ -222,13 +216,12 @@ export default function LoanApplicationForm() {
                                                         <FieldLabel>{plan.termMonths + " months"}</FieldLabel>
                                                         <FieldDescription>
                                                             {amount && !isNaN(amount)
-                                                                ? `₱ ${((amount * (1 + plan.interestRate / 100)) / plan.termMonths).toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / month`
+                                                                ? `₱ ${Math.ceil((amount * (1 + plan.interestRate / 100)) / plan.termMonths).toLocaleString("en-PH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / month`
                                                                 : `at ${plan.interestRate}% interest`}
                                                         </FieldDescription>
                                                     </FieldContent>
                                                     <RadioGroupItem
                                                         value={plan.id}
-                                                        id={`form-rhf-radiogroup-${plan.id}`}
                                                         aria-invalid={fieldState.invalid}
                                                     />
                                                 </Field>
@@ -249,7 +242,7 @@ export default function LoanApplicationForm() {
                     <Button type="button" variant="outline" onClick={() => form.reset()}>
                         Reset
                     </Button>
-                    <Button type="submit" form="form-rhf-demo">
+                    <Button type="submit" form="form-rhf-loan-application">
                         Submit
                     </Button>
                 </Field>
