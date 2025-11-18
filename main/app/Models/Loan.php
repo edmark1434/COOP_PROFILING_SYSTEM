@@ -13,7 +13,6 @@ class Loan extends Model
     public const STATUS = ['PENDING','APPROVED','DISBURSED','ONGOING','PAID','OVERDUE','REJECTED'];
 
     protected $fillable = [
-        'id',
         'ref_no',
         'amount', 
         'interest_rate',
