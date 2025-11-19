@@ -18,13 +18,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import {FieldPathValue, FieldValues} from "react-hook-form";
-
-const members = [
-    {id: "1", name: "John Doe"},
-    {id: "2", name: "Amy Perez"},
-    {id: "3", name: "Camille Prats"},
-] as const
 
 interface MemberComboboxProps {
     value: string
@@ -35,6 +28,24 @@ interface MemberComboboxProps {
 export function MemberCombobox({ value, onValueChange, invalid }: MemberComboboxProps) {
     const [open, setOpen] = React.useState(false)
     const [search, setSearch] = React.useState("") // current typed search
+    const [members, setMembers] = React.useState<{ id: string; name: string }[]>([])
+    const [loading, setLoading] = React.useState(true)
+
+    React.useEffect(() => {
+        async function loadMembers() {
+            try {
+                const res = await fetch("/api/members")
+                const data = await res.json()
+                setMembers(data) // must be [{id, name}, ...]
+            } catch (err) {
+                console.error("Failed to load members", err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        loadMembers()
+    }, [])
 
     const filteredMembers = members.filter(member =>
         member.name.toLowerCase().includes(search.toLowerCase())
@@ -54,7 +65,7 @@ export function MemberCombobox({ value, onValueChange, invalid }: MemberCombobox
                     )}
                 >
                     {value
-                        ? members.find((member) => member.id === value)?.name
+                        ? members.find((member) => String(member.id) === value)?.name
                         : "Select member"}
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                 </Button>
@@ -74,7 +85,7 @@ export function MemberCombobox({ value, onValueChange, invalid }: MemberCombobox
                                     key={member.id}
                                     value={member.name}
                                     onSelect={() => {
-                                        onValueChange(member.id) // store the id internally
+                                        onValueChange(String(member.id)) // store the id internally
                                         setOpen(false)
                                         setSearch("") // clear search if you want
                                     }}
@@ -82,7 +93,7 @@ export function MemberCombobox({ value, onValueChange, invalid }: MemberCombobox
                                     <CheckIcon
                                         className={cn(
                                             "mr-2 h-4 w-4",
-                                            value === member.id ? "opacity-100" : "opacity-0"
+                                            value === String(member.id) ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                     {member.name}
