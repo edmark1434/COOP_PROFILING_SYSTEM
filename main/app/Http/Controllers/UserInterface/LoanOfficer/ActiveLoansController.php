@@ -18,7 +18,7 @@ class ActiveLoansController extends Controller
         $orderDirection = $request->input('orderDirection', 'desc');
 
         // Start query for ONGOING loans
-        $query = Loan::where('loans.status', 'ONGOING')
+        $query = Loan::where('loans.status', 'Ongoing')
             ->with(['member', 'purpose']);
 
         // Apply search filter

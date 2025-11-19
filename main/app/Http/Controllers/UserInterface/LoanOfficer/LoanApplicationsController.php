@@ -18,7 +18,7 @@ class LoanApplicationsController extends Controller
         $orderDirection = $request->input('orderDirection', 'desc');
 
         // Start query for PENDING loans
-        $query = Loan::where('loans.status', 'PENDING')
+        $query = Loan::where('loans.status', 'Pending')
             ->with(['member', 'purpose']);
 
         // Apply search filter
