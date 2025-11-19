@@ -15,9 +15,10 @@ interface Member {
     email?: string;
     contact_num?: string;
     id_coop?: string;
-    share_capital?: number;
+    share_capital?: number | null;
     join_date?: string;
-    account_status?: string; // This comes from Account model, not Member model
+    account_status?: string;
+    delinquency_rate?: number;
 }
 
 interface Purpose {
@@ -43,6 +44,21 @@ interface LoanViewProps {
 }
 
 export default function LoanView({ loan }: LoanViewProps) {
+    // Add this debug effect at the top of your component
+    React.useEffect(() => {
+        console.log('Full loan data:', loan);
+        console.log('Share capital debug:', {
+            raw: loan.member.share_capital,
+            type: typeof loan.member.share_capital,
+            asNumber: Number(loan.member.share_capital),
+            isNaN: isNaN(Number(loan.member.share_capital))
+        });
+        console.log('Delinquency rate debug:', {
+            raw: loan.member.delinquency_rate,
+            type: typeof loan.member.delinquency_rate,
+        });
+    }, [loan]);
+
     const getInitials = (firstName: string, lastName: string) => {
         return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
     };
@@ -56,16 +72,32 @@ export default function LoanView({ loan }: LoanViewProps) {
         });
     };
 
-    const formatCurrency = (amount: number) => {
-        return `₱ ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const formatCurrency = (amount: any) => {
+        // Handle null or undefined
+        if (amount === null || amount === undefined) {
+            return `₱ 0.00`;
+        }
+
+        // Convert to number
+        const num = typeof amount === 'number' ? amount : parseFloat(amount);
+
+        // Check if conversion resulted in valid number
+        if (isNaN(num)) {
+            return `₱ 0.00`;
+        }
+
+        return `₱ ${num.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
     };
 
     const member = {
         initial: getInitials(loan.member.first_name, loan.member.last_name),
         id: loan.member.id.toString(),
         member: `${loan.member.first_name} ${loan.member.middle_name ? loan.member.middle_name + ' ' : ''}${loan.member.last_name}${loan.member.suffix ? ' ' + loan.member.suffix : ''}`,
-        rate: "90", // You'll need to add this to your member model if needed
-        shareCapital: formatCurrency(loan.member.share_capital || 0),
+        rate: loan.member.delinquency_rate?.toString() || "0",
+        shareCapital: loan.member.share_capital || 0,
         dateJoined: loan.member.join_date ? formatDate(loan.member.join_date) : 'N/A',
         email: loan.member.email || 'N/A',
         contact: loan.member.contact_num || 'N/A',
@@ -95,6 +127,7 @@ export default function LoanView({ loan }: LoanViewProps) {
             });
         }
     };
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -143,6 +176,7 @@ export default function LoanView({ loan }: LoanViewProps) {
                             </div>
                         )}
                     </div>
+
                     <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
                     <div className="flex flex-row w-[50%] justify-between">
                         <Button variant="secondary" onClick={handleApprove}>
