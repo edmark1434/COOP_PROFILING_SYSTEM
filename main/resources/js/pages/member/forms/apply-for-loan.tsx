@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
-
+import {Link} from '@inertiajs/react';
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/radio-group"
 import { X } from "lucide-react"
 import { router, usePage } from "@inertiajs/react"
+import { myLoans } from "@/routes/member"
 
 const formSchema = z.object({
     amount: z
@@ -104,9 +105,11 @@ export default function LoanApplicationForm() {
             <Card className="w-full sm:max-w-md">
                 <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                     <CardTitle>Apply for Loan</CardTitle>
+                <Link href={myLoans()}>
                     <Button variant="outline" size="icon" className="rounded-full">
                         <X />
-                    </Button>
+                        </Button>
+                </Link>
                 </CardHeader>
                 <CardContent className="px-10">
                     <form id="form-rhf-loan-application" onSubmit={form.handleSubmit(onSubmit)}>
