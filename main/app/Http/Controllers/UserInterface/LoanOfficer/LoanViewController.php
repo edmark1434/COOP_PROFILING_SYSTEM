@@ -61,13 +61,13 @@ class LoanViewController extends Controller
         // Formula: (number of overdue loans / total number of loans) * 100
         $totalLoans = Loan::where('member_id', $loan->member_id)->count();
         $overdueLoans = Loan::where('member_id', $loan->member_id)
-            ->where('status', 'OVERDUE')
+            ->where('status', 'Overdue') // Changed from 'OVERDUE' to 'Overdue'
             ->count();
 
         if ($totalLoans > 0) {
             $loanData['member']['delinquency_rate'] = round(($overdueLoans / $totalLoans) * 100, 2);
         } else {
-            $loanData['member']['delinquency_rate'] = 0;
+            $loanData['member']['delinquency_rate'] = 0.00; // Changed to 0.00 for consistency
         }
 
         return Inertia::render('loan-officer/loan-view', [
@@ -79,13 +79,12 @@ class LoanViewController extends Controller
     {
         $loan = Loan::findOrFail($id);
 
-        // Update loan status to APPROVED
+        // Update loan status to Approved (matching the model's case)
         $loan->update([
-            'status' => 'APPROVED'
+            'status' => 'Approved' // Changed from 'APPROVED' to 'Approved'
         ]);
 
         return redirect()->route('loan-officer.loan-applications')
             ->with('success', 'Loan approved successfully');
     }
-
 }

@@ -1,11 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
 import loanOfficer from "@/routes/loan-officer";
 import {Button} from "@/components/ui/button";
-import loanRejectionForm from '@/routes/loan-officer/loanRejectionForm';
 
 interface Member {
     id: number;
@@ -93,11 +92,16 @@ export default function LoanView({ loan }: LoanViewProps) {
         })}`;
     };
 
+    // Check if delinquency rate is high (>= 10%)
+    const delinquencyRate = loan.member.delinquency_rate || 0;
+    const isHighRisk = delinquencyRate >= 10;
+
     const member = {
         initial: getInitials(loan.member.first_name, loan.member.last_name),
         id: loan.member.id.toString(),
         member: `${loan.member.first_name} ${loan.member.middle_name ? loan.member.middle_name + ' ' : ''}${loan.member.last_name}${loan.member.suffix ? ' ' + loan.member.suffix : ''}`,
-        rate: loan.member.delinquency_rate?.toString() || "0",
+        rate: delinquencyRate.toString(),
+        rateClassName: isHighRisk ? 'text-red-600' : '',
         shareCapital: loan.member.share_capital || 0,
         dateJoined: loan.member.join_date ? formatDate(loan.member.join_date) : 'N/A',
         email: loan.member.email || 'N/A',
@@ -129,6 +133,18 @@ export default function LoanView({ loan }: LoanViewProps) {
         }
     };
 
+    const handleReject = () => {
+        if (confirm('Are you sure you want to reject this loan?')) {
+            router.post(`/loan-officer/loans/${loan.id}/reject`, {}, {
+                onSuccess: () => {
+                    // Redirect to loan applications page after success
+                },
+                onError: (errors) => {
+                    console.error('Error rejecting loan:', errors);
+                }
+            });
+        }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -183,11 +199,9 @@ export default function LoanView({ loan }: LoanViewProps) {
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve
                         </Button>
-                    <Link href={loanRejectionForm.get(loan.id)}>
-                        <Button variant="destructive" >
+                        <Button variant="destructive" onClick={handleReject}>
                             Reject
                         </Button>
-                    </Link>
                     </div>
                 </div>
             </div>
