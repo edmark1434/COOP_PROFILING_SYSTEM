@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast, Toaster } from "sonner"
-
+import { router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -15,18 +15,40 @@ import {FingerprintIcon, X} from "lucide-react"
 
 export default function RegisterStaffFinger() {
 
-    function onScan() {
-        toast.error("Fingerprint did not match", {
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
-            },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-                "color": "var(--destructive)",
-            } as React.CSSProperties,
-        })
-    }
+    async  function onScan() {
+            try{
+                const response = await fetch("http://localhost:8080/api/biometric/scan-template")
+                if(!response.ok){
+                    const errorMessage = await response.text();
+                    toast.error("Fingerprint scan failed: " + errorMessage, {
+                        position: "bottom-right",
+                        classNames: {
+                            content: "flex flex-col gap-2",
+                        },
+                        style: {
+                            "--border-radius": "calc(var(--radius) + 4px)",
+                            color: "var(--destructive)",
+                        } as React.CSSProperties,
+                    });
+                }else{
+                    const template = await response.text();
+                    alert("Success on capturing fingerprint: "+template);
+                    router.post(window.location.pathname, {template});
+                }
+            }catch(error){
+                toast.error("Fingerprint scan failed: " + error, {
+                    position: "bottom-right",
+                    classNames: {
+                        content: "flex flex-col gap-2",
+                    },
+                    style: {
+                        "--border-radius": "calc(var(--radius) + 4px)",
+                        color: "var(--destructive)",
+                    } as React.CSSProperties,
+                });
+            }
+            
+        }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">

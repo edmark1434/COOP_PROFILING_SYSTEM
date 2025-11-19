@@ -63,7 +63,7 @@ class TellerFormsController extends Controller
     }
     public function confirmMemberPost(Request $request)
     {
-        
+        $request->session()->put('member_confirmed',true);
     }
 
     public function memberRegistrationFormGet()
@@ -156,7 +156,8 @@ class TellerFormsController extends Controller
     }
     public function registerMemberFingerprintPost(Request $request)
     {
-
+        $template = $request->input('template');
+        $request->session()->put('member_fingerprint',$template);
     }
 
 }

@@ -9,7 +9,7 @@ class AdminFormsController extends Controller
 {
     public function staffAddFormGet()
     {
-
+        return Inertia::render('admin/forms/add-staff',[]);
     }
     public function staffAddFormPost(Request $request)
     {
@@ -18,16 +18,17 @@ class AdminFormsController extends Controller
 
     public function registerStaffFingerprintGet()
     {
-
+        return Inertia::render('admin/forms/register-staff-finger',[]);
     }
     public function registerStaffFingerprintPost(Request $request)
     {
-
+        $template = $request->input('template');
+        $request->session()->put('staff_fingerprint',$template);  
     }
 
     public function staffRoleChangeFormGet()
     {
-
+        return Inertia::render('admin/forms/change-staff-role',[]);
     }
     public function staffRoleChangeFormPost(Request $request)
     {

@@ -46,7 +46,7 @@ class CommonFormsController extends Controller
     }
     public function confirmStaffPost(Request $request)
     {
-
+        $request->session()->put('staff_confirmed',true);
     }
 
 }

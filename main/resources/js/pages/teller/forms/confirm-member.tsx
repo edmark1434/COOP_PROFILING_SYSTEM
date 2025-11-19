@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast, Toaster } from "sonner"
-
+import { router , Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -13,21 +13,44 @@ import {
 } from "@/components/ui/card"
 
 import {FingerprintIcon, X} from "lucide-react"
+import transactionForm from "@/routes/teller/transactionForm";
 
 export default function ConfirmMember() {
 
-    function onScan() {
-        toast.error("Fingerprint did not match", {
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
-            },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-                "color": "var(--destructive)",
-            } as React.CSSProperties,
-        })
-    }
+    async function onScan() {
+            try{
+                const response = await fetch("http://localhost:8080/api/biometric/verifying/1",{method:"POST"})
+                if(!response.ok){
+                    const errorMessage = await response.text();
+                    toast.error("Fingerprint scan failed: " + errorMessage, {
+                        position: "bottom-right",
+                        classNames: {
+                            content: "flex flex-col gap-2",
+                        },
+                        style: {
+                            "--border-radius": "calc(var(--radius) + 4px)",
+                            color: "var(--destructive)",
+                        } as React.CSSProperties,
+                    });
+                }else{
+                    const success = await response.text();
+                    alert(success);
+                    router.post(window.location.pathname);
+                }
+            }catch(error){
+                toast.error("Fingerprint scan failed: " + error, {
+                    position: "bottom-right",
+                    classNames: {
+                        content: "flex flex-col gap-2",
+                    },
+                    style: {
+                        "--border-radius": "calc(var(--radius) + 4px)",
+                        color: "var(--destructive)",
+                    } as React.CSSProperties,
+                });
+            }
+            
+        }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -35,9 +58,11 @@ export default function ConfirmMember() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Confirm Member</CardTitle>
+            <Link href={transactionForm.get()}>
                 <Button variant="outline" size="icon" className="rounded-full">
                     <X />
                 </Button>
+            </Link>
             </CardHeader>
             <CardContent className="px-10 flex flex-col gap-4">
                 <div className="flex min-w-[200px] items-center gap-4">
