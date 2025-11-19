@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\UserInterface\LoanOfficer;
+use App\Models\AuditLog;
 use App\Models\Loan;
+use App\Models\LoanPurpose;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,7 +27,17 @@ class LoanOfficerFormsController extends Controller
             'status' => 'Rejected',
         ];
 
-        Loan::query()->where('id', $id)->update($final);
+        $loan = Loan::query()->findOrFail($id);
+        $loan->update($final);
+
+        // audit log
+        $auditLog = [
+            'type' => 'Loan Rejected',
+            'description' => LoanPurpose::query()->findOrFail($loan->purpose_id)->name . ' - Loan ID: ' . $loan->ref_no,
+            'user_id' => auth()->id(),
+        ];
+
+        AuditLog::query()->create($auditLog);
         return back();
     }
 

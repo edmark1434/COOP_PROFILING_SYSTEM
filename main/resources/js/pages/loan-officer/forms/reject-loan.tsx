@@ -33,16 +33,6 @@ const formSchema = z.object({
         .min(1, "This field is required"),
 })
 
-const suffixes = [
-    "Jr.",
-    "Sr.",
-    "I",
-    "II",
-    "III",
-    "IV",
-    "V",
-] as const
-
 export default function LoanRejectionForm(id:number) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
