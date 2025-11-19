@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select"
 import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import {router, usePage} from "@inertiajs/react";
 
 const formSchema = z.object({
     firstName: z
@@ -61,16 +62,6 @@ const formSchema = z.object({
             "Invalid PH contact number"),
 })
 
-const suffixes = [
-    "Jr.",
-    "Sr.",
-    "I",
-    "II",
-    "III",
-    "IV",
-    "V",
-] as const
-
 export default function MemberRegistrationForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -84,21 +75,33 @@ export default function MemberRegistrationForm() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof formSchema>) {
+    const { suffixes } = usePage<{
+        suffixes: string[];
+    }>().props
 
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+    function onSubmit(data: z.infer<typeof formSchema>) {
+        const fullContactNum = "+63" + data.contactNum;
+
+        const submitData = {
+            firstName: data.firstName,
+            middleName: data.middleName,
+            lastName: data.lastName,
+            suffix: data.suffix,
+            email: data.email,
+            contactNum: fullContactNum,
+        }
+
+        router.post(window.location.pathname, submitData, {
+            onSuccess: () => {
+                toast.success("Member registered successfully!")
+                form.reset()
+                window.history.back()
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 
