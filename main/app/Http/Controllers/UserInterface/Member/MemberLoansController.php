@@ -40,7 +40,7 @@ class MemberLoansController extends Controller
         // Get current loans (ongoing and pending) - KEEP SAME: type + status
         $currentLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED', 'OVERDUE'])
+            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
             ->orderBy('id', 'desc')
             ->get()
             ->map(function ($loan) use ($member) {
@@ -66,7 +66,7 @@ class MemberLoansController extends Controller
         // Get previous loans (completed, paid, or rejected) - CHANGE: type + date only
         $previousLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['PAID', 'REJECTED'])
+            ->whereIn('status', ['PAID', 'REJECTED', 'OVERDUE'])
             ->orderBy('id', 'desc')
             ->get()
             ->map(function ($loan) {

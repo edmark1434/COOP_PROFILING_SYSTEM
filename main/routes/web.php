@@ -18,13 +18,11 @@ use App\Http\Controllers\UserInterface\LoanOfficer\ActiveLoansController;
 use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 
 
-
-
-
 // Member
+use App\Http\Controllers\UserInterface\Member\MemberOverviewController;
+use App\Http\Controllers\UserInterface\Member\MemberTransactionController;
 use App\Http\Controllers\UserInterface\Member\MemberLoansController;
 use App\Http\Controllers\UserInterface\Member\MemberNotificationsController;
-use App\Http\Controllers\UserInterface\Member\MemberTransactionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -66,9 +64,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-        Route::get('/overview', function () {
-            return Inertia::render('member/overview',[]);
-        })->name('overview');
+         Route::get('/overview', [MemberOverviewController::class, 'index'])->name('overview');
+        // Route::get('/overview', function () {
+        //     return Inertia::render('member/overview',[]);
+        // })->name('overview');
 
         Route::get('/my-transactions', [MemberTransactionController::class, 'index'])->name('myTransactions');
         // Route::get('/my-transactions', function () {
