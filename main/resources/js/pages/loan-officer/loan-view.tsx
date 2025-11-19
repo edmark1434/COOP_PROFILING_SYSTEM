@@ -1,9 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
-import loanOfficer from "@/routes/loan-officer";
+import loanOfficer, { loanRejectionForm } from "@/routes/loan-officer";
 import {Button} from "@/components/ui/button";
 
 interface Member {
@@ -148,9 +148,11 @@ export default function LoanView({ loan }: LoanViewProps) {
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve
                         </Button>
+                        <Link href={loanRejectionForm(loan.id)}>
                         <Button variant="destructive" >
                             Reject
                         </Button>
+                    </Link>
                     </div>
                 </div>
             </div>
