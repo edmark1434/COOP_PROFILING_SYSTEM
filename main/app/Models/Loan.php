@@ -10,7 +10,7 @@ use App\Models\Installment;
 class Loan extends Model
 {
     use HasFactory;
-    public const STATUS = ['PENDING','APPROVED','DISBURSED','ONGOING','PAID','OVERDUE','REJECTED'];
+    public const STATUS = ['Pending','Approved','Disbursed','Ongoing','Paid','Overdue','Rejected'];
 
     protected $fillable = [
         'ref_no',
@@ -24,7 +24,7 @@ class Loan extends Model
     ];
 
     protected $attributes = [
-        'status' => 'PENDING',
+        'status' => 'Pending',
     ];
 
     public function member()

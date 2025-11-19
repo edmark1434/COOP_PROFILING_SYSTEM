@@ -16,43 +16,20 @@ import {
 } from "@/components/ui/card"
 import {
     Field,
-    FieldContent, FieldDescription,
+    FieldContent,
     FieldError,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
-    InputGroupText,
-} from "@/components/ui/input-group"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import { router } from "@inertiajs/react";
 
 const formSchema = z.object({
     remarks: z
         .string()
         .min(1, "This field is required"),
 })
-
-const suffixes = [
-    "Jr.",
-    "Sr.",
-    "I",
-    "II",
-    "III",
-    "IV",
-    "V",
-] as const
 
 export default function LoanRejectionForm() {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,20 +40,17 @@ export default function LoanRejectionForm() {
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+        router.post(window.location.pathname, data, {
+            onSuccess: () => {
+                toast.success("Loan rejected successfully.")
+                form.reset()
+                window.history.back()
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 

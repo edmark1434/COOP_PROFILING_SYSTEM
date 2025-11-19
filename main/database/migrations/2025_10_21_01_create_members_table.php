@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name', 100);
             $table->enum('suffix',Member::SUFFIX,20)->nullable();
             $table->string('contact_num', 20)->unique();
-            $table->enum('status',Member::STATUS, 20)->default('ACTIVE');
+            $table->enum('status',Member::STATUS, 20)->default('Active');
             $table->date('join_date');
             $table->date('exit_date')->nullable();
         });

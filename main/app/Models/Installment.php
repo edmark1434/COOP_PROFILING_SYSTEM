@@ -9,7 +9,7 @@ use App\Models\Transaction;
 class Installment extends Model
 {
     use HasFactory;
-    public const STATUS = ['PENDING','DUE','PAID','OVERDUE'];
+    public const STATUS = ['Pending','Due','Paid','Overdue'];
     protected $fillable = [
         'due_date',
         'amount',
@@ -19,7 +19,7 @@ class Installment extends Model
     ];
 
     protected $attributes = [
-        'status' => 'PENDING',
+        'status' => 'Pending',
     ];
 
     public $timestamps = false; // since migration has no created_at/updated_at

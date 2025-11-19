@@ -88,13 +88,16 @@ export default function LoanApplicationForm() {
             interestRate: interestRate,
         }
 
-        router.post("/member/my-loans/apply", submitData, {
+        router.post(window.location.pathname, submitData, {
             onSuccess: () => {
                 toast.success("Loan application submitted!")
                 form.reset()
+                window.history.back()
             },
-            onError: (errors) => {
-                toast.error('Validation errors occurred. Please check your input.')
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
             },
         })
     }
