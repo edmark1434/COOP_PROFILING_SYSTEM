@@ -2,6 +2,7 @@ import {Check, Plus, Settings, Trash} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {  Link, router } from '@inertiajs/react';
 import loanApplicationForm from "@/routes/member/loanApplicationForm";
+import staffAddForm from "@/routes/admin/staffAddForm";
 // import { loanApplicationForm } from "@/routes/member";
 
 
@@ -21,7 +22,9 @@ export const headerConfigs: Record<string, React.ReactNode> = {
     ),
     "/admin/staff": (
         <>
-            <Button variant="secondary"><Plus /> Add Staff</Button>
+            <Link href={staffAddForm.get()}>
+                <Button variant="secondary"><Plus /> Add Staff</Button>
+            </Link>
         </>
     ),
     "/teller/transactions": (

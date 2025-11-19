@@ -50,7 +50,7 @@ class TellerFormsController extends Controller
 
     public function confirmTransactionGet()
     {
-
+        return Inertia::render('teller/forms/confirm-transaction',[]);
     }
     public function confirmTransactionPost(Request $request)
     {
@@ -59,11 +59,11 @@ class TellerFormsController extends Controller
 
     public function confirmMemberGet()
     {
-
+        return Inertia::render('teller/forms/confirm-member',[]);
     }
     public function confirmMemberPost(Request $request)
     {
-
+        $request->session()->put('member_confirmed',true);
     }
 
     public function memberRegistrationFormGet()
@@ -152,11 +152,12 @@ class TellerFormsController extends Controller
 
     public function registerMemberFingerprintGet()
     {
-
+        return Inertia::render('teller/forms/register-member-finger',[]);
     }
     public function registerMemberFingerprintPost(Request $request)
     {
-
+        $template = $request->input('template');
+        $request->session()->put('member_fingerprint',$template);
     }
 
 }
