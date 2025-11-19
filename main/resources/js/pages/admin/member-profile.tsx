@@ -13,11 +13,8 @@ import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/inpu
 import {TabbedTable} from "@/components/tabbed-table";
 import {memberProfile} from "@/routes/admin";
 
-    
 interface MemberProp {
-    member: {
-        id: number | string;
-    };
+    member: { id: number | string };
     transactionsAscName: any[];
     transactionsDescName: any[];
     transactionsAscType: any[];
@@ -48,15 +45,14 @@ export default function MemberProfile({
     loansDescDate,
 }: MemberProp) {
     const breadcrumbs: BreadcrumbItem[] = [
-        {
-            title: 'Members/ID',
-            href: memberProfile(member.id).url
-        },
+        { title: 'Members/ID', href: memberProfile(member.id).url },
     ];
+
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
     const [orderDirection, setOrderDirection] = React.useState<"asc" | "desc">("asc");
+    const [searchQuery, setSearchQuery] = React.useState("");
 
-    // Map selected sorting to the pre-filtered backend data
+    // Sorting logic
     const transactions = React.useMemo(() => {
         if (orderByField === "name") return orderDirection === "asc" ? transactionsAscName : transactionsDescName;
         if (orderByField === "type") return orderDirection === "asc" ? transactionsAscType : transactionsDescType;
@@ -71,7 +67,21 @@ export default function MemberProfile({
         return loansAscName;
     }, [orderByField, orderDirection, loansAscName, loansDescName, loansAscType, loansDescType, loansAscDate, loansDescDate]);
 
-    // Keep everything else unchanged
+    // Filter dynamically based on active tab and searchQuery
+    const filteredLoans = React.useMemo(() => {
+        if (!searchQuery) return loans;
+        return loans.filter((loan: any) =>
+            loan?.purpose?.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [loans, searchQuery]);
+
+    const filteredTransactions = React.useMemo(() => {
+        if (!searchQuery) return transactions;
+        return transactions.filter((tx: any) =>
+            tx.type?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [transactions, searchQuery]);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members/id" />
@@ -129,11 +139,16 @@ export default function MemberProfile({
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput placeholder="Search..." />
+                        <InputGroupInput
+                            placeholder={`Search...`}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                         <InputGroupAddon>
                             <Search />
                         </InputGroupAddon>
-                        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                        <InputGroupAddon align="inline-end">
+                        </InputGroupAddon>
                     </InputGroup>
                 </div>
                 <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
@@ -141,16 +156,8 @@ export default function MemberProfile({
                         variant="bordered"
                         defaultTab="transactions"
                         tabs={[
-                            {
-                                value: "loans",
-                                label: "Loans",
-                                data: loans,
-                            },
-                            {
-                                value: "transactions",
-                                label: "Transactions",
-                                data: transactions,
-                            },
+                            { value: "loans", label: "Loans", data: filteredLoans },
+                            { value: "transactions", label: "Transactions", data: filteredTransactions },
                         ]}
                     />
                 </div>
