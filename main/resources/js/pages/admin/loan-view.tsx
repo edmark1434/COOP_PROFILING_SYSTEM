@@ -265,10 +265,10 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        <div className="flex flex-col">
+                                        {/* <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
                                             <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
-                                        </div>
+                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
                                             <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>

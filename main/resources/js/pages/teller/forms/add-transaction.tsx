@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/select"
 import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import {router, usePage} from "@inertiajs/react";
 
 const formSchema = z.object({
     type: z
@@ -53,12 +54,6 @@ const formSchema = z.object({
         .refine((val) => Number(val) <= 300000, "Amount exceeds the transaction limit: ₱300,000.00"),
 })
 
-const transactionTypes = [
-    { name: "Type 1", id: "1" },
-    { name: "Type 2", id: "2" },
-    { name: "Type 3", id: "3" },
-] as const
-
 export default function TransactionForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -69,26 +64,28 @@ export default function TransactionForm() {
         },
     })
 
+    const { transactionTypes } = usePage<{
+        transactionTypes: string[];
+    }>().props
+
     function onSubmit(data: z.infer<typeof formSchema>) {
         const submitData = {
-            type: Number(data.type),
+            type: data.type,
             member: Number(data.member),
             amount: Number(data.amount),
         }
 
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(submitData, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+        router.post(window.location.pathname, submitData, {
+            onSuccess: () => {
+                toast.success("Transaction recorded successfully.")
+                form.reset()
+                window.history.back()
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 
@@ -128,8 +125,8 @@ export default function TransactionForm() {
                                         </SelectTrigger>
                                         <SelectContent position="item-aligned">
                                             {transactionTypes.map((type) => (
-                                                <SelectItem key={type.id} value={type.id}>
-                                                    {type.name}
+                                                <SelectItem key={type} value={type}>
+                                                    {type}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

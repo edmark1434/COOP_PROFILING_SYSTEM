@@ -16,36 +16,36 @@ class OverviewController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek();
 
         // Get loans for each status with member and purpose relationships
-        $pendingLoans = Loan::where('status', 'PENDING')
+        $pendingLoans = Loan::where('status', 'Pending')
             ->with(['member', 'purpose'])
             ->get();
 
-        $approvedLoans = Loan::where('status', 'APPROVED')
+        $approvedLoans = Loan::where('status', 'Approved')
             ->with(['member', 'purpose'])
             ->get();
 
-        $ongoingLoans = Loan::where('status', 'ONGOING')
+        $ongoingLoans = Loan::where('status', 'Ongoing')
             ->with(['member', 'purpose'])
             ->get();
 
-        $overdueLoans = Loan::where('status', 'OVERDUE')
+        $overdueLoans = Loan::where('status', 'Overdue')
             ->with(['member', 'purpose'])
             ->get();
 
         // Count loans created this week for each status
-        $pendingThisWeek = Loan::where('status', 'PENDING')
+        $pendingThisWeek = Loan::where('status', 'Pending')
             ->where('created_at', '>=', $startOfWeek)
             ->count();
 
-        $approvedThisWeek = Loan::where('status', 'APPROVED')
+        $approvedThisWeek = Loan::where('status', 'Approved')
             ->where('created_at', '>=', $startOfWeek)
             ->count();
 
-        $ongoingThisWeek = Loan::where('status', 'ONGOING')
+        $ongoingThisWeek = Loan::where('status', 'Ongoing')
             ->where('created_at', '>=', $startOfWeek)
             ->count();
 
-        $overdueThisWeek = Loan::where('status', 'OVERDUE')
+        $overdueThisWeek = Loan::where('status', 'Overdue')
             ->where('created_at', '>=', $startOfWeek)
             ->count();
 
@@ -70,14 +70,14 @@ class OverviewController extends Controller
         ];
 
         // Get recent loan applications (PENDING status)
-        $recentApplications = Loan::where('status', 'PENDING')
+        $recentApplications = Loan::where('status', 'Pending')
             ->with(['member', 'purpose'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 
         // Get active loans (ONGOING status)
-        $activeLoans = Loan::where('status', 'ONGOING')
+        $activeLoans = Loan::where('status', 'Ongoing')
             ->with(['member', 'purpose'])
             ->orderBy('created_at', 'desc')
             ->take(5)
