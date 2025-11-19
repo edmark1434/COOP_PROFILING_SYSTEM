@@ -9,6 +9,8 @@ use App\Http\Controllers\UserInterface\Admin\AdminAccountsController;
 use App\Http\Controllers\UserInterface\Admin\AdminMembersController;
 use App\Http\Controllers\UserInterface\Admin\AdminLoanController;
 use App\Http\Controllers\UserInterface\Admin\AdminStaffController;
+use App\Http\Controllers\UserInterface\Teller\TellerOverviewController;
+use App\Http\Controllers\UserInterface\Teller\TellerTransactionsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\UserInterface\LoanOfficer\OverviewController;
 use App\Http\Controllers\UserInterface\LoanOfficer\LoanApplicationsController;
@@ -21,6 +23,8 @@ use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 
 // Member
 use App\Http\Controllers\UserInterface\Member\MemberLoansController;
+use App\Http\Controllers\UserInterface\Member\MemberNotificationsController;
+use App\Http\Controllers\UserInterface\Member\MemberTransactionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -53,44 +57,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
-        Route::get('/overview', function () {
-            return Inertia::render('teller/overview', []);
-        })->name('overview');
+        // routes/web.php
+    Route::get('/overview', [TellerOverviewController::class, 'index'])->name('overview');
+    Route::get('/transactions', [TellerTransactionsController::class, 'index'])->name('transactions');
         Route::get('/member-lookup', function () {
             return Inertia::render('teller/member-lookup', []);
         })->name('memberLookup');
-        Route::get('/transactions', function () {
-            return Inertia::render('teller/transactions', []);
-        })->name('transactions');
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
         Route::get('/overview', function () {
             return Inertia::render('member/overview',[]);
         })->name('overview');
-        Route::get('/my-transactions', function () {
-            return Inertia::render('member/my-transactions',[]);
-        })->name('myTransactions');
-        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
-        Route::get('/notifications', function () {
-            return Inertia::render('member/notifications',[]);
-        })->name('notifications');
-    });
 
-    // Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-    //     Route::get('/overview', function () {
-    //         return Inertia::render('member/overview',[]);
-    //     })->name('overview');
-    //     Route::get('/my-transactions', function () {
-    //         return Inertia::render('member/my-transactions',[]);
-    //     })->name('myTransactions');
-    //     Route::get('/my-loans', function () {
-    //         return Inertia::render('member/my-loans',[]);
-    //     })->name('myLoans');
-    //     Route::get('/notifications', function () {
-    //         return Inertia::render('member/notifications',[]);
-    //     })->name('notifications');
-    // });
+        Route::get('/my-transactions', [MemberTransactionController::class, 'index'])->name('myTransactions');
+        // Route::get('/my-transactions', function () {
+        //     return Inertia::render('member/my-transactions',[]);
+        // })->name('myTransactions');
+        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
+        
+        Route::get('/notifications', [MemberNotificationsController::class, 'index'])->name('notifications');
+        Route::patch('/notifications/{id}/mark-as-read', [MemberNotificationsController::class, 'markAsRead'])->name('notifications.markAsRead');
+        Route::patch('/notifications/mark-all-as-read', [MemberNotificationsController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    });
 });
 
 require __DIR__.'/settings.php';

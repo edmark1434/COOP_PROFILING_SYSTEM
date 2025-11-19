@@ -20,14 +20,19 @@ interface TransactionRowData {
   user?: User;
   amount: number;
   created_at: string;
+  // For teller variant
+  date?: string;
+  member_name?: string; 
 }
 
 interface TransactionRowProps extends React.ComponentProps<"div"> {
   data?: TransactionRowData;
+  variant?: 'default' | 'teller'; 
 }
 
 export function TransactionRow({
   data,
+  variant = 'default',
   className,
   ...props
 }: TransactionRowProps) {
@@ -120,6 +125,41 @@ export function TransactionRow({
     );
   }
 
+  // TELLER VARIANT - Simple layout with member in center
+  if (variant === 'teller') {
+    return (
+      <div
+        data-slot="transaction-row"
+        className={cn(
+          "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+          className
+        )}
+        {...props}
+      >
+        {/* Left: Transaction Type and Date */}
+        <div className="flex-1 min-w-[200px]">
+          <p className="font-semibold text-sm">{data.type}</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {data.date || formatDateOnly(data.created_at)}
+          </p>
+        </div>
+
+        {/* Center: Member Name with Label */}
+        <div className="flex-1 min-w-[200px] text-center mt-2 md:mt-0">
+          <p className="text-sm text-muted-foreground">
+            Member: {data.member_name || getMemberDisplayName(data.member)}
+          </p>
+        </div>
+
+        {/* Right: Amount */}
+        <div className="flex-1 min-w-[100px] text-right font-semibold text-sm mt-2 md:mt-0">
+          {formatAmount(data.amount || 0)}
+        </div>
+      </div>
+    );
+  }
+
+  // DEFAULT VARIANT - Original layout
   return (
     <div
       data-slot="transaction-row"

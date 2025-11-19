@@ -11,11 +11,13 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { X } from "lucide-react"
+import {Toaster} from "sonner";
 
 export default function ConfirmTransaction() {
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Confirm Transaction</CardTitle>
@@ -49,7 +51,7 @@ export default function ConfirmTransaction() {
                     </p>
                 </div>
             </CardContent>
-            <CardFooter className="px-10 pb-4">
+            <CardFooter className="px-10 pt-2 pb-4">
                 <Button className="w-full">
                     Confirm
                 </Button>

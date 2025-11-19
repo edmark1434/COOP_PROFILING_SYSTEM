@@ -59,7 +59,7 @@ class UserFactory extends Factory
                 // SUPER ADMIN
                 $data = [
                     ...$data,
-                    'name' => 'Admin User',
+                    'name' => 'Admin',
                     'email' => 'admin@test.com',
                     'password' => Hash::make('admin1234'),
                     'is_admin' => true,
@@ -75,7 +75,7 @@ class UserFactory extends Factory
                 // TELLER
                 $data = [
                     ...$data,
-                    'name' => 'Teller User',
+                    'name' => 'Teller',
                     'email' => 'teller@test.com',
                     'password' => Hash::make('teller1234'),
                     'is_admin' => false,
@@ -91,7 +91,7 @@ class UserFactory extends Factory
                 // LOAN OFFICER
                 $data = [
                     ...$data,
-                    'name' => 'Loan Officer User',
+                    'name' => 'Loan Officer',
                     'email' => 'loanofficer@test.com',
                     'password' => Hash::make('loanofficer1234'),
                     'is_admin' => false,
@@ -107,7 +107,7 @@ class UserFactory extends Factory
                 // NORMAL MEMBER (NO ADMIN)
                 $data = [
                     ...$data,
-                    'name' => 'Member User',
+                    'name' => 'Member',
                     'email' => 'member@test.com',
                     'password' => Hash::make('member1234'),
                     'is_admin' => false,

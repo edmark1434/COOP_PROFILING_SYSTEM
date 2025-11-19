@@ -39,7 +39,7 @@ class CustomDataSeeder extends Seeder
         foreach ($accounts as $acc) {
             Account::create([
                 ...$acc,
-                'status' => 'ACTIVE',
+                'status' => 'Active',
                 'balance' => $this->faker->randomFloat(2, 1000, 100000),
                 'member_id' => null, // system account
             ]);

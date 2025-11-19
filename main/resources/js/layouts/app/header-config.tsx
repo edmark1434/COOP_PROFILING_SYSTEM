@@ -1,7 +1,15 @@
 import {Check, Plus, Settings, Trash} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {  Link} from '@inertiajs/react';
-import { loanApplicationForm } from "@/routes/member";
+import {  Link, router } from '@inertiajs/react';
+import loanApplicationForm from "@/routes/member/loanApplicationForm";
+// import { loanApplicationForm } from "@/routes/member";
+
+
+const handleMarkAllAsRead = () => {
+    router.patch('/member/notifications/mark-all-as-read', {}, {
+        preserveScroll: true,
+    });
+};
 
 export const headerConfigs: Record<string, React.ReactNode> = {
 
@@ -25,12 +33,14 @@ export const headerConfigs: Record<string, React.ReactNode> = {
         <Button variant="destructive">Suspend</Button>
     ),
     "/member/my-loans": (
-        <Link href={loanApplicationForm()}>
+        <Link href={loanApplicationForm.get()}>
             <Button variant="secondary" ><Plus /> Apply for loan</Button>
         </Link>
     ),
     "/member/notifications": (
-        <Button variant="secondary"><Check /> Mark all as read</Button>
+        <Button variant="secondary" onClick={handleMarkAllAsRead}>
+            <Check /> Mark all as read
+        </Button>
     ),
 
 }
