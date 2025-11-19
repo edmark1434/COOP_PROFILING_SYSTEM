@@ -18,12 +18,12 @@ class Account extends Model
         'balance',
         'member_id',
     ];
-    
+
     protected $attributes = [
-        'status' => 'ACTIVE',
+        'status' => 'Active',
         'balance' => 0.00,
     ];
-    public const STATUS = ['ACTIVE','INACTIVE','CLOSED'];
+    public const STATUS = ['Active','Inactive','Closed'];
     public const TYPES = ['Asset', 'Liability', 'Equity', 'Income', 'Expense'];
 
     public $timestamps = false;

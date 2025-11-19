@@ -3,8 +3,8 @@
 import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { toast } from "sonner"
 import { Link } from "@inertiajs/react"
+import {toast, Toaster} from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -17,28 +17,15 @@ import {
 } from "@/components/ui/card"
 import {
     Field,
-    FieldContent, FieldDescription,
+    FieldContent,
     FieldError,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
-    InputGroupText,
-} from "@/components/ui/input-group"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
 import { loanView } from "@/routes/loan-officer"
+import { router } from "@inertiajs/react";
 
 const formSchema = z.object({
     remarks: z
@@ -65,25 +52,23 @@ export default function LoanRejectionForm(id:number) {
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+        router.post(window.location.pathname, data, {
+            onSuccess: () => {
+                toast.success("Loan rejected successfully.")
+                form.reset()
+                window.history.back()
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Reject Loan</CardTitle>
@@ -121,7 +106,7 @@ export default function LoanRejectionForm(id:number) {
                     </FieldGroup>
                 </form>
             </CardContent>
-            <CardFooter className="px-10 pb-4">
+            <CardFooter className="px-10 pt-2 pb-4">
                 <Field orientation="horizontal">
                     <Button type="button" variant="outline" onClick={() => form.reset()}>
                         Reset
