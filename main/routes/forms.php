@@ -59,6 +59,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/apply-for-loan',[MemberFormsController::class,'loanApplicationFormPost'] )->name('loanApplicationForm.post');
     });
 
+    Route::get('/api/members',[CommonFormsController::class,'MembersGet'] )->name('members.get');
+
     Route::get('/change-password',[CommonFormsController::class,'passwordChangeFormGet'] )->name('passwordChangeForm.get');
     Route::post('/change-password',[CommonFormsController::class,'passwordChangeFormPost'] )->name('passwordChangeForm.post');
 
