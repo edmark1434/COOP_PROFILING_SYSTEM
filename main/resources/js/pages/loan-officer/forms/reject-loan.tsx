@@ -4,6 +4,7 @@ import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { Link } from "@inertiajs/react"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -37,6 +38,7 @@ import {
 } from "@/components/ui/select"
 import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import { loanView } from "@/routes/loan-officer"
 
 const formSchema = z.object({
     remarks: z
@@ -54,7 +56,7 @@ const suffixes = [
     "V",
 ] as const
 
-export default function LoanRejectionForm() {
+export default function LoanRejectionForm(id:number) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -85,9 +87,11 @@ export default function LoanRejectionForm() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Reject Loan</CardTitle>
-                <Button variant="outline" size="icon" className="rounded-full">
-                    <X />
-                </Button>
+                <Link href={loanView(id)}>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <X />
+                    </Button>
+                </Link>
             </CardHeader>
             <CardContent className="px-10">
                 <form id="form-rhf-loan-rejection" onSubmit={form.handleSubmit(onSubmit)}>

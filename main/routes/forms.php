@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserInterface\LoanOfficer\LoanFormsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
@@ -21,9 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
-        Route::get('/loan-applications/reject', function () {
-            return Inertia::render('loan-officer/forms/reject-loan',[]);
-        })->name('loanRejectionForm');
+        Route::get('/loan-applications/reject/{id}', [LoanFormsController::class,'index'])->name('loanRejectionForm');
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
