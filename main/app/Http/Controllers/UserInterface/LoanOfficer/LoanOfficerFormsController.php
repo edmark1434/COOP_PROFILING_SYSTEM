@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 
 class LoanOfficerFormsController extends Controller
 {
-    public function loanRejectionFormGet()
+    public function loanRejectionFormGet($id)
     {
-        return Inertia::render('loan-officer/forms/reject-loan', []);
+        return Inertia::render('loan-officer/forms/reject-loan', [
+            'id' => $id
+        ]);
     }
     public function loanRejectionFormPost(Request $request, int $id)
     {

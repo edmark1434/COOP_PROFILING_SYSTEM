@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { X } from "lucide-react"
-import { loanView } from "@/routes/loan-officer"
 import { router } from "@inertiajs/react";
+import { loanView } from "@/routes/loan-officer"
 
 const formSchema = z.object({
     remarks: z
