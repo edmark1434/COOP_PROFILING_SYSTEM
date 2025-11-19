@@ -24,6 +24,7 @@ use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 // Member
 use App\Http\Controllers\UserInterface\Member\MemberLoansController;
 use App\Http\Controllers\UserInterface\Member\MemberNotificationsController;
+use App\Http\Controllers\UserInterface\Member\MemberTransactionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome',[]);
@@ -68,29 +69,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/overview', function () {
             return Inertia::render('member/overview',[]);
         })->name('overview');
-        Route::get('/my-transactions', function () {
-            return Inertia::render('member/my-transactions',[]);
-        })->name('myTransactions');
+
+        Route::get('/my-transactions', [MemberTransactionController::class, 'index'])->name('myTransactions');
+        // Route::get('/my-transactions', function () {
+        //     return Inertia::render('member/my-transactions',[]);
+        // })->name('myTransactions');
         Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
+        
         Route::get('/notifications', [MemberNotificationsController::class, 'index'])->name('notifications');
         Route::patch('/notifications/{id}/mark-as-read', [MemberNotificationsController::class, 'markAsRead'])->name('notifications.markAsRead');
         Route::patch('/notifications/mark-all-as-read', [MemberNotificationsController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     });
-
-    // Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-    //     Route::get('/overview', function () {
-    //         return Inertia::render('member/overview',[]);
-    //     })->name('overview');
-    //     Route::get('/my-transactions', function () {
-    //         return Inertia::render('member/my-transactions',[]);
-    //     })->name('myTransactions');
-    //     Route::get('/my-loans', function () {
-    //         return Inertia::render('member/my-loans',[]);
-    //     })->name('myLoans');
-    //     Route::get('/notifications', function () {
-    //         return Inertia::render('member/notifications',[]);
-    //     })->name('notifications');
-    // });
 });
 
 require __DIR__.'/settings.php';
