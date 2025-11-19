@@ -12,7 +12,7 @@ class Member extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
-    public const STATUS = ['ACTIVE','INACTIVE','SUSPENDED','TERMINATED','DECEASED'];
+    public const STATUS = ['Active','Inactive','Suspended','Terminated'];
     public const SUFFIX = ['Jr.','Sr.','I','II','III','IV','V'];
     protected $fillable = [
         'id_coop',
@@ -27,7 +27,7 @@ class Member extends Model
     ];
 
     protected $attributes = [
-        'status' => 'ACTIVE',
+        'status' => 'Active',
     ];
 
     public $timestamps = false;

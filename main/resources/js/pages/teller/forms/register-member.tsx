@@ -3,7 +3,7 @@
 import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { toast } from "sonner"
+import {toast, Toaster} from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -104,6 +104,7 @@ export default function MemberRegistrationForm() {
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Register Member</CardTitle>
@@ -275,7 +276,7 @@ export default function MemberRegistrationForm() {
                     </FieldGroup>
                 </form>
             </CardContent>
-            <CardFooter className="px-10 pb-4">
+            <CardFooter className="px-10 pt-2 pb-4">
                 <Field orientation="horizontal">
                     <Button type="button" variant="outline" onClick={() => form.reset()}>
                         Reset

@@ -5,14 +5,12 @@ use App\Models\Loan;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Models\LoanPurpose;
+
 class MemberFormsController extends Controller
 {
-    /**
-     * Store a new loan application
-     */
-    public function loanIndex(){
+    public function loanApplicationFormGet()
+    {
         $loanPurposes = LoanPurpose::all();
         $plans = [
             [ 'id' => '3-5',  'termMonths' => 3,  'interestRate' => 5 ],
@@ -25,17 +23,26 @@ class MemberFormsController extends Controller
             'plans' => $plans,
         ]);
     }
-    public function loanStore(Request $request)
+    public function loanApplicationFormPost(Request $request)
     {
         $validated = $request->validate([
             'amount' => 'required|integer|min:1|max:300000',
             'purpose' => 'required|integer|exists:loan_purposes,id',
-            'termMonths' => 'required|integer',
+            'termMonths' => 'required|string',
             'interestRate' => 'required|numeric',
         ]);
 
-        Loan::query()->create($validated);
-        return back()->with('success', 'Loan application submitted');
+        $final = [
+            'ref_no' => fake()->numberBetween(5000000000, 5099999999),
+            'amount' => $validated['amount'],
+            'interest_rate' => $validated['interestRate'],
+            'term_months' => $validated['termMonths'],
+            'purpose_id' => $validated['purpose'],
+            'member_id' => auth()->id(),
+        ];
+
+        Loan::query()->create($final);
+        return back();
     }
 
 }

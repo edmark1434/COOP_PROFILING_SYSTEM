@@ -3,7 +3,7 @@
 import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { toast } from "sonner"
+import { toast, Toaster } from "sonner"
 import * as z from "zod"
 import {Link} from '@inertiajs/react';
 import { Button } from "@/components/ui/button"
@@ -89,19 +89,23 @@ export default function LoanApplicationForm() {
             interestRate: interestRate,
         }
 
-        router.post("/member/my-loans/apply", submitData, {
+        router.post(window.location.pathname, submitData, {
             onSuccess: () => {
                 toast.success("Loan application submitted!")
                 form.reset()
+                window.history.back()
             },
-            onError: () => {
-                toast.error("Error submitting loan application")
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
             },
         })
     }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <Toaster/>
             <Card className="w-full sm:max-w-md">
                 <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                     <CardTitle>Apply for Loan</CardTitle>
@@ -232,7 +236,7 @@ export default function LoanApplicationForm() {
                         </FieldGroup>
                     </form>
                 </CardContent>
-                <CardFooter className="px-10 pb-4">
+                <CardFooter className="px-10 pt-2 pb-4">
                     <Field orientation="horizontal">
                         <Button type="button" variant="outline" onClick={() => form.reset()}>
                             Reset
