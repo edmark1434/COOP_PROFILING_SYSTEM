@@ -32,6 +32,11 @@ export const headerConfigs: Record<string, React.ReactNode> = {
             <Button variant="secondary"><Plus /> Add Transaction</Button>
         </>
     ),
+    "/teller/member-lookup": (
+        <>
+            <Button variant="secondary"><Plus /> Register Member</Button>
+        </>
+    ),
     "/member/profile": (
         <Button variant="destructive">Suspend</Button>
     ),
