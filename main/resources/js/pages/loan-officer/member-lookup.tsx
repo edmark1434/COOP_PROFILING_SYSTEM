@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Member {
+    interface Member {
     id: string;
     name: string;
 }
@@ -24,13 +24,6 @@ interface MemberLookupProps {
 }
 
 // Transform members to the format expected by MemberCombobox
-const transformMembersToItems = (members: Member[]) => {
-    return members.map(member => ({
-        value: member.id,
-        label: member.name
-    }));
-};
-
 export default function LoanOfficerMemberLookup({ members }: MemberLookupProps) {
     const [selectedMemberId, setSelectedMemberId] = React.useState("");
 
