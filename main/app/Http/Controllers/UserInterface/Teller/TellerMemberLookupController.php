@@ -39,7 +39,7 @@ class TellerMemberLookupController extends Controller
         }
 
         $member = Member::with(['accounts','user'])->find($id);
-        
+
         if(!$member) {
             return redirect()->route('teller.memberLookup')
                 ->with('error', 'Member not found');
@@ -50,7 +50,7 @@ class TellerMemberLookupController extends Controller
         $name = $member->first_name . " " . $member->last_name;
         $initial = CommonLogic::getInitials($name);
         $inactiveStatus = ['PAID','REJECTED','PENDING'];
-        
+
         // Calculate delinquency rate
         $delinquencyRate = $this->calculateDelinquencyRate($id);
 
@@ -170,59 +170,26 @@ class TellerMemberLookupController extends Controller
         try {
             // Use exact status match for 'Overdue'
             $totalLoans = Loan::where('member_id', $memberId)->count();
-            
+
             if ($totalLoans == 0) {
                 \Log::info("No loans found for member $memberId - delinquency rate: 0%");
                 return 0;
             }
-            
+
             $overdueLoans = Loan::where('member_id', $memberId)
                 ->where('status', 'Overdue') // Exact match for 'Overdue'
                 ->count();
-            
+
             $delinquencyRate = ($overdueLoans / $totalLoans) * 100;
             $roundedRate = round($delinquencyRate, 1);
-            
+
             \Log::info("Delinquency Rate Calculation - Member: $memberId, Total Loans: $totalLoans, Overdue: $overdueLoans, Rate: $roundedRate%");
-            
+
             return $roundedRate;
-            
+
         } catch (\Exception $e) {
             \Log::error("Error calculating delinquency rate for member $memberId: " . $e->getMessage());
             return 0;
         }
-    }
-
-    /**
-     * Get members with delinquency rate 10% or above
-     */
-    public function getDelinquentMembers($minRate = 10)
-    {
-        $delinquentMembers = \DB::table('members as m')
-            ->leftJoin('loans as l', 'm.id', '=', 'l.member_id')
-            ->select(
-                'm.id',
-                'm.first_name',
-                'm.last_name',
-                'm.contact_num',
-                'm.join_date',
-                'm.status as member_status',
-                \DB::raw('COUNT(l.id) as total_loans'),
-                \DB::raw('SUM(CASE WHEN l.status = "Overdue" THEN 1 ELSE 0 END) as overdue_loans'),
-                \DB::raw('CASE 
-                    WHEN COUNT(l.id) = 0 THEN 0
-                    ELSE ROUND((SUM(CASE WHEN l.status = "Overdue" THEN 1 ELSE 0 END) * 100.0 / COUNT(l.id)), 1)
-                END as delinquency_rate')
-            )
-            ->groupBy('m.id', 'm.first_name', 'm.last_name', 'm.contact_num', 'm.join_date', 'm.status')
-            ->havingRaw('
-                CASE 
-                    WHEN COUNT(l.id) = 0 THEN 0
-                    ELSE ROUND((SUM(CASE WHEN l.status = "Overdue" THEN 1 ELSE 0 END) * 100.0 / COUNT(l.id)), 1)
-                END >= ?', [$minRate])
-            ->orderBy('delinquency_rate', 'DESC')
-            ->get();
-
-        return $delinquentMembers;
     }
 }

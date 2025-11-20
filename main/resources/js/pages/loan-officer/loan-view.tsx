@@ -3,7 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
-import loanOfficer from "@/routes/loan-officer";
+import loanOfficer from "@/routes/loan-officer"
 import {Button} from "@/components/ui/button";
 import Swal from 'sweetalert2';
 

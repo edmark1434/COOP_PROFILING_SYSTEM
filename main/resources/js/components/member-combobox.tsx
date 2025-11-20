@@ -19,7 +19,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface MemberComboboxProps {
+export interface MemberComboboxProps {
     value: string
     onValueChange: (id: string) => void
     invalid?: boolean
