@@ -5,6 +5,7 @@ import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
 import loanOfficer from "@/routes/loan-officer";
 import {Button} from "@/components/ui/button";
+import Swal from 'sweetalert2';
 
 interface Member {
     id: number;
@@ -112,7 +113,7 @@ export default function LoanView({ loan }: LoanViewProps) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Loan Applications',
-            href: loanOfficer.overview().url
+            href: loanOfficer.loanApplications().url
         },
         {
             title: loan.ref_no,
@@ -121,16 +122,53 @@ export default function LoanView({ loan }: LoanViewProps) {
     ];
 
     const handleApprove = () => {
-        if (confirm('Are you sure you want to approve this loan?')) {
-            router.post(`/loan-officer/loans/${loan.id}/approve`, {}, {
-                onSuccess: () => {
-                    // Redirect to loan applications page after success
-                },
-                onError: (errors) => {
-                    console.error('Error approving loan:', errors);
-                }
-            });
-        }
+        Swal.fire({
+            title: 'Approve Loan?',
+            text: 'Are you sure you want to approve this loan?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#600',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                container: 'sweet-alert-center'
+            },
+            position: 'center'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.post(`/loan-officer/loans/${loan.id}/approve`, {}, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: 'Approved!',
+                            text: 'Loan has been approved successfully.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            customClass: {
+                                container: 'sweet-alert-center'
+                            },
+                            position: 'center'
+                        }).then(() => {
+                            // Redirect to loan applications page after success
+                            router.visit(loanOfficer.loanApplications().url);
+                        });
+                    },
+                    onError: (errors) => {
+                        console.error('Error approving loan:', errors);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to approve loan. Please try again.',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            customClass: {
+                                container: 'sweet-alert-center'
+                            },
+                            position: 'center'
+                        });
+                    }
+                });
+            }
+        });
     };
 
     const handleReject = () => {
