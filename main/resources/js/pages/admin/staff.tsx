@@ -12,6 +12,7 @@ import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/inpu
 import * as React from "react";
 import {StaffRow} from "@/components/rows/staff";
 import {Link} from '@inertiajs/react';
+import staffAddForm from '@/routes/admin/staffAddForm';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -95,16 +96,18 @@ export default function AdminStaff({
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-row h-fit w-full justify-between">
                     <div className="flex gap-2">
-                        <Button variant="default" className="bg-primary hover:bg-primary/90" onClick={() => window.location.href = admin.staff().url + "?action=add"}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Staff
-                        </Button>
+                        {/* <Link href={staffAddForm.get()}>
+                            <Button variant="default" className="bg-primary hover:bg-primary/90" >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Staff
+                            </Button>
+                        </Link> */}
                         <Popover>
                             <PopoverTrigger asChild>
-                                <Button variant="outline">
-                                    <Settings2 className="w-16"/>
-                                    Display
-                                </Button>
+                                    <Button variant="outline">
+                                        <Settings2 className="w-16"/>
+                                        Display
+                                    </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-fit p-0">
                                 <div className="grid">

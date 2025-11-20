@@ -20,18 +20,30 @@ class AuditLogFactory extends Factory
         $type = $this->faker->randomElement(AuditLog::TYPES);
         $transType = $this->faker->randomElement(Transaction::TYPES);
         $loanPurpose = $this->faker->randomElement(LoanPurpose::TYPES);
+        $member = $this->faker->name();
+        $roleUpdate = $this->faker->randomElement(["Teller to Loan Officer", "Loan Officer to Admin", "Loan Officer to Teller"]);
+
         // Default description
         $description = $this->faker->sentence(10);
 
         // Customize description for loan or transaction types
         if (in_array($type, ['Loan Approved', 'Loan Rejected'])) {
-            $randomLoanId = $this->faker->unique()->numberBetween(1, 1000);
+            $randomLoanId = $this->faker->unique()->numberBetween(5000000000, 5099999999);
             $description = "{$loanPurpose} - Loan ID: {$randomLoanId}";
         }
 
         if (in_array($type, ['Transaction Recorded', 'Transaction Updated'])) {
-            $randomTransactionId = $this->faker->unique()->numberBetween(1, 1000);
+            $randomTransactionId = $this->faker->unique()->numberBetween(2200000000, 2299999999);
             $description = "{$transType} - Transaction ID: {$randomTransactionId}";
+        }
+
+        if (in_array($type, ['Member Registered'])) {
+            $randomMemberId = $this->faker->unique()->numberBetween(6700000000, 6799999999);
+            $description = "{$member} - Member ID: {$randomMemberId}";
+        }
+
+        if (in_array($type, ['Staff Role Updated'])) {
+            $description = "{$member} - {$roleUpdate}";
         }
 
         return [

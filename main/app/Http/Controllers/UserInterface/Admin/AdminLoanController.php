@@ -12,19 +12,20 @@ use App\Models\User;
 use App\Models\AuditLog;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CommonLogic;
+use Illuminate\Support\Facades\DB;
 
 class AdminLoanController extends Controller
 {
     public function index()
     {
-        // Get loans grouped by status
-        $ongoing = Loan::where('status', 'ONGOING')->with(['member', 'purpose'])->get();
-        $disbursed = Loan::where('status', 'DISBURSED')->with(['member', 'purpose'])->get();
-        $overdue = Loan::where('status', 'OVERDUE')->with(['member', 'purpose'])->get();
-        $paid = Loan::where('status', 'PAID')->with(['member', 'purpose'])->get();
-        $pending = Loan::where('status', 'PENDING')->with(['member', 'purpose'])->get();
-        $approved = Loan::where('status', 'APPROVED')->with(['member', 'purpose'])->get();
-        $rejected = Loan::where('status', 'REJECTED')->with(['member', 'purpose'])->get();
+        // Get loans grouped by status (case sensitive)
+        $ongoing = Loan::where(DB::raw('LOWER(status)'), 'ongoing')->with(['member', 'purpose'])->get();
+        $disbursed = Loan::where(DB::raw('LOWER(status)'), 'disbursed')->with(['member', 'purpose'])->get();
+        $overdue = Loan::where(DB::raw('LOWER(status)'), 'overdue')->with(['member', 'purpose'])->get();
+        $paid = Loan::where(DB::raw('LOWER(status)'), 'paid')->with(['member', 'purpose'])->get();
+        $pending = Loan::where(DB::raw('LOWER(status)'), 'pending')->with(['member', 'purpose'])->get();
+        $approved = Loan::where(DB::raw('LOWER(status)'), 'approved')->with(['member', 'purpose'])->get();
+        $rejected = Loan::where(DB::raw('LOWER(status)'), 'rejected')->with(['member', 'purpose'])->get();
 
         // Format loans for display - keep the nested structure
         $loansByStatus = [

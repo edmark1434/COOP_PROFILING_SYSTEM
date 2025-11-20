@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {toast, Toaster} from "sonner"
 import * as z from "zod"
-
+import { Link } from "@inertiajs/react"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/select"
 import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import { staff } from "@/routes/admin"
 
 const formSchema = z.object({
     fullName: z
@@ -89,9 +90,11 @@ export default function StaffAddForm() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Add Staff</CardTitle>
+            <Link href={staff()}>
                 <Button variant="outline" size="icon" className="rounded-full">
                     <X />
                 </Button>
+            </Link>
             </CardHeader>
             <CardContent className="px-10">
                 <form id="form-rhf-staff-add" onSubmit={form.handleSubmit(onSubmit)}>
