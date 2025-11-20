@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\UserInterface\Teller;
+use App\Http\Controllers\CommonLogic;
 use App\Models\Account;
 use App\Models\AuditLog;
 use App\Models\Member;
@@ -15,6 +16,7 @@ class TellerFormsController extends Controller
 {
     public function transactionFormGet()
     {
+        session()->forget('form');
         return Inertia::render('teller/forms/add-transaction', [
             'transactionTypes' => Transaction::TYPES,
         ]);
@@ -27,47 +29,48 @@ class TellerFormsController extends Controller
             'amount' => 'required|integer|min:1|max:300000',
         ]);
 
-        $final = [
-            'ref_no' => fake()->numberBetween(2200000000, 2299999999),
-            'amount' => $validated['amount'],
-            'type' => $validated['type'],
-            'member_id' => $validated['member'],
-            'user_id' => auth()->id(),
-        ];
-
-        Transaction::query()->create($final);
-
-        // audit log
-        $auditLog = [
-            'type' => 'Transaction Recorded',
-            'description' => $validated['type'] . ' - Transaction ID: ' . $final['ref_no'],
-            'user_id' => auth()->id(),
-        ];
-
-        AuditLog::query()->create($auditLog);
-        return back();
+        session()->put('form.type', 'add-transaction');
+        session()->put('form.data', $validated);
+        return redirect()->route('teller.confirmTransaction.get');
     }
 
     public function confirmTransactionGet()
     {
-        return Inertia::render('teller/forms/confirm-transaction',[]);
-    }
-    public function confirmTransactionPost(Request $request)
-    {
+        $data = session()->get('form.data');
+        $member = Member::query()->where('id', $data['member'])->first();
+        $name = trim(implode(' ', array_filter([
+            $member->first_name,
+            $member->middle_name ?? null,
+            $member->last_name,
+            $member->suffix ?? null
+        ])));
 
+        session()->put('form.member_name', $name);
+
+        return Inertia::render('teller/forms/confirm-transaction',[
+            'data' => $data,
+            'memberName' => $name,
+        ]);
     }
 
     public function confirmMemberGet()
     {
-        return Inertia::render('teller/forms/confirm-member',[]);
+        $name = session()->get('form.member_name');
+        $initials = CommonLogic::getInitials($name);
+        return Inertia::render('teller/forms/confirm-member',[
+            'memberName' => $name,
+            'initials' => $initials,
+        ]);
     }
-    public function confirmMemberPost(Request $request)
+    public function confirmMemberPost()
     {
-        $request->session()->put('member_confirmed',true);
+        session()->put('form.member_confirmed',true);
+        return redirect()->route('confirmStaff.get');
     }
 
     public function memberRegistrationFormGet()
     {
+        session()->forget('form');
         return Inertia::render('teller/forms/register-member', [
             'suffixes' => Member::SUFFIX,
         ]);
@@ -88,13 +91,66 @@ class TellerFormsController extends Controller
             'contactNum'   => ['required', 'string', 'regex:/^\+639\d{9}|(\+63[2-9]\d{1,3}\d{7,8})$/'],
         ]);
 
-        $coop_id = fake()->numberBetween(6700000000, 6799999999);
         $name = trim(implode(' ', array_filter([
-                    $validated['firstName'],
-                    $validated['middleName'] ?? null,
-                    $validated['lastName'],
-                    $validated['suffix'] ?? null
-                ])));
+            $validated['firstName'],
+            $validated['middleName'] ?? null,
+            $validated['lastName'],
+            $validated['suffix'] ?? null
+        ])));
+
+        session()->put('form.type', 'register-member');
+        session()->put('form.data', $validated);
+        session()->put('form.member_name', $name);
+        return redirect()->route('teller.registerMemberFingerprint.get');
+    }
+
+    public function registerMemberFingerprintGet()
+    {
+        $name = session()->get('form.member_name');
+        $initials = CommonLogic::getInitials($name);
+        return Inertia::render('teller/forms/register-member-finger',[
+            'memberName' => $name,
+            'initials' => $initials,
+        ]);
+    }
+    public function registerMemberFingerprintPost(Request $request)
+    {
+        $template = $request->input('template');
+        session()->put('form.member_fingerprint',$template);
+        $this->transactionFormSave();
+    }
+
+    public function transactionFormSave()
+    {
+        $validated = session()->get('form.data');
+
+        $final = [
+            'ref_no' => fake()->numberBetween(2200000000, 2299999999),
+            'amount' => $validated['amount'],
+            'type' => $validated['type'],
+            'member_id' => $validated['member'],
+            'user_id' => auth()->id(),
+        ];
+
+        Transaction::query()->create($final);
+
+        // audit log
+        $auditLog = [
+            'type' => 'Transaction Recorded',
+            'description' => $validated['type'] . ' - Transaction ID: ' . $final['ref_no'],
+            'user_id' => auth()->id(),
+        ];
+
+        AuditLog::query()->create($auditLog);
+        return redirect()->route('teller.transactions');
+    }
+
+    public function memberRegistrationFormSave()
+    {
+        $validated = session()->get('form.data');
+
+        $coop_id = fake()->numberBetween(6700000000, 6799999999);
+        $name = session()->get('form.member_name');
 
         // member
         $memberForm = [
@@ -147,17 +203,7 @@ class TellerFormsController extends Controller
         ];
 
         AuditLog::query()->create($auditLog);
-        return back();
-    }
-
-    public function registerMemberFingerprintGet()
-    {
-        return Inertia::render('teller/forms/register-member-finger',[]);
-    }
-    public function registerMemberFingerprintPost(Request $request)
-    {
-        $template = $request->input('template');
-        $request->session()->put('member_fingerprint',$template);
+        return redirect()->route('teller.memberLookup');
     }
 
 }

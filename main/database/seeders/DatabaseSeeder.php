@@ -28,9 +28,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CustomDataSeeder::class,
         ]);
-        User::factory(5)->create();
+        User::factory(50)->create();
         Account::factory(5)->create();
-        AuditLog::factory(5)->create();
+        AuditLog::factory(500)->create();
         Transaction::factory(5)->create();
         LedgerEntry::factory(5)->create();
         Installment::factory(5)->create();

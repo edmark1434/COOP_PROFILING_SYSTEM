@@ -12,8 +12,13 @@ import {
 } from "@/components/ui/card"
 import { X } from "lucide-react"
 import {Toaster} from "sonner";
+import {router,usePage} from "@inertiajs/react";
 
 export default function ConfirmTransaction() {
+    const { data, memberName } = usePage<{
+        data: { type: string, member: number, amount: number };
+        memberName: string;
+    }>().props
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -31,7 +36,7 @@ export default function ConfirmTransaction() {
                         Transaction Type
                     </p>
                     <p className="font-medium text-sm">
-                        Loan Disbursement
+                        {data.type}
                     </p>
                 </div>
                 <div className="flex-1 min-w-[200px]">
@@ -39,7 +44,7 @@ export default function ConfirmTransaction() {
                         Member Name
                     </p>
                     <p className="font-medium text-sm">
-                        Jodeci Pacibe
+                        {memberName}
                     </p>
                 </div>
                 <div className="flex-1 min-w-[200px]">
@@ -47,12 +52,12 @@ export default function ConfirmTransaction() {
                         Transaction Amount
                     </p>
                     <p className="font-medium text-sm">
-                        ₱ 23,232.00
+                        ₱ {data.amount}.00
                     </p>
                 </div>
             </CardContent>
             <CardFooter className="px-10 pt-2 pb-4">
-                <Button className="w-full">
+                <Button className="w-full" onClick={() => router.get("/teller/confirm-member")}>
                     Confirm
                 </Button>
             </CardFooter>

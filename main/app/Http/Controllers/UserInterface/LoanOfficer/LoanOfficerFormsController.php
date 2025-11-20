@@ -12,6 +12,7 @@ class LoanOfficerFormsController extends Controller
 {
     public function loanRejectionFormGet($id)
     {
+        session()->forget('form');
         return Inertia::render('loan-officer/forms/reject-loan', [
             'id' => $id
         ]);
@@ -21,6 +22,17 @@ class LoanOfficerFormsController extends Controller
         $validated = $request->validate([
             'remarks' => 'required|string',
         ]);
+
+        session()->put('form.type', 'reject-loan');
+        session()->put('form.data', $validated);
+        session()->put('form.id', $id);
+        return redirect()->route('confirmStaff.get');
+    }
+
+    public function loanRejectionFormSave()
+    {
+        $validated = session()->get('form.data');
+        $id = session()->get('id');
 
         $final = [
             'remarks' => $validated['remarks'],
@@ -38,7 +50,7 @@ class LoanOfficerFormsController extends Controller
         ];
 
         AuditLog::query()->create($auditLog);
-        return back();
+        return redirect()->route('loanOfficer.loan-view', $id);
     }
 
 }

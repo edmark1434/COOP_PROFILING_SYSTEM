@@ -53,75 +53,51 @@ class UserFactory extends Factory
             $data['member_id'] = Member::factory();
         }
 
-        // FIXED: special users
-        switch (static::$userCount) {
-            case 0:
-                // SUPER ADMIN
-                $data = [
-                    ...$data,
-                    'name' => 'Admin',
-                    'email' => 'admin@test.com',
-                    'password' => Hash::make('admin1234'),
-                    'is_admin' => true,
-                    'is_member' => false,
-                    'is_teller' => false,
-                    'is_loan_officer' => false,
-                    'status' => 'Active',
-                    'member_id' => null,
-                ];
-                break;
-
-            case 1:
-                // TELLER
-                $data = [
-                    ...$data,
-                    'name' => 'Teller',
-                    'email' => 'teller@test.com',
-                    'password' => Hash::make('teller1234'),
-                    'is_admin' => false,
-                    'is_member' => false,
-                    'is_teller' => true,
-                    'is_loan_officer' => false,
-                    'status' => 'Active',
-                    'member_id' => null,
-                ];
-                break;
-
-            case 2:
-                // LOAN OFFICER
-                $data = [
-                    ...$data,
-                    'name' => 'Loan Officer',
-                    'email' => 'loanofficer@test.com',
-                    'password' => Hash::make('loanofficer1234'),
-                    'is_admin' => false,
-                    'is_member' => false,
-                    'is_teller' => false,
-                    'is_loan_officer' => true,
-                    'status' => 'Active',
-                    'member_id' => null,
-                ];
-                break;
-
-            case 3:
-                // NORMAL MEMBER (NO ADMIN)
-                $data = [
-                    ...$data,
-                    'name' => 'Member',
-                    'email' => 'member@test.com',
-                    'password' => Hash::make('member1234'),
-                    'is_admin' => false,
-                    'is_member' => true,
-                    'is_teller' => false,
-                    'is_loan_officer' => false,
-                    'status' => 'Active',
-                    'member_id' => Member::factory(),
-                ];
-                break;
+        if (static::$userCount == 0) {
+            // NORMAL MEMBER (NO ADMIN)
+            $data = [
+                ...$data,
+                'name' => 'Member',
+                'email' => 'member@test.com',
+                'password' => Hash::make('member1234'),
+                'is_admin' => false,
+                'is_member' => true,
+                'is_teller' => false,
+                'is_loan_officer' => false,
+                'status' => 'Active',
+                'member_id' => Member::factory(),
+            ];
         }
 
         static::$userCount++;
         return $data;
+    }
+
+    public function teller()
+    {
+        return $this->state([
+            'is_teller' => true,
+            'is_loan_officer' => false,
+            'is_admin' => false,
+        ]);
+    }
+
+    public function loanOfficer()
+    {
+        return $this->state([
+            'is_teller' => false,
+            'is_loan_officer' => true,
+            'is_admin' => false,
+        ]);
+    }
+
+    public function admin()
+    {
+        return $this->state([
+            'is_teller' => false,
+            'is_loan_officer' => false,
+            'is_admin' => true,
+        ]);
     }
 
     /**
@@ -145,13 +121,5 @@ class UserFactory extends Factory
             'two_factor_confirmed_at' => null,
         ]);
     }
-    public function configure()
-    {
-        return $this->afterCreating(function (User $user) {
-            AuditLog::factory()
-                ->count(rand(1,3))
-                ->for($user,'user')  // sets member_id
-                ->create();
-        });
-    }
+
 }
