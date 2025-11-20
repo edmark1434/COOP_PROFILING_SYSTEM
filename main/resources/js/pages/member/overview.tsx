@@ -45,6 +45,7 @@ interface PageProps extends React.PropsWithChildren<Record<string, unknown>> {
         total_amount: number;
         active_loans: number;
         total_loan_amount: number;
+        delinquency_rate: number;
     };
     member: {
         first_name: string;
@@ -58,6 +59,7 @@ interface PageProps extends React.PropsWithChildren<Record<string, unknown>> {
         id_coop: string;
         email: string;
         share_capital: number;
+        delinquency_rate: number;
     };
 }
 
@@ -213,61 +215,69 @@ export default function MemberOverview() {
     const totalResults = displayedTransactions.length + displayedLoans.length;
 
     // Custom Profile Card Component
-    const ProfileCard = ({ title = "Profile", data }: { title?: string; data?: any }) => (
-        <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border">
-            <div className="flex flex-col p-5 py-2.5 border-b">
-                <div className="text-sm font-medium text-primary">{title}</div>
-            </div>
+    const ProfileCard = ({ title = "Profile", data }: { title?: string; data?: any }) => {
+        // Determine text color based on delinquency rate
+        const delinquencyRate = parseFloat(data?.rate) || 0;
+        const rateColorClass = delinquencyRate > 10 ? "text-red-600" : "text-destructive-foreground";
 
-            <div className="flex flex-col p-5 gap-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div className="flex flex-row gap-4 items-center">
-                        <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
-                            <p className="font-semibold text-2xl">{data?.initial}</p>
-                        </div>
-                        <div className="flex-1 min-w-[200px]">
-                            <p className="font-semibold text-md">{data?.member}</p>
-                            <p className="text-xs text-muted-foreground">Member ID: {data?.id}</p>
-                        </div>
-                    </div>
-                    <div className="flex-1 w-fit text-right">
-                        <p className="text-xs text-muted-foreground">Delinquency Rate</p>
-                        <p className="font-semibold text-destructive-foreground text-lg">{data?.rate}%</p>
-                    </div>
+        return (
+            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border">
+                <div className="flex flex-col p-5 py-2.5 border-b">
+                    <div className="text-sm font-medium text-primary">{title}</div>
                 </div>
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <p className="text-xs text-muted-foreground">Share Capital</p>
-                    <p className="font-semibold text-sm text-right">
-                        {formatShareCapital(memberData.share_capital)}
-                    </p>
-                </div>
-                <div className="flex flex-col gap-1">
+
+                <div className="flex flex-col p-5 gap-4">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <p className="text-xs text-muted-foreground">Joined Since</p>
-                        <p className="text-xs text-muted-foreground text-right">{data?.dateJoined}</p>
+                        <div className="flex flex-row gap-4 items-center">
+                            <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
+                                <p className="font-semibold text-2xl">{data?.initial}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="font-semibold text-md">{data?.member}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data?.id}</p>
+                            </div>
+                        </div>
+                        <div className="flex-1 w-fit text-right">
+                            <p className="text-xs text-muted-foreground">Delinquency Rate</p>
+                            <p className={`font-semibold text-lg ${rateColorClass}`}>
+                                {data?.rate}%
+                            </p>
+                        </div>
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <p className="text-xs text-muted-foreground">Email</p>
-                        <p className="text-xs text-muted-foreground text-right">{data?.email}</p>
+                        <p className="text-xs text-muted-foreground">Share Capital</p>
+                        <p className="font-semibold text-sm text-right">
+                            {formatShareCapital(memberData.share_capital)}
+                        </p>
                     </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <p className="text-xs text-muted-foreground">Contact Number</p>
-                        <p className="text-xs text-muted-foreground text-right">{data?.contact}</p>
-                    </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <p className="text-xs text-muted-foreground">Status</p>
-                        <p className="text-xs text-muted-foreground text-right">{data?.status}</p>
+                    <div className="flex flex-col gap-1">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Joined Since</p>
+                            <p className="text-xs text-muted-foreground text-right">{data?.dateJoined}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Email</p>
+                            <p className="text-xs text-muted-foreground text-right">{data?.email}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Contact Number</p>
+                            <p className="text-xs text-muted-foreground text-right">{data?.contact}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Status</p>
+                            <p className="text-xs text-muted-foreground text-right">{data?.status}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const profileMember = {
         initial: getInitials(memberData.first_name, memberData.last_name),
         id: memberData.id_coop,
         member: memberData.full_name,
-        rate: "60",
+        rate: memberData.delinquency_rate?.toString() || "0", 
         dateJoined: memberData.join_date,
         email: memberData.email,
         contact: memberData.contact_num,
