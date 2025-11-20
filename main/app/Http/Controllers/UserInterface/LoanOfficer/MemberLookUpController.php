@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\UserInterface\Teller;
+namespace App\Http\Controllers\UserInterface\LoanOfficer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CommonLogic;
@@ -10,7 +10,8 @@ use App\Models\Member;
 use App\Models\Loan;
 use App\Models\Transaction;
 
-class TellerMemberLookupController extends Controller
+
+class MemberLookUpController extends Controller
 {
     public function index()
     {
@@ -20,12 +21,12 @@ class TellerMemberLookupController extends Controller
             ->get()
             ->map(function ($member) {
                 return [
-                    'id' => (string)$member->id, // Explicitly cast to string
+                    'id' => (string)$member->id,
                     'name' => $member->first_name . ' ' . $member->last_name,
                 ];
             });
 
-        return Inertia::render('teller/member-lookup', [
+        return Inertia::render('loan-officer/member-lookup', [
             'members' => $members,
         ]);
     }
@@ -34,14 +35,14 @@ class TellerMemberLookupController extends Controller
     {
         // Ensure the ID is numeric
         if (!is_numeric($id)) {
-            return redirect()->route('teller.memberLookup')
+            return redirect()->route('loan-officer.memberLookup')
                 ->with('error', 'Invalid member ID');
         }
 
         $member = Member::with(['accounts','user'])->find($id);
 
         if(!$member) {
-            return redirect()->route('teller.memberLookup')
+            return redirect()->route('loan-officer.memberLookup')
                 ->with('error', 'Member not found');
         }
 
@@ -57,7 +58,7 @@ class TellerMemberLookupController extends Controller
         // Log what we're sending to frontend
         \Log::info("Sending to frontend - Member: {$member->id}, Delinquency Rate: {$delinquencyRate}%");
 
-        // BASE QUERIES (same as admin but for teller view)
+        // BASE QUERIES
         $transactionsBase = Transaction::with(['member','user'])
             ->where('member_id', $id);
 
@@ -130,7 +131,7 @@ class TellerMemberLookupController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return Inertia::render('teller/member-profile', [
+        return Inertia::render('loan-officer/member-profile', [
             'member'=> [
                 'id' => $member->id,
                 'first_name' => $member->first_name,
@@ -177,7 +178,7 @@ class TellerMemberLookupController extends Controller
             }
 
             $overdueLoans = Loan::where('member_id', $memberId)
-                ->where('status', 'Overdue') // Exact match for 'Overdue'
+                ->where('status', 'Overdue')
                 ->count();
 
             $delinquencyRate = ($overdueLoans / $totalLoans) * 100;
