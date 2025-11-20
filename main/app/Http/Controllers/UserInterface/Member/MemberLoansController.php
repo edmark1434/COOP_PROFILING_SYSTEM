@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\Loan;
 use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemberLoansController extends Controller
 {
@@ -15,32 +16,31 @@ class MemberLoansController extends Controller
     {
         $user = Auth::user();
         
-        // If user doesn't have a member_id, they can't have loans
         if (!$user->member_id) {
-            \Log::info('User has no member_id associated');
             return Inertia::render('member/my-loans', [
                 'currentLoans' => [],
                 'previousLoans' => [],
             ]);
         }
         
-        // Get the member record
         $member = Member::find($user->member_id);
         
         if (!$member) {
-            \Log::info('Member record not found for member_id: ' . $user->member_id);
             return Inertia::render('member/my-loans', [
                 'currentLoans' => [],
                 'previousLoans' => [],
             ]);
         }
         
-        \Log::info('Found member: ' . $member->first_name . ' ' . $member->last_name);
-        
-        // Get current loans (ongoing and pending) - KEEP SAME: type + status
+        // Get current loans - case insensitive check
         $currentLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->where(function($query) {
+                $query->where(DB::raw('LOWER(status)'), 'ongoing')
+                      ->orWhere(DB::raw('LOWER(status)'), 'pending')
+                      ->orWhere(DB::raw('LOWER(status)'), 'approved')
+                      ->orWhere(DB::raw('LOWER(status)'), 'disbursed');
+            })
             ->orderBy('id', 'desc')
             ->get()
             ->map(function ($loan) use ($member) {
@@ -63,10 +63,14 @@ class MemberLoansController extends Controller
                 ];
             });
 
-        // Get previous loans (completed, paid, or rejected) - CHANGE: type + date only
+        // Get previous loans - case insensitive check
         $previousLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['PAID', 'REJECTED', 'OVERDUE'])
+            ->where(function($query) {
+                $query->where(DB::raw('LOWER(status)'), 'paid')
+                      ->orWhere(DB::raw('LOWER(status)'), 'rejected')
+                      ->orWhere(DB::raw('LOWER(status)'), 'overdue');
+            })
             ->orderBy('id', 'desc')
             ->get()
             ->map(function ($loan) {
@@ -75,7 +79,6 @@ class MemberLoansController extends Controller
                     'type' => $loan->purpose->name ?? 'General Loan',
                     'amount' => number_format($loan->amount, 2),
                     'application_date' => $loan->created_at ? $loan->created_at->format('F j, Y') : 'Date not available',
-                    // Remove status, member info, remarks for previous loans
                 ];
             });
 
