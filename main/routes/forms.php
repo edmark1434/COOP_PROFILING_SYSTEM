@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserInterface\LoanOfficer\LoanFormsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
@@ -42,7 +41,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/add-transaction',[TellerFormsController::class,'transactionFormPost'] )->name('transactionForm.post');
 
         Route::get('/confirm-transaction',[TellerFormsController::class,'confirmTransactionGet'] )->name('confirmTransaction.get');
-        Route::post('/confirm-transaction',[TellerFormsController::class,'confirmTransactionPost'] )->name('confirmTransaction.post');
 
         Route::get('/confirm-member',[TellerFormsController::class,'confirmMemberGet'] )->name('confirmMember.get');
         Route::post('/confirm-member',[TellerFormsController::class,'confirmMemberPost'] )->name('confirmMember.post');

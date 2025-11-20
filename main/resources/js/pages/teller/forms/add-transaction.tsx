@@ -79,7 +79,6 @@ export default function TransactionForm() {
             onSuccess: () => {
                 toast.success("Transaction recorded successfully.")
                 form.reset()
-                window.history.back()
             },
             onError: (errors: Record<string, string>) => {
                 for (const [field, message] of Object.entries(errors)) {

@@ -46,7 +46,6 @@ export default function LoanRejectionForm(id:number) {
             onSuccess: () => {
                 toast.success("Loan rejected successfully.")
                 form.reset()
-                window.history.back()
             },
             onError: (errors: Record<string, string>) => {
                 for (const [field, message] of Object.entries(errors)) {

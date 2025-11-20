@@ -93,7 +93,6 @@ export default function LoanApplicationForm() {
             onSuccess: () => {
                 toast.success("Loan application submitted!")
                 form.reset()
-                window.history.back()
             },
             onError: (errors: Record<string, string>) => {
                 for (const [field, message] of Object.entries(errors)) {

@@ -1,7 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\UserInterface;
+use App\Http\Controllers\CommonLogic;
+use App\Http\Controllers\UserInterface\Admin\AdminFormsController;
+use App\Http\Controllers\UserInterface\LoanOfficer\LoanOfficerFormsController;
+use App\Http\Controllers\UserInterface\Teller\TellerFormsController;
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -42,11 +47,34 @@ class CommonFormsController extends Controller
 
     public function confirmStaffGet()
     {
-        return Inertia::render('teller/forms/confirm-staff',[]);
+        $user = auth()->user();
+        $initials = CommonLogic::getInitials($user->name);
+        return Inertia::render('settings/forms/confirm-staff',[
+            'staffName' => $user->name,
+            'initials' => $initials,
+        ]);
     }
-    public function confirmStaffPost(Request $request)
+    public function confirmStaffPost()
     {
-        $request->session()->put('staff_confirmed',true);
+        session()->put('form.staff_confirmed',true);
+
+        $formType = session()->get('form.type');
+        switch ($formType) {
+            case 'add-transaction':
+                TellerFormsController::class->transactionFormSave();
+                break;
+            case 'reject-loan':
+                LoanOfficerFormsController::class->loanRejectionFormSave();
+                break;
+            case 'add-staff':
+                AdminFormsController::class->staffAddFormSave();
+                break;
+            case 'change-staff-role':
+                AdminFormsController::class->staffRoleChangeFormSave();
+                break;
+            default:
+                abort(404);
+        }
     }
 
 }

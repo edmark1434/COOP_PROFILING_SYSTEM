@@ -2,11 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\AuditLog;
+use App\Models\Member;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Account;
 use App\Models\LoanPurpose;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
 
 class CustomDataSeeder extends Seeder
 {
@@ -45,6 +49,44 @@ class CustomDataSeeder extends Seeder
             ]);
         }
 
+        // SUPER ADMIN
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@test.com',
+            'password' => Hash::make('admin1234'),
+            'is_admin' => true,
+            'is_member' => false,
+            'is_teller' => false,
+            'is_loan_officer' => false,
+            'status' => 'Active',
+            'member_id' => null,
+        ]);
+
+        // TELLER
+        User::create([
+            'name' => 'Teller',
+            'email' => 'teller@test.com',
+            'password' => Hash::make('teller1234'),
+            'is_admin' => false,
+            'is_member' => false,
+            'is_teller' => true,
+            'is_loan_officer' => false,
+            'status' => 'Active',
+            'member_id' => null,
+        ]);
+
+        // LOAN OFFICER
+        User::create([
+            'name' => 'Loan Officer',
+            'email' => 'loanofficer@test.com',
+            'password' => Hash::make('loanofficer1234'),
+            'is_admin' => false,
+            'is_member' => false,
+            'is_teller' => false,
+            'is_loan_officer' => true,
+            'status' => 'Active',
+            'member_id' => null,
+        ]);
 
     }
 }
