@@ -19,7 +19,7 @@ class MemberOverviewController extends Controller
     {
         $user = Auth::user();
         
-        // Check if user has member profile
+        // Check if user has member profile (will return an empty page for overview)
         if (!$user->member_id) {
             return Inertia::render('member/overview', [
                 'recentTransactions' => [],
@@ -29,6 +29,7 @@ class MemberOverviewController extends Controller
                     'total_amount' => 0,
                     'active_loans' => 0,
                     'total_loan_amount' => 0,
+                    'delinquency_rate' => 0,
                 ],
                 'member' => [
                     'first_name' => '',
@@ -42,6 +43,7 @@ class MemberOverviewController extends Controller
                     'id_coop' => '',
                     'email' => '',
                     'share_capital' => 0,
+                    'delinquency_rate' => 0,
                 ],
             ]);
         }
@@ -58,6 +60,7 @@ class MemberOverviewController extends Controller
                     'total_amount' => 0,
                     'active_loans' => 0,
                     'total_loan_amount' => 0,
+                    'delinquency_rate' => 0,
                 ],
                 'member' => [
                     'first_name' => '',
@@ -71,6 +74,7 @@ class MemberOverviewController extends Controller
                     'id_coop' => '',
                     'email' => '',
                     'share_capital' => 0,
+                    'delinquency_rate' => 0,
                 ],
             ]);
         }
@@ -97,7 +101,7 @@ class MemberOverviewController extends Controller
         // Get current/active loans - SIMPLIFIED for frontend
         $currentLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED']) //'OVERDUE'])
+            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get()
@@ -113,6 +117,24 @@ class MemberOverviewController extends Controller
                 ];
             });
 
+        // Calculate statistics
+        $totalTransactions = Transaction::where('member_id', $user->member_id)->count();
+        $totalTransactionAmount = Transaction::where('member_id', $user->member_id)->sum('amount');
+        $activeLoansCount = Loan::where('member_id', $user->member_id)
+            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->count();
+        $totalLoanAmount = Loan::where('member_id', $user->member_id)
+            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->sum('amount');
+
+        // Calculate delinquency rate
+        $totalLoans = Loan::where('member_id', $user->member_id)->count();
+        $delinquentLoans = Loan::where('member_id', $user->member_id)
+            ->where('status', 'OVERDUE')
+            ->count();
+        
+        $delinquencyRate = $totalLoans > 0 ? ($delinquentLoans / $totalLoans) * 100 : 0;
+
         // Format join date
         $joinDate = $member->join_date ? Carbon::parse($member->join_date)->format('F j, Y') : 'Not specified';
         
@@ -125,6 +147,13 @@ class MemberOverviewController extends Controller
         return Inertia::render('member/overview', [
             'recentTransactions' => $recentTransactions,
             'currentLoans' => $currentLoans,
+            'statistics' => [
+                'total_transactions' => $totalTransactions,
+                'total_amount' => (float) $totalTransactionAmount,
+                'active_loans' => $activeLoansCount,
+                'total_loan_amount' => (float) $totalLoanAmount,
+                'delinquency_rate' => round($delinquencyRate, 2),
+            ],
             'member' => [
                 'first_name' => $member->first_name,
                 'middle_name' => $member->middle_name,
@@ -142,6 +171,7 @@ class MemberOverviewController extends Controller
                 'id_coop' => $member->id_coop,
                 'email' => $email,
                 'share_capital' => (float) $shareCapital,
+                'delinquency_rate' => round($delinquencyRate, 2),
             ],
         ]);
     }
