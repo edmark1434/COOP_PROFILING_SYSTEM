@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use database\factories\LoanPurposeFactory;
 use database\factories\MemberFactory;
 use App\Models\LoanPurpose;
+use App\Models\Installment;
 use App\Models\Member;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Loan>
@@ -32,5 +33,15 @@ class LoanFactory extends Factory
             'created_at' => $this->faker->dateTimeThisYear(),
             'updated_at' => $this->faker->dateTimeThisYear()     // assumes MemberFactory exists
         ];
+    }
+    public function configure()
+    {
+        return $this->afterCreating(function (Loan $loan) {
+                // creates only ONE account
+            Installment::factory()
+                ->count(rand(1,3))
+                ->for($loan)  // sets member_id
+                ->create();
+        });
     }
 }

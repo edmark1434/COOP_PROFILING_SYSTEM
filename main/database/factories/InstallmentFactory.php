@@ -24,8 +24,8 @@ class InstallmentFactory extends Factory
             'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
             'amount' => $this->faker->randomFloat(2, 1000, 50000),
             'status' => $this->faker->randomElement(Installment::STATUS),
-            'loan_id' => Loan::factory(), // assumes you have LoanFactory
-            'trans_id' => Transaction::factory(), // assumes you have TransactionFactory
+            'loan_id' => null, // assumes you have LoanFactory
+            'trans_id' => null, // assumes you have TransactionFactory
         ];
     }
 }
