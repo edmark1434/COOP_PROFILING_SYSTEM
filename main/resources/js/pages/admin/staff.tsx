@@ -96,12 +96,12 @@ export default function AdminStaff({
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-row h-fit w-full justify-between">
                     <div className="flex gap-2">
-                        <Link href={staffAddForm.get()}>
+                        {/* <Link href={staffAddForm.get()}>
                             <Button variant="default" className="bg-primary hover:bg-primary/90" >
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Staff
                             </Button>
-                        </Link>
+                        </Link> */}
                         <Popover>
                             <PopoverTrigger asChild>
                                     <Button variant="outline">
