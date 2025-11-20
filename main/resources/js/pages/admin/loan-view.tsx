@@ -14,73 +14,54 @@ import {ProfileCard} from "@/components/ui/profile-card";
 import admin from "@/routes/admin";
 
 interface LoanProp{
-    loanId : {
-        id: number
+    prop : {
+        id: number,
+        name: string,
+        memId : number,
+        memStatus : string
     },
     loanDetail: any,
-    member: any[]
+    member: any[],
+    installments: any[],
+    installmentPaid: any[],
+    installmentPaidSum: number,
+    installmentDateAsc : any[],
+    installmentDateDesc : any[],
+    transactions: any[],
+    transactionDateAsc: any[],
+    transactionDateDesc: any[],
+    transactionTypeAsc: any[],
+    transactionTypeDesc: any[],
+    newDueDate : any
 
 }
 
-
-export default function LoanView({loanId,loanDetail,member}:LoanProp) {
-    let rejected = true
+export function getDateString(dateData:string){
+        const date = new Date(dateData);
+        const formatted = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        });
+        return formatted;
+    }
+export default function LoanView({prop,loanDetail,member,installments,installmentPaid,installmentDateAsc,installmentDateDesc,installmentPaidSum,transactions,transactionDateAsc, transactionDateDesc, transactionTypeAsc, transactionTypeDesc,newDueDate}:LoanProp) {
+    const dueDate = new Date(newDueDate.due_date);
+    dueDate.setMonth(dueDate.getMonth() + 1);
+    const newDate = dueDate.toISOString().split("T")[0];
     
-    const transactions = [
-        {
-            type: "Loan Payment",
-            date: "October 4, 2025 · 1:32 PM",
-            amount: "₱ 5,125.00"
-        },
-        {
-            type: "Loan Disbursement",
-            date: "October 1, 2025 · 1:30 PM",
-            amount: "₱ 50,000.00"
-        },
-        {
-            type: "Share Capital Contribution",
-            date: "September 29, 2025 · 12:00 PM",
-            amount: "₱ 35,000.00"
-        }
-    ];
-    const installments = [
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 50,000.00",
-            date: "October 23, 2025",
-        },
-        {
-            status: "Paid",
-            badgeType: "outline",
-            amount: "₱ 5,000.00",
-            date: "October 20, 2025",
-        },
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 10,000.00",
-            date: "October 18, 2025",
-        },
-        {
-            status: "Overdue",
-            badgeType: "destructive",
-            amount: "₱ 7,500.00",
-            date: "October 15, 2025",
-        },
 
-    ];
     const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Loan/ID',
-        href: admin.loanView(loanId).url
+        href: admin.loanView(prop.id).url
     },
 ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="ID" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {!rejected ? (
+                {loanDetail.status != 'Rejected' ? (
                     <>
                         <div className="flex flex-row gap-4">
                             {/*Balance Card*/}
@@ -92,25 +73,24 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row items-end gap-2">
-                                            <p className="text-md font-semibold text-primary">₱ 4,000.00 </p>
-                                            <p className="text-xs text-muted-foreground pb-1">(33.3%)</p>
+                                            <p className="text-md font-semibold text-primary">{`₱ ${Number(loanDetail?.amount - installmentPaidSum).toLocaleString("en-US") }`}</p>
+                                            <p className="text-xs text-muted-foreground pb-1">({loanDetail.term_months}%)</p>
                                         </div>
-                                        <p className="text-xs text-muted-foreground">out of ₱ 12,600.00</p>
+                                        <p className="text-xs text-muted-foreground">out of {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Current Period </p>
-                                        <p className="text-sm font-semibold text-primary">3 out of 6</p>
+                                        <p className="text-sm font-semibold text-primary">{installmentPaid.length} out of {loanDetail.term_months} months</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Next Due</p>
-                                        <p className="text-sm font-semibold text-primary">December 3, 2025 </p>
+                                        <p className="text-sm font-semibold text-primary">{getDateString(newDate)} </p>
                                     </div>
                                 </div>
                             </div>
 
                             {/*Details Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                           <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium text-(--color-primary)">Details</div>
                                 </div>
@@ -118,29 +98,29 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">Ongoing</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.status}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">March 2, 2025</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">Medical</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.purpose?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        <div className="flex flex-col">
+                                        {/* <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">JDan Bejec</p>
-                                        </div>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
+                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">₱ 12,000.00</p>
+                                            <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">12 months, 5% interest</p>
+                                            <p className="text-sm font-semibold text-primary">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}% interests`}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -155,15 +135,15 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Name</p>
-                                        <p className="text-sm font-semibold text-primary">Jodeci Abria Pacibe</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.name}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Member ID</p>
-                                        <p className="text-sm font-semibold text-primary">1012345678</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.memId}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Status</p>
-                                        <p className="text-sm font-semibold text-primary">Active</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.memStatus}</p>
                                     </div>
                                 </div>
                             </div>
@@ -185,15 +165,14 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                                 <ArrowUpDown size="16"/>
                                                 <span className="text-sm font-medium">Order by</span>
                                             </div>
-                                            <Select defaultValue="name">
+                                            <Select defaultValue="date">
                                                 <SelectTrigger className="w-34">
                                                     <SelectValue placeholder="Select order"/>
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        <SelectItem value="name">Name</SelectItem>
-                                                        <SelectItem value="date">Date</SelectItem>
                                                         <SelectItem value="type">Type</SelectItem>
+                                                        <SelectItem value="date">Date</SelectItem>
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>

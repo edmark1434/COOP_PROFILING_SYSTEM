@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\Account;
 use App\Models\User;
 use App\Models\AuditLog;
+use App\Models\Installment;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CommonLogic;
 use Illuminate\Support\Facades\DB;
@@ -61,9 +62,59 @@ class AdminLoanController extends Controller
 
         $name = $member->first_name . " " . $member->last_name;
         $initial = CommonLogic::getInitials($name);
+
+        $installment = Installment::where('loan_id', $loanDetail->id)->get();
+
+        // Sorted Installments
+        $installmentDateAsc = Installment::where('loan_id', $loanDetail->id)
+                                        ->orderBy('due_date', 'asc')
+                                        ->get();
+
+        $installmentDateDesc = Installment::where('loan_id', $loanDetail->id)
+                                        ->orderBy('due_date', 'desc')
+                                        ->get();
+
+        $newDueDate = Installment::where('loan_id', $loanDetail->id)
+                                        ->orderBy('due_date', 'desc')
+                                        ->first();
+
+        // Paid Installments (Collection filter)
+        $InstallmentPaid = $installment->where('status', 'Paid');
+        $InstallmentPaidSum = $InstallmentPaid->sum('amount');
+
+
+        // TRANSACTIONS
+        $transaction = Transaction::where('member_id', $loanDetail->member_id)->get();
+
+        // Sorted Transactions (Eloquent)
+        $transactionDateAsc = Transaction::where('member_id', $loanDetail->member_id)
+                                        ->orderBy('created_at', 'asc')
+                                        ->get();
+        
+        $transactionDateDesc = Transaction::where('member_id', $loanDetail->member_id)
+                                        ->orderBy('created_at', 'desc')
+                                        ->get();
+
+        $transactionTypeAsc = Transaction::where('member_id', $loanDetail->member_id)
+                                        ->orderBy('type', 'asc')
+                                        ->get();
+
+        $transactionTypeDesc = Transaction::where('member_id', $loanDetail->member_id)
+                                        ->orderBy('type', 'desc')
+                                        ->get();
+            
+        $memberName = trim(
+                ($member->first_name ?? "") . " " .
+                ($member->middle_name ?? "") . " " .
+                ($member->last_name ?? "") . " " .
+                ($member->suffix ?? "")
+            );
         return Inertia::render('admin/loan-view', [
-            'loanId' => [
+            'prop' => [
                 'id' => $loanDetail->id,
+                'name' => $memberName,
+                'memId' => $member->id,
+                'memStatus' => $member->accounts->first()->status               
             ],
             'loanDetail' => $loanDetail,
             'member'=> [
@@ -74,8 +125,19 @@ class AdminLoanController extends Controller
                 'contact' => $member->contact_num,
                 'status' => $member->accounts->first()->status,
                 'initial' => $initial,
-                'processBy' => $processBy
+                'processBy' => $processBy,
             ],
+            'installments' => $installment,
+            'installmentPaid' => $InstallmentPaid,
+            'installmentPaidSum' => $InstallmentPaidSum,
+            'installmentDateAsc' => $installmentDateAsc,
+            'installmentDateDesc' => $installmentDateDesc,
+            'transactions' => $transaction,
+            'transactionDateAsc' => $transactionDateAsc,
+            'transactionDateDesc' => $transactionDateDesc,
+            'transactionTypeAsc' => $transactionTypeAsc,
+            'transactionTypeDesc' => $transactionTypeDesc,
+            'newDueDate' => $newDueDate
         ]);
     }
 }
