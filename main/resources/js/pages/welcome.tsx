@@ -45,6 +45,7 @@ export default function Welcome() {
                             <Link
                                 href={login()}
                                 className="inline-block rounded-sm bg-background text-foreground px-5 py-1.5 text-sm leading-normal"
+                                className="inline-block rounded-sm bg-background px-5 py-1.5 text-sm leading-normal text-foreground"
                             >
                                 Log in
                             </Link>

@@ -1,6 +1,6 @@
-import {Check, Plus, Settings, Trash} from "lucide-react"
+import { Check, Plus, Settings, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {  Link, router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import loanApplicationForm from "@/routes/member/loanApplicationForm";
 import staffAddForm from "@/routes/admin/staffAddForm";
 // import { loanApplicationForm } from "@/routes/member";
@@ -13,7 +13,6 @@ const handleMarkAllAsRead = () => {
 };
 
 export const headerConfigs: Record<string, React.ReactNode> = {
-
     "/admin/staff/": (
         <>
             <Button variant="secondary"><Settings /> Change Role</Button>
@@ -28,16 +27,21 @@ export const headerConfigs: Record<string, React.ReactNode> = {
         </>
     ),
     "/teller/transactions": (
-        <>
+        <Link href="/teller/add-transaction">
             <Button variant="secondary"><Plus /> Add Transaction</Button>
-        </>
+        </Link>
+    ),
+    "/teller/member-lookup": (
+        <Link href="/teller/register-member">
+            <Button variant="secondary"><Plus /> Register Member</Button>
+        </Link>
     ),
     "/member/profile": (
         <Button variant="destructive">Suspend</Button>
     ),
     "/member/my-loans": (
         <Link href={loanApplicationForm.get()}>
-            <Button variant="secondary" ><Plus /> Apply for loan</Button>
+            <Button variant="secondary"><Plus /> Apply for loan</Button>
         </Link>
     ),
     "/member/notifications": (
@@ -45,5 +49,4 @@ export const headerConfigs: Record<string, React.ReactNode> = {
             <Check /> Mark all as read
         </Button>
     ),
-
 }

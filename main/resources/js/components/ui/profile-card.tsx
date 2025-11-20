@@ -14,6 +14,12 @@ export function ProfileCard({
                                 className,
                                ...props
                            }: ProfileCardProps) {
+    
+    // Debug logging to check what data is received
+    React.useEffect(() => {
+        console.log('ProfileCard received data:', data);
+    }, [data]);
+
     return (
         <div
             data-slot="profile-card"
@@ -35,35 +41,39 @@ export function ProfileCard({
                                 <p className="font-semibold text-2xl">{data.initial}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
-                                <p className="font-semibold text-md">{data.member}</p>
+                                <p className="font-semibold text-md">{data.first_name} {data.last_name}</p>
                                 <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
                             </div>
                         </div>
                         <div className="flex-1 w-fit text-right">
                             <p className="text-xs text-muted-foreground">Delinquency Rate</p>
-                            <p className="font-semibold text-(--color-destructive-foreground) text-lg">{data.rate}%</p>
+                            <p className={`font-semibold text-lg ${
+                                (data.delinquencyRate || 0) >= 10 ? 'text-red-600' : 'text-black'
+                            }`}>
+                                {(data.delinquencyRate || 0)}%
+                            </p>
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
-                        <p className="font-semibold text-sm text-right">{`₱ ${Number(data.shareCapital).toLocaleString("en-US")}`}</p>
+                        <p className="font-semibold text-sm text-right">{`₱ ${Number(data.shareCapital || 0).toLocaleString("en-US")}`}</p>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                             <p className="text-xs text-muted-foreground">Joined Since</p>
-                            <p className="text-xs text-muted-foreground text-right">{data.dateJoined}</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.dateJoined || 'N/A'}</p>
                         </div>
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                             <p className="text-xs text-muted-foreground">Email</p>
-                            <p className="text-xs text-muted-foreground text-right">{data.email}</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.email || 'N/A'}</p>
                         </div>
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                             <p className="text-xs text-muted-foreground">Contact Number</p>
-                            <p className="text-xs text-muted-foreground text-right">{data.contact}</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.contact || 'N/A'}</p>
                         </div>
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                             <p className="text-xs text-muted-foreground">Status</p>
-                            <p className="text-xs text-muted-foreground text-right">{data.status}</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.status || 'N/A'}</p>
                         </div>
                     </div>
                 </div>
@@ -105,10 +115,6 @@ export function ProfileCard({
                     </div>
                 </div>
             )}
-
-
-
         </div>
-
     )
 }

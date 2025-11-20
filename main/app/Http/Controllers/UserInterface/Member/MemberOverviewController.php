@@ -98,10 +98,16 @@ class MemberOverviewController extends Controller
                 ];
             });
         
-        // Get current/active loans - SIMPLIFIED for frontend
+        // Get current/active loans - CASE INSENSITIVE STATUS CHECK
         $currentLoans = Loan::with(['purpose'])
             ->where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->where(function($query) {
+                $query->where(DB::raw('LOWER(status)'), 'ongoing')
+                      ->orWhere(DB::raw('LOWER(status)'), 'pending')
+                      ->orWhere(DB::raw('LOWER(status)'), 'approved')
+                      ->orWhere(DB::raw('LOWER(status)'), 'disbursed');
+
+            })
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get()
@@ -117,20 +123,34 @@ class MemberOverviewController extends Controller
                 ];
             });
 
-        // Calculate statistics
+        // Calculate statistics - CASE INSENSITIVE STATUS CHECKS
         $totalTransactions = Transaction::where('member_id', $user->member_id)->count();
         $totalTransactionAmount = Transaction::where('member_id', $user->member_id)->sum('amount');
+        
+        // Active loans count - case insensitive
         $activeLoansCount = Loan::where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->where(function($query) {
+                $query->where(DB::raw('LOWER(status)'), 'ongoing')
+                      ->orWhere(DB::raw('LOWER(status)'), 'pending')
+                      ->orWhere(DB::raw('LOWER(status)'), 'approved')
+                      ->orWhere(DB::raw('LOWER(status)'), 'disbursed');
+            })
             ->count();
+            
+        // Total loan amount for active loans - case insensitive
         $totalLoanAmount = Loan::where('member_id', $user->member_id)
-            ->whereIn('status', ['ONGOING', 'PENDING', 'APPROVED', 'DISBURSED'])
+            ->where(function($query) {
+                $query->where(DB::raw('LOWER(status)'), 'ongoing')
+                      ->orWhere(DB::raw('LOWER(status)'), 'pending')
+                      ->orWhere(DB::raw('LOWER(status)'), 'approved')
+                      ->orWhere(DB::raw('LOWER(status)'), 'disbursed');
+            })
             ->sum('amount');
 
-        // Calculate delinquency rate
+        // Calculate delinquency rate - CASE INSENSITIVE
         $totalLoans = Loan::where('member_id', $user->member_id)->count();
         $delinquentLoans = Loan::where('member_id', $user->member_id)
-            ->where('status', 'OVERDUE')
+            ->where(DB::raw('LOWER(status)'), 'overdue')
             ->count();
         
         $delinquencyRate = $totalLoans > 0 ? ($delinquentLoans / $totalLoans) * 100 : 0;
