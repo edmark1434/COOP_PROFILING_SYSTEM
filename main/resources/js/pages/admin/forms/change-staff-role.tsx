@@ -16,18 +16,11 @@ import {
 } from "@/components/ui/card"
 import {
     Field,
-    FieldContent, FieldDescription,
+    FieldContent,
     FieldError,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
-    InputGroupText,
-} from "@/components/ui/input-group"
 import {
     Select,
     SelectContent,
@@ -35,8 +28,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
+import {router, usePage} from "@inertiajs/react";
 
 const formSchema = z.object({
     role: z
@@ -45,34 +38,33 @@ const formSchema = z.object({
 })
 
 const roles = [
-    { name: "Type 1", id: "1" },
-    { name: "Type 2", id: "2" },
-    { name: "Type 3", id: "3" },
+    "Teller",
+    "Loan Officer",
+    "Administrator",
 ] as const
 
 export default function StaffRoleChangeForm() {
+    const { staff } = usePage<{
+        staff: { name: string, initials: string, role: string };
+    }>().props
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            role: "",
+            role: staff.role,
         },
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+        router.post(window.location.pathname, data, {
+            onSuccess: () => {
+                toast.success("Staff role changed.")
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 
@@ -90,12 +82,12 @@ export default function StaffRoleChangeForm() {
                 <div className="flex min-w-[200px] items-center gap-4">
                     <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
                         <p className="font-semibold text-sm">
-                            JP
+                            {staff.initials}
                         </p>
                     </div>
                     <div>
                         <p className="font-medium text-sm">
-                            Jodeci Pacibe
+                            {staff.name}
                         </p>
                     </div>
                 </div>
@@ -124,8 +116,8 @@ export default function StaffRoleChangeForm() {
                                         </SelectTrigger>
                                         <SelectContent position="item-aligned">
                                             {roles.map((role) => (
-                                                <SelectItem key={role.id} value={role.id}>
-                                                    {role.name}
+                                                <SelectItem key={role} value={role}>
+                                                    {role}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

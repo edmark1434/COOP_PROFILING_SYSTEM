@@ -42,7 +42,7 @@ class CommonFormsController extends Controller
 
     public function confirmStaffGet()
     {
-        return Inertia::render('teller/forms/confirm-staff',[]);
+        return Inertia::render('settings/forms/confirm-staff',[]);
     }
     public function confirmStaffPost(Request $request)
     {

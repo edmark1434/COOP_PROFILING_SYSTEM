@@ -32,7 +32,7 @@ export default function RegisterStaffFinger() {
                     });
                 }else{
                     const template = await response.text();
-                    alert("Success on capturing fingerprint: "+template);
+                    toast.success("Fingerprint scan successful!");
                     router.post(window.location.pathname, {template});
                 }
             }catch(error){
@@ -47,7 +47,7 @@ export default function RegisterStaffFinger() {
                     } as React.CSSProperties,
                 });
             }
-            
+
         }
 
     return (

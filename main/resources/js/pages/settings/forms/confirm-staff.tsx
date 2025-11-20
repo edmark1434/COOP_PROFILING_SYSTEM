@@ -32,7 +32,7 @@ export default function ConfirmStaff() {
                         });
                     }else{
                         const success = await response.text();
-                        alert(success);
+                        toast.success(success);
                         router.post(window.location.pathname);
                     }
                 }catch(error){
@@ -47,7 +47,7 @@ export default function ConfirmStaff() {
                         } as React.CSSProperties,
                     });
                 }
-                
+
             }
 
     return (

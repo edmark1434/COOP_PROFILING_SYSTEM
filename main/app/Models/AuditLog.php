@@ -10,7 +10,7 @@ class AuditLog extends Model
     use HasFactory;
 
     protected $table = 'audit_logs';
-    
+
     protected $fillable = [
         'type',
         'description',
@@ -28,6 +28,7 @@ class AuditLog extends Model
             'Member Registered',
             'Transaction Recorded',
             'Transaction Updated',
+            'Staff Added',
             'Staff Role Updated'
         ];
 

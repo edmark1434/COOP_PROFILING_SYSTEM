@@ -21,6 +21,7 @@ class AuditLogFactory extends Factory
         $transType = $this->faker->randomElement(Transaction::TYPES);
         $loanPurpose = $this->faker->randomElement(LoanPurpose::TYPES);
         $member = $this->faker->name();
+        $role = $this->faker->randomElement(["Teller", "Loan Officer", "Administrator"]);
         $roleUpdate = $this->faker->randomElement(["Teller to Loan Officer", "Loan Officer to Admin", "Loan Officer to Teller"]);
 
         // Default description
@@ -40,6 +41,10 @@ class AuditLogFactory extends Factory
         if (in_array($type, ['Member Registered'])) {
             $randomMemberId = $this->faker->unique()->numberBetween(6700000000, 6799999999);
             $description = "{$member} - Member ID: {$randomMemberId}";
+        }
+
+        if (in_array($type, ['Staff Added'])) {
+            $description = "{$member} - {$role}";
         }
 
         if (in_array($type, ['Staff Role Updated'])) {

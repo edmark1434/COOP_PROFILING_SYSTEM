@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {toast, Toaster} from "sonner"
 import * as z from "zod"
-import { Link } from "@inertiajs/react"
+import {Link, router} from "@inertiajs/react"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -16,18 +16,12 @@ import {
 } from "@/components/ui/card"
 import {
     Field,
-    FieldContent, FieldDescription,
+    FieldContent,
     FieldError,
     FieldGroup,
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
-    InputGroupText,
-} from "@/components/ui/input-group"
 import {
     Select,
     SelectContent,
@@ -35,7 +29,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
 import { staff } from "@/routes/admin"
 
@@ -51,9 +44,9 @@ const formSchema = z.object({
 })
 
 const roles = [
-    { name: "Type 1", id: "1" },
-    { name: "Type 2", id: "2" },
-    { name: "Type 3", id: "3" },
+    "Teller",
+    "Loan Officer",
+    "Administrator",
 ] as const
 
 export default function StaffAddForm() {
@@ -67,20 +60,16 @@ export default function StaffAddForm() {
     })
 
     function onSubmit(data: z.infer<typeof formSchema>) {
-
-        toast("You submitted the following values:", {
-            description: (
-                <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-                  <code>{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-            position: "bottom-right",
-            classNames: {
-                content: "flex flex-col gap-2",
+        router.post(window.location.pathname, data, {
+            onSuccess: () => {
+                toast.success("Staff added successfully.")
+                form.reset()
             },
-            style: {
-                "--border-radius": "calc(var(--radius)  + 4px)",
-            } as React.CSSProperties,
+            onError: (errors: Record<string, string>) => {
+                for (const [field, message] of Object.entries(errors)) {
+                    form.setError(field as keyof typeof data, { message });
+                }
+            },
         })
     }
 
@@ -166,8 +155,8 @@ export default function StaffAddForm() {
                                         </SelectTrigger>
                                         <SelectContent position="item-aligned">
                                             {roles.map((role) => (
-                                                <SelectItem key={role.id} value={role.id}>
-                                                    {role.name}
+                                                <SelectItem key={role} value={role}>
+                                                    {role}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

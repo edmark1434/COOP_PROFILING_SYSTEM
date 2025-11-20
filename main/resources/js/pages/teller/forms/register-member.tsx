@@ -35,7 +35,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { MemberCombobox } from "@/components/member-combobox";
 import { X } from "lucide-react"
 import {router, usePage} from "@inertiajs/react";
 
@@ -95,7 +94,6 @@ export default function MemberRegistrationForm() {
             onSuccess: () => {
                 toast.success("Member registered successfully!")
                 form.reset()
-                window.history.back()
             },
             onError: (errors: Record<string, string>) => {
                 for (const [field, message] of Object.entries(errors)) {
