@@ -45,7 +45,7 @@ export default function Welcome() {
                         <nav className="flex items-center justify-end gap-4">
                             <Link
                                 href={login()}
-                                className="inline-block rounded-sm bg-background px-5 py-1.5 text-sm leading-normal"
+                                className="inline-block rounded-sm bg-background px-5 py-1.5 text-sm leading-normal text-foreground"
                             >
                                 Log in
                             </Link>
