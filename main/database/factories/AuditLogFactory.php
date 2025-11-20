@@ -26,36 +26,62 @@ class AuditLogFactory extends Factory
 
         // Default description
         $description = $this->faker->sentence(10);
+        $obj = null;
 
         // Customize description for loan or transaction types
         if (in_array($type, ['Loan Approved', 'Loan Rejected'])) {
             $randomLoanId = $this->faker->unique()->numberBetween(5000000000, 5099999999);
             $description = "{$loanPurpose} - Loan ID: {$randomLoanId}";
+            $obj = [
+                'type' => $type,
+                'description' => $description,
+                'user_id' => User::where('is_loan_officer', true)->inRandomOrder()->first(),
+                'created_at' => now(),
+            ];
         }
 
         if (in_array($type, ['Transaction Recorded', 'Transaction Updated'])) {
             $randomTransactionId = $this->faker->unique()->numberBetween(2200000000, 2299999999);
             $description = "{$transType} - Transaction ID: {$randomTransactionId}";
+            $obj = [
+                'type' => $type,
+                'description' => $description,
+                'user_id' => User::where('is_teller', true)->inRandomOrder()->first(),
+                'created_at' => now(),
+            ];
         }
 
         if (in_array($type, ['Member Registered'])) {
             $randomMemberId = $this->faker->unique()->numberBetween(6700000000, 6799999999);
             $description = "{$member} - Member ID: {$randomMemberId}";
+            $obj = [
+                'type' => $type,
+                'description' => $description,
+                'user_id' => User::where('is_teller', true)->inRandomOrder()->first(),
+                'created_at' => now(),
+            ];
         }
 
         if (in_array($type, ['Staff Added'])) {
             $description = "{$member} - {$role}";
+            $obj = [
+                'type' => $type,
+                'description' => $description,
+                'user_id' => User::where('is_admin', true)->inRandomOrder()->first(),
+                'created_at' => now(),
+            ];
         }
 
         if (in_array($type, ['Staff Role Updated'])) {
             $description = "{$member} - {$roleUpdate}";
+            $obj = [
+                'type' => $type,
+                'description' => $description,
+                'user_id' => User::where('is_admin', true)->inRandomOrder()->first(),
+                'created_at' => now(),
+            ];
         }
 
-        return [
-            'type' => $type,
-            'description' => $description,
-            'user_id' => User::factory(), // create a related User automatically
-            'created_at' => now(),
-        ];
+        return $obj;
     }
 }

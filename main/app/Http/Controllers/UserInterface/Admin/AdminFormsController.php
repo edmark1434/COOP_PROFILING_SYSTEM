@@ -13,11 +13,12 @@ class AdminFormsController extends Controller
 {
     public function staffAddFormGet()
     {
+        session()->forget('form');
         return Inertia::render('admin/forms/add-staff',[]);
     }
     public function staffAddFormPost(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::query()->where('email', $request->email)->first();
 
         if ($user) {
             if ($user->is_teller || $user->is_loan_officer || $user->is_admin) {
@@ -27,13 +28,82 @@ class AdminFormsController extends Controller
             if ($user->name != $request->fullName) {
                 return back()->withErrors(['fullName' => 'This name does not match with the account connected to the given email.']);
             }
+        }
 
-            $validated = $request->validate([
-                'fullName' => 'required|string|min:1',
-                'email' => 'required|string|email',
-                'role' => 'required|string|min:1',
-            ]);
+        $validated = $request->validate([
+            'fullName' => 'required|string|min:1',
+            'email' => 'required|string|email',
+            'role' => 'required|string|min:1',
+        ]);
 
+        session()->put('form.type', 'add-staff');
+        session()->put('form.data', $validated);
+        return redirect()->route('admin.registerStaffFingerprint.get');
+    }
+
+    public function registerStaffFingerprintGet()
+    {
+        $name = session('form.data.fullName');
+        $initials = CommonLogic::getInitials($name);
+        return Inertia::render('admin/forms/register-staff-finger',[
+            'staffName' => $name,
+            'initials' => $initials,
+        ]);
+    }
+    public function registerStaffFingerprintPost(Request $request)
+    {
+        $template = $request->input('template');
+        session()->put('form.staff_fingerprint',$template);
+        return redirect()->route('confirmStaff.get');
+    }
+
+    public function staffRoleChangeFormGet($id)
+    {
+        session()->forget('form');
+
+        $staffRaw = User::query()
+            ->select('name', 'is_teller', 'is_loan_officer', 'is_admin')
+            ->findOrFail($id);
+
+        $staff = [
+            'name' => $staffRaw->name,
+            'initials' => CommonLogic::getInitials($staffRaw->name),
+            'role' => $staffRaw->is_admin ? 'Administrator' :
+                    ($staffRaw->is_loan_officer ? 'Loan Officer' :
+                    ($staffRaw->is_teller ? 'Teller' : '')),
+        ];
+
+        return Inertia::render('admin/forms/change-staff-role',[
+            'staff' => $staff,
+        ]);
+    }
+    public function staffRoleChangeFormPost(Request $request, $id)
+    {
+        $staff = User::query()->findOrFail($id);
+        $pastRole = $staff->is_admin ? 'Administrator' :
+            ($staff->is_loan_officer ? 'Loan Officer' :
+                ($staff->is_teller ? 'Teller' : ''));
+
+        if ($request->role == $pastRole) {
+            return back()->withErrors(['role' => 'The role did not change.']);
+        }
+
+        $validated = $request->validate([
+            'role' => 'required|string|min:1',
+        ]);
+
+        session()->put('form.type', 'change-staff-role');
+        session()->put('form.data', $validated);
+        session()->put('form.id', $id);
+        return redirect()->route('confirmStaff.get');
+    }
+
+    public function staffAddFormSave()
+    {
+        $validated = session()->get('form.data');
+        $user = User::query()->where('email', $validated['email'])->first();
+
+        if ($user) {
             $user->update([
                 'is_teller' => $validated['role'] == 'Teller',
                 'is_loan_officer' => $validated['role'] == 'Loan Officer',
@@ -41,12 +111,6 @@ class AdminFormsController extends Controller
             ]);
         }
         else {
-            $validated = $request->validate([
-                'fullName' => 'required|string|min:1',
-                'email' => 'required|string|email',
-                'role' => 'required|string|min:1',
-            ]);
-
             $userForm = [
                 'name' => $validated['fullName'],
                 'email' => $validated['email'],
@@ -69,47 +133,18 @@ class AdminFormsController extends Controller
         ];
 
         AuditLog::query()->create($auditLog);
-        return back();
+        return redirect()->route('admin.staff');
     }
 
-    public function registerStaffFingerprintGet()
+    public function staffRoleChangeFormSave()
     {
-        return Inertia::render('admin/forms/register-staff-finger',[]);
-    }
-    public function registerStaffFingerprintPost(Request $request)
-    {
-        $template = $request->input('template');
-        $request->session()->put('staff_fingerprint',$template);
-    }
-
-    public function staffRoleChangeFormGet($id)
-    {
-        $staffRaw = User::query()
-            ->select('name', 'is_teller', 'is_loan_officer', 'is_admin')
-            ->findOrFail($id);
-
-        $staff = [
-            'name' => $staffRaw->name,
-            'initials' => CommonLogic::getInitials($staffRaw->name),
-            'role' => $staffRaw->is_admin ? 'Administrator' :
-                    ($staffRaw->is_loan_officer ? 'Loan Officer' :
-                    ($staffRaw->is_teller ? 'Teller' : '')),
-        ];
-
-        return Inertia::render('admin/forms/change-staff-role',[
-            'staff' => $staff,
-        ]);
-    }
-    public function staffRoleChangeFormPost(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'role' => 'required|string|min:1',
-        ]);
+        $validated = session()->get('form.data');
+        $id = session()->get('form.id');
 
         $staff = User::query()->findOrFail($id);
         $pastRole = $staff->is_admin ? 'Administrator' :
-                    ($staff->is_loan_officer ? 'Loan Officer' :
-                    ($staff->is_teller ? 'Teller' : ''));
+            ($staff->is_loan_officer ? 'Loan Officer' :
+                ($staff->is_teller ? 'Teller' : ''));
 
         $staff->update([
             'is_teller' => $validated['role'] == 'Teller',
@@ -126,7 +161,8 @@ class AdminFormsController extends Controller
         ];
 
         AuditLog::query()->create($auditLog);
-        return back();
+        return redirect()->route('admin.staffProfile', $id);
     }
+
 
 }

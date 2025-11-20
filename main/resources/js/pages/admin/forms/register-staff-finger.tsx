@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast, Toaster } from "sonner"
-import { router } from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -14,6 +14,10 @@ import {
 import {FingerprintIcon, X} from "lucide-react"
 
 export default function RegisterStaffFinger() {
+    const { staffName, initials } = usePage<{
+        staffName: string;
+        initials: string;
+    }>().props
 
     async  function onScan() {
             try{
@@ -64,12 +68,12 @@ export default function RegisterStaffFinger() {
                 <div className="flex min-w-[200px] items-center gap-4">
                     <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
                         <p className="font-semibold text-sm">
-                            JP
+                            {initials}
                         </p>
                     </div>
                     <div>
                         <p className="font-medium text-sm">
-                            Jodeci Pacibe
+                            {staffName}
                         </p>
                     </div>
                 </div>
