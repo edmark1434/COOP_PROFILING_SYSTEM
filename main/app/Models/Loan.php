@@ -8,23 +8,23 @@ use App\Models\Member;
 use App\Models\LoanPurpose;
 use App\Models\Installment;
 class Loan extends Model
-{   
+{
     use HasFactory;
-    public const STATUS = ['PENDING','APPROVED','DISBURSED','ONGOING','PAID','OVERDUE','REJECTED'];
+    public const STATUS = ['Pending','Approved','Disbursed','Ongoing','Paid','Overdue','Rejected'];
 
     protected $fillable = [
         'ref_no',
-        'amount', 
+        'amount',
         'interest_rate',
         'term_months',
         'status',
         'remarks',
-        'purpose_id', 
-        'member_id', 
+        'purpose_id',
+        'member_id',
     ];
 
     protected $attributes = [
-        'status' => 'PENDING',
+        'status' => 'Pending',
     ];
 
     public function member()
@@ -41,5 +41,5 @@ class Loan extends Model
     {
         return $this->hasMany(Installment::class);
     }
-    public $timestamps = false;
+    public $timestamps = true;
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Installment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->date('due_date');
             $table->decimal('amount', 15, 2);
-            $table->enum('status',["PENDING","DUE","PAID","OVERDUE"], 20)->default('PENDING');
+            $table->enum('status',Installment::STATUS, 20)->default('Pending');
             $table->unsignedBigInteger('loan_id');
             $table->unsignedBigInteger('trans_id')->nullable();
 

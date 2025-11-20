@@ -1,7 +1,19 @@
 import {Check, Plus, Settings, Trash} from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {  Link, router } from '@inertiajs/react';
+import loanApplicationForm from "@/routes/member/loanApplicationForm";
+import staffAddForm from "@/routes/admin/staffAddForm";
+// import { loanApplicationForm } from "@/routes/member";
+
+
+const handleMarkAllAsRead = () => {
+    router.patch('/member/notifications/mark-all-as-read', {}, {
+        preserveScroll: true,
+    });
+};
 
 export const headerConfigs: Record<string, React.ReactNode> = {
+
     "/admin/staff/": (
         <>
             <Button variant="secondary"><Settings /> Change Role</Button>
@@ -10,7 +22,9 @@ export const headerConfigs: Record<string, React.ReactNode> = {
     ),
     "/admin/staff": (
         <>
-            <Button variant="secondary"><Plus /> Add Staff</Button>
+            <Link href={staffAddForm.get()}>
+                <Button variant="secondary"><Plus /> Add Staff</Button>
+            </Link>
         </>
     ),
     "/teller/transactions": (
@@ -22,10 +36,14 @@ export const headerConfigs: Record<string, React.ReactNode> = {
         <Button variant="destructive">Suspend</Button>
     ),
     "/member/my-loans": (
-        <Button variant="secondary"><Plus /> Apply for loan</Button>
+        <Link href={loanApplicationForm.get()}>
+            <Button variant="secondary" ><Plus /> Apply for loan</Button>
+        </Link>
     ),
     "/member/notifications": (
-        <Button variant="secondary"><Check /> Mark all as read</Button>
+        <Button variant="secondary" onClick={handleMarkAllAsRead}>
+            <Check /> Mark all as read
+        </Button>
     ),
 
 }

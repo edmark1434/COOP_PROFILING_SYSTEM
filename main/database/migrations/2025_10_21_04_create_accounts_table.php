@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name",100);
             $table->enum("type",Account::TYPES,20);
-            $table->enum("status",["ACTIVE","INACTIVE","CLOSED"],20)->default("ACTIVE");
+            $table->enum("status",Account::STATUS,20)->default("Active");
             $table->decimal("balance",15,2)->default(0.00);
             $table->unsignedBigInteger('member_id')->nullable();
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade')->onUpdate('cascade');

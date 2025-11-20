@@ -19,7 +19,7 @@ class BiometricDataFactory extends Factory
     public function definition(): array
     {
         return [
-            'template' => $this->faker->sha256(),
+            'template' => base64_encode(random_bytes(32)),
             'user_id' => User::factory(),
         ];
     }

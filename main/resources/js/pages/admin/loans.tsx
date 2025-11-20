@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import { Head, Link } from '@inertiajs/react';
+import admin, { loanView } from "@/routes/admin";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +43,12 @@ function LoanRow({ data, className, ...props }: any) {
                     {data?.purpose?.name}
                 </p>
             </div>
-
+            {/* Remarks */}
+            {data?.remarks && data?.status == "REJECTED" && (
+                <div className="text-left text-xs text-muted-foreground min-w-44 md:mt-0 mt-2">
+                Remarks: {data?.remarks}
+                </div>
+            )}
             {/* Amount ONLY */}
             <div className="text-right font-semibold text-sm min-w-[100px] flex-shrink-0">
                 ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
@@ -120,7 +125,9 @@ export default function AdminLoans({ loansByStatus, totalResults }: AdminLoansPr
                             <TabsContent key={tab.value} value={tab.value} className="m-0">
                                 <div className="flex flex-col">
                                     {tab.data.map((loan) => (
-                                        <LoanRow key={loan.id} data={loan} />
+                                        <Link href={loanView(loan.id)}>
+                                            <LoanRow key={loan.id} data={loan} />
+                                        </Link>
                                     ))}
                                     {tab.data.length === 0 && (
                                         <div className="text-sm text-center py-8 text-muted-foreground">

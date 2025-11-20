@@ -13,80 +13,74 @@ import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/inpu
 import {TabbedTable} from "@/components/tabbed-table";
 import {memberProfile} from "@/routes/admin";
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Members/ID',
-        href: memberProfile().url
-    },
-];
+interface MemberProp {
+    member: { id: number | string };
+    transactionsAscName: any[];
+    transactionsDescName: any[];
+    transactionsAscType: any[];
+    transactionsDescType: any[];
+    transactionsAscDate: any[];
+    transactionsDescDate: any[];
+    loansAscName: any[];
+    loansDescName: any[];
+    loansAscType: any[];
+    loansDescType: any[];
+    loansAscDate: any[];
+    loansDescDate: any[];
+}
 
-export default function MemberProfile() {
-    const member = {
-        initial: "JP",
-        id: "1231231",
-        member: "Jodeci Abria Pacibe",
-        rate: "60",
-        shareCapital: "₱ 5,125.00",
-        dateJoined: "October 12, 2023",
-        email: "1234@gmail.com",
-        contact: "0912345123",
-        status: "Active",
-    };
-    const transactions = [
-        {
-            type: "Loan Payment",
-            date: "October 4, 2025 · 1:32 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 5,125.00"
-        },
-        {
-            type: "Loan Disbursement",
-            date: "October 1, 2025 · 1:30 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 50,000.00"
-        },
-        {
-            type: "Share Capital Contribution",
-            date: "September 29, 2025 · 12:00 PM",
-            member: "Jodeci Abria Pacibe",
-            processedBy: "Dan Bejec",
-            amount: "₱ 35,000.00"
-        }
+export default function MemberProfile({
+    member,
+    transactionsAscName,
+    transactionsDescName,
+    transactionsAscType,
+    transactionsDescType,
+    transactionsAscDate,
+    transactionsDescDate,
+    loansAscName,
+    loansDescName,
+    loansAscType,
+    loansDescType,
+    loansAscDate,
+    loansDescDate,
+}: MemberProp) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Members/ID', href: memberProfile(member.id).url },
     ];
-    const loans = [
-        {
-            initial: "JP",
-            type: "Educational Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 5,125.00"
-        },
-        {
-            initial: "JP",
-            type: "Housing Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 15,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Personal Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 8,500.00"
-        },
-        {
-            initial: "JP",
-            type: "Car Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 25,000.00"
-        },
-        {
-            initial: "JP",
-            type: "Business Loan",
-            member: "Jodeci Abria Pacibe",
-            amount: "₱ 50,000.00"
-        },
-    ];
+
+    const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
+    const [orderDirection, setOrderDirection] = React.useState<"asc" | "desc">("asc");
+    const [searchQuery, setSearchQuery] = React.useState("");
+
+    // Sorting logic
+    const transactions = React.useMemo(() => {
+        if (orderByField === "name") return orderDirection === "asc" ? transactionsAscName : transactionsDescName;
+        if (orderByField === "type") return orderDirection === "asc" ? transactionsAscType : transactionsDescType;
+        if (orderByField === "date") return orderDirection === "asc" ? transactionsAscDate : transactionsDescDate;
+        return transactionsAscName;
+    }, [orderByField, orderDirection, transactionsAscName, transactionsDescName, transactionsAscType, transactionsDescType, transactionsAscDate, transactionsDescDate]);
+
+    const loans = React.useMemo(() => {
+        if (orderByField === "name") return orderDirection === "asc" ? loansAscName : loansDescName;
+        if (orderByField === "type") return orderDirection === "asc" ? loansAscType : loansDescType;
+        if (orderByField === "date") return orderDirection === "asc" ? loansAscDate : loansDescDate;
+        return loansAscName;
+    }, [orderByField, orderDirection, loansAscName, loansDescName, loansAscType, loansDescType, loansAscDate, loansDescDate]);
+
+    // Filter dynamically based on active tab and searchQuery
+    const filteredLoans = React.useMemo(() => {
+        if (!searchQuery) return loans;
+        return loans.filter((loan: any) =>
+            loan?.purpose?.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [loans, searchQuery]);
+
+    const filteredTransactions = React.useMemo(() => {
+        if (!searchQuery) return transactions;
+        return transactions.filter((tx: any) =>
+            tx.type?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [transactions, searchQuery]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -100,7 +94,7 @@ export default function MemberProfile() {
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">
-                                <Settings2 className="w-16"/>
+                                <Settings2 className="w-16" />
                                 Display
                             </Button>
                         </PopoverTrigger>
@@ -108,10 +102,10 @@ export default function MemberProfile() {
                             <div className="grid">
                                 <div className="flex items-center w-full gap-4 p-3 justify-between">
                                     <div className="flex items-center gap-2">
-                                        <ArrowUpDown size="16"/>
+                                        <ArrowUpDown size="16" />
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select defaultValue="name">
+                                    <Select defaultValue="name" onValueChange={(value) => setOrderByField(value as "name" | "date" | "type")}>
                                         <SelectTrigger className="w-34">
                                             <SelectValue placeholder="Select order" />
                                         </SelectTrigger>
@@ -126,13 +120,17 @@ export default function MemberProfile() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup defaultValue="comfortable" className="flex gap-6">
+                                    <RadioGroup
+                                        defaultValue="asc"
+                                        className="flex gap-6"
+                                        onValueChange={(value) => setOrderDirection(value as "asc" | "desc")}
+                                    >
                                         <div className="flex items-center gap-2">
-                                            <RadioGroupItem value="default" id="r1" />
+                                            <RadioGroupItem value="asc" id="r1" />
                                             <span className="text-sm font-medium">Ascending</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <RadioGroupItem value="comfortable" id="r2" />
+                                            <RadioGroupItem value="desc" id="r2" />
                                             <span className="text-sm font-medium">Descending</span>
                                         </div>
                                     </RadioGroup>
@@ -141,11 +139,16 @@ export default function MemberProfile() {
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput placeholder="Search..." />
+                        <InputGroupInput
+                            placeholder={`Search...`}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                         <InputGroupAddon>
                             <Search />
                         </InputGroupAddon>
-                        <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                        <InputGroupAddon align="inline-end">
+                        </InputGroupAddon>
                     </InputGroup>
                 </div>
                 <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
@@ -153,16 +156,8 @@ export default function MemberProfile() {
                         variant="bordered"
                         defaultTab="transactions"
                         tabs={[
-                            {
-                                value: "loans",
-                                label: "Loans",
-                                data: loans
-                            },
-                            {
-                                value: "transactions",
-                                label: "Transactions",
-                                data: transactions
-                            },
+                            { value: "loans", label: "Loans", data: filteredLoans },
+                            { value: "transactions", label: "Transactions", data: filteredTransactions },
                         ]}
                     />
                 </div>

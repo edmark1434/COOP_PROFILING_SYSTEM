@@ -13,26 +13,19 @@ import {TabbedTable} from "@/components/tabbed-table";
 import {ProfileCard} from "@/components/ui/profile-card";
 import admin from "@/routes/admin";
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Loan/ID',
-        href: admin.loanView().url
+interface LoanProp{
+    loanId : {
+        id: number
     },
-];
+    loanDetail: any,
+    member: any[]
 
-export default function LoanView() {
+}
+
+
+export default function LoanView({loanId,loanDetail,member}:LoanProp) {
     let rejected = true
-    const member = {
-        initial: "JP",
-        id: "1231231",
-        member: "Jodeci Abria Pacibe",
-        rate: "60",
-        shareCapital: "₱ 5,125.00",
-        dateJoined: "October 12, 2023",
-        email: "1234@gmail.com",
-        contact: "0912345123",
-        status: "Active",
-    };
+    
     const transactions = [
         {
             type: "Loan Payment",
@@ -77,7 +70,12 @@ export default function LoanView() {
         },
 
     ];
-
+    const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Loan/ID',
+        href: admin.loanView(loanId).url
+    },
+];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="ID" />
@@ -255,29 +253,29 @@ export default function LoanView() {
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">Ongoing</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.status}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">March 2, 2025</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">Medical</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.purpose?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        <div className="flex flex-col">
+                                        {/* <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">JDan Bejec</p>
-                                        </div>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
+                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">₱ 12,000.00</p>
+                                            <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">12 months, 5% interest</p>
+                                            <p className="text-sm font-semibold text-primary">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}%`}</p>
                                         </div>
                                     </div>
                                 </div>

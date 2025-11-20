@@ -18,28 +18,28 @@ class Account extends Model
         'balance',
         'member_id',
     ];
-    
+
     protected $attributes = [
-        'status' => 'ACTIVE',
+        'status' => 'Active',
         'balance' => 0.00,
     ];
-    public const STATUS = ['ACTIVE','INACTIVE','CLOSED'];
+    public const STATUS = ['Active','Inactive','Closed'];
     public const TYPES = ['Asset', 'Liability', 'Equity', 'Income', 'Expense'];
 
     public $timestamps = false;
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function ledgerEntries()
     {
-        return $this->hasMany(LedgerEntry::class);
+        return $this->hasMany(LedgerEntry::class,'account_id');
     }
 
     public function shareSnapshots()
     {
-        return $this->hasMany(ShareSnapshot::class);
+        return $this->hasMany(ShareSnapshot::class,'account_id');
     }
 }

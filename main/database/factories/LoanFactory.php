@@ -21,12 +21,12 @@ class LoanFactory extends Factory
     public function definition(): array
     {
         return [
-            'ref_no' => strtoupper($this->faker->bothify('LN-####??')),
+            'ref_no' => $this->faker->unique()->numberBetween(5000000000, 5099999999),
             'amount' => $this->faker->randomFloat(2, 5000, 100000),
             'interest_rate' => $this->faker->randomFloat(2, 3, 15),
             'term_months' => $this->faker->numberBetween(6, 36),
-            'status' => $this->faker->randomElement(Loan::STATUS),
-            'remarks' => $this->faker->sentence(),
+            'status' => $status = $this->faker->randomElement(Loan::STATUS),
+            'remarks' => $status === 'Rejected' ? $this->faker->sentence() : null,
             'purpose_id' => $this->faker->numberBetween(1,7), // assumes LoanPurposeFactory exists
             'member_id' => Member::factory(),
             'created_at' => $this->faker->dateTimeThisYear(),

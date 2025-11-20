@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('is_read')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

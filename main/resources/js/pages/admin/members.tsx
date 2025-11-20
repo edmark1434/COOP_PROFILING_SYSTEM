@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import { Head, Link } from '@inertiajs/react';
+import admin, { memberProfile } from "@/routes/admin";
 import * as React from "react";
 import {LoanRow} from "@/components/rows/loan";
 import {InputGroup, InputGroupAddon, InputGroupInput} from '@/components/ui/input-group';
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
 import { Popover, PopoverTrigger, PopoverContent} from "@/components/ui/popover";
 import {Separator} from "@radix-ui/react-select";
+
 import {
     Select,
     SelectContent,
@@ -152,7 +153,9 @@ export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstName
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
                         {memberList.map((member, i) => (
-                            <MemberRow key={i} data={member} category={category} />
+                            <Link href={memberProfile(member.id)}>
+                                <MemberRow key={i} data={member} category={category} />
+                            </Link>
                         )
                         )}
                         </div>
