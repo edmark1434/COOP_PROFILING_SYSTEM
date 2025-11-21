@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserInterface\Admin;
 use App\Http\Controllers\CommonLogic;
 use App\Models\AuditLog;
+use App\Models\BiometricData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -123,7 +124,15 @@ class AdminFormsController extends Controller
             ];
 
             User::query()->create($userForm);
+            $user = User::query()->where('email', $validated['email'])->first();
         }
+
+        // biometric data
+        $biometric = [
+            'user_id' => $user->id,
+            'fingerprint_template' => session()->get('form.staff_fingerprint'),
+        ];
+        BiometricData::query()->create($biometric);
 
         // audit log
         $auditLog = [
