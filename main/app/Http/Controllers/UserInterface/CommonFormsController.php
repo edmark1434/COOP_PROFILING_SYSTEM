@@ -80,8 +80,9 @@ class CommonFormsController extends Controller
         return Inertia::render('settings/forms/fingerprint-login', []);
     }
 
-    public function fingerprintLoginPost(int $id)
+    public function fingerprintLoginPost(Request $request)
     {
+        $id = $request->input('id');
         $user = User::query()->findOrFail($id);
         Auth::login($user);
 
