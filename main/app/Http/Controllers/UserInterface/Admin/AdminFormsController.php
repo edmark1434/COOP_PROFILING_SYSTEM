@@ -139,9 +139,11 @@ class AdminFormsController extends Controller
             'type' => 'Staff Added',
             'description' => $validated['fullName'] . ' - ' . $validated['role'],
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('admin.staff');
     }
 
@@ -167,9 +169,11 @@ class AdminFormsController extends Controller
             'description' =>
                 $staff->name . ' - ' . $pastRole . ' to ' . $validated['role'],
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('admin.staffProfile', $id);
     }
 

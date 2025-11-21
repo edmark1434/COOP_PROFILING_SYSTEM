@@ -59,7 +59,7 @@ export default function ConfirmTransaction() {
                 </div>
             </CardContent>
             <CardFooter className="px-10 pt-2 pb-4">
-                <Button className="w-full" onClick={() => router.get("/teller/confirm-member")}>
+                <Button className="w-full" onClick={() => router.post(window.location.pathname)}>
                     Confirm
                 </Button>
             </CardFooter>
