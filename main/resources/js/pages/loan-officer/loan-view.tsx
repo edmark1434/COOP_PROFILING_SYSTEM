@@ -192,19 +192,19 @@ export default function LoanView({ loan }: LoanViewProps) {
                     {/*Details Card*/}
                     <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                         <div className="flex flex-col p-5 py-2.5 border-b">
-                            <div className="text-sm font-medium text-(--color-primary)">Details</div>
+                            <div className="text-sm font-medium text-foreground">Details</div>
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="flex flex-col p-5 gap-3">
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Date Applied</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {formatDate(loan.created_at)}
                                     </p>
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Purpose</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {loan.purpose.name}
                                     </p>
                                 </div>
@@ -212,13 +212,13 @@ export default function LoanView({ loan }: LoanViewProps) {
                             <div className="flex flex-col p-5 gap-3">
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Amount</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {formatCurrency(loan.amount)}
                                     </p>
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Plan</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {loan.term_months} months, {loan.interest_rate}% interest
                                     </p>
                                 </div>
@@ -227,7 +227,7 @@ export default function LoanView({ loan }: LoanViewProps) {
                         {loan.remarks && (
                             <div className="flex flex-col p-5 pt-0">
                                 <p className="text-xs text-muted-foreground">Remarks</p>
-                                <p className="text-sm font-semibold text-primary">{loan.remarks}</p>
+                                <p className="text-sm font-semibold text-foreground">{loan.remarks}</p>
                             </div>
                         )}
                     </div>

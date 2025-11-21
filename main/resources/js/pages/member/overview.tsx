@@ -70,32 +70,32 @@ export default function MemberOverview() {
     const [localSearch, setLocalSearch] = React.useState('');
     const [localOrderBy, setLocalOrderBy] = React.useState('date');
     const [localOrderDirection, setLocalOrderDirection] = React.useState('comfortable');
-    
+
     const [displayedTransactions, setDisplayedTransactions] = React.useState(recentTransactions);
     const [displayedLoans, setDisplayedLoans] = React.useState(currentLoans);
 
     // Format date to "November 12, 2025 · 12:01 PM"
     const formatDateTime = (dateString: string) => {
         if (!dateString) return "No date available";
-        
+
         try {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return "Invalid date";
-            
-            const dateOptions: Intl.DateTimeFormatOptions = { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+
+            const dateOptions: Intl.DateTimeFormatOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             };
-            const timeOptions: Intl.DateTimeFormatOptions = { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const timeOptions: Intl.DateTimeFormatOptions = {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             };
-            
+
             const formattedDate = date.toLocaleDateString('en-US', dateOptions);
             const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
-            
+
             return `${formattedDate} · ${formattedTime}`;
         } catch {
             return "Invalid date";
@@ -123,10 +123,10 @@ export default function MemberOverview() {
 
     React.useEffect(() => {
         let filteredTransactions = [...recentTransactions];
-        
+
         if (localSearch) {
             const searchLower = localSearch.toLowerCase();
-            filteredTransactions = filteredTransactions.filter(transaction => 
+            filteredTransactions = filteredTransactions.filter(transaction =>
                 transaction.type.toLowerCase().includes(searchLower) ||
                 transaction.amount.toString().includes(searchLower) ||
                 transaction.created_at.toLowerCase().includes(searchLower)
@@ -135,7 +135,7 @@ export default function MemberOverview() {
 
         filteredTransactions.sort((a, b) => {
             let compareA: any, compareB: any;
-            
+
             switch (localOrderBy) {
                 case 'date':
                     compareA = new Date(a.created_at_raw).getTime();
@@ -162,10 +162,10 @@ export default function MemberOverview() {
         });
 
         let filteredLoans = [...currentLoans];
-        
+
         if (localSearch) {
             const searchLower = localSearch.toLowerCase();
-            filteredLoans = filteredLoans.filter(loan => 
+            filteredLoans = filteredLoans.filter(loan =>
                 loan.type.toLowerCase().includes(searchLower) ||
                 loan.amount.toLowerCase().includes(searchLower) ||
                 loan.status.toLowerCase().includes(searchLower)
@@ -174,7 +174,7 @@ export default function MemberOverview() {
 
         filteredLoans.sort((a, b) => {
             let compareA: any, compareB: any;
-            
+
             switch (localOrderBy) {
                 case 'date':
                     compareA = new Date(a.application_date).getTime();
@@ -223,7 +223,7 @@ export default function MemberOverview() {
         return (
             <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border">
                 <div className="flex flex-col p-5 py-2.5 border-b">
-                    <div className="text-sm font-medium text-primary">{title}</div>
+                    <div className="text-sm font-medium text-foreground">{title}</div>
                 </div>
 
                 <div className="flex flex-col p-5 gap-4">
@@ -277,7 +277,7 @@ export default function MemberOverview() {
         initial: getInitials(memberData.first_name, memberData.last_name),
         id: memberData.id_coop,
         member: memberData.full_name,
-        rate: memberData.delinquency_rate?.toString() || "0", 
+        rate: memberData.delinquency_rate?.toString() || "0",
         dateJoined: memberData.join_date,
         email: memberData.email,
         contact: memberData.contact_num,
@@ -307,7 +307,7 @@ export default function MemberOverview() {
                                         <ArrowUpDown size="16"/>
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select 
+                                    <Select
                                         value={localOrderBy}
                                         onValueChange={setLocalOrderBy}
                                     >
@@ -327,7 +327,7 @@ export default function MemberOverview() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup 
+                                    <RadioGroup
                                         value={localOrderDirection}
                                         onValueChange={setLocalOrderDirection}
                                         className="flex gap-6"
@@ -346,8 +346,8 @@ export default function MemberOverview() {
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput 
-                            placeholder="Search" 
+                        <InputGroupInput
+                            placeholder="Search"
                             value={localSearch}
                             onChange={(e) => setLocalSearch(e.target.value)}
                         />

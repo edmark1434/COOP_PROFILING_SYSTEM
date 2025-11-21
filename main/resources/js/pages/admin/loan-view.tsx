@@ -25,7 +25,7 @@ interface LoanProp{
 
 export default function LoanView({loanId,loanDetail,member}:LoanProp) {
     let rejected = true
-    
+
     const transactions = [
         {
             type: "Loan Payment",
@@ -87,23 +87,23 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                             <div
                                 className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-(--color-primary)">Balance</div>
+                                    <div className="text-sm font-medium text-foreground">Balance</div>
                                 </div>
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row items-end gap-2">
-                                            <p className="text-md font-semibold text-primary">₱ 4,000.00 </p>
+                                            <p className="text-md font-semibold text-foreground">₱ 4,000.00 </p>
                                             <p className="text-xs text-muted-foreground pb-1">(33.3%)</p>
                                         </div>
                                         <p className="text-xs text-muted-foreground">out of ₱ 12,600.00</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Current Period </p>
-                                        <p className="text-sm font-semibold text-primary">3 out of 6</p>
+                                        <p className="text-sm font-semibold text-foreground">3 out of 6</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Next Due</p>
-                                        <p className="text-sm font-semibold text-primary">December 3, 2025 </p>
+                                        <p className="text-sm font-semibold text-foreground">December 3, 2025 </p>
                                     </div>
                                 </div>
                             </div>
@@ -112,35 +112,35 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                             <div
                                 className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-(--color-primary)">Details</div>
+                                    <div className="text-sm font-medium text-foreground">Details</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-5">
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">Ongoing</p>
+                                            <p className="text-sm font-semibold text-foreground">Ongoing</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">March 2, 2025</p>
+                                            <p className="text-sm font-semibold text-foreground">March 2, 2025</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">Medical</p>
+                                            <p className="text-sm font-semibold text-foreground">Medical</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">JDan Bejec</p>
+                                            <p className="text-sm font-semibold text-foreground">JDan Bejec</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">₱ 12,000.00</p>
+                                            <p className="text-sm font-semibold text-foreground">₱ 12,000.00</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">12 months, 5% interest</p>
+                                            <p className="text-sm font-semibold text-foreground">12 months, 5% interest</p>
                                         </div>
                                     </div>
                                 </div>
@@ -150,20 +150,20 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                             <div
                                 className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-(--color-primary)">Transactor</div>
+                                    <div className="text-sm font-medium text-foreground">Transactor</div>
                                 </div>
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Name</p>
-                                        <p className="text-sm font-semibold text-primary">Jodeci Abria Pacibe</p>
+                                        <p className="text-sm font-semibold text-foreground">Jodeci Abria Pacibe</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Member ID</p>
-                                        <p className="text-sm font-semibold text-primary">1012345678</p>
+                                        <p className="text-sm font-semibold text-foreground">1012345678</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Status</p>
-                                        <p className="text-sm font-semibold text-primary">Active</p>
+                                        <p className="text-sm font-semibold text-foreground">Active</p>
                                     </div>
                                 </div>
                             </div>
@@ -247,35 +247,35 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                             {/*Details Card*/}
                             <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-(--color-primary)">Details</div>
+                                    <div className="text-sm font-medium text-foreground">Details</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-5">
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.status}</p>
+                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.status}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
+                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.purpose?.name}</p>
+                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.purpose?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
                                         {/* <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
+                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.processBy}</p>
                                         </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
+                                            <p className="text-sm font-semibold text-foreground">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}%`}</p>
+                                            <p className="text-sm font-semibold text-foreground">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}%`}</p>
                                         </div>
                                     </div>
                                 </div>
