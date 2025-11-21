@@ -49,7 +49,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
     const dueDate = new Date(newDueDate.due_date);
     dueDate.setMonth(dueDate.getMonth() + 1);
     const newDate = dueDate.toISOString().split("T")[0];
-    
+
 
     const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -244,10 +244,6 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        {/* <div className="flex flex-col">
-                                            <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
-                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
                                             <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
