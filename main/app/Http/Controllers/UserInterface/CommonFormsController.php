@@ -74,4 +74,9 @@ class CommonFormsController extends Controller
         }
     }
 
+    public function fingerprintLoginGet()
+    {
+        return Inertia::render('settings/forms/fingerprint-login', []);
+    }
+
 }
