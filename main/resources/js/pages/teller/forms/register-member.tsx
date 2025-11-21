@@ -36,7 +36,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { X } from "lucide-react"
-import {router, usePage} from "@inertiajs/react";
+import {router, usePage, Link} from "@inertiajs/react";
 
 const formSchema = z.object({
     firstName: z
@@ -109,9 +109,11 @@ export default function MemberRegistrationForm() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Register Member</CardTitle>
-                <Button variant="outline" size="icon" className="rounded-full">
-                    <X />
-                </Button>
+                <Link href="/teller/member-lookup">
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <X />
+                    </Button>
+                </Link>
             </CardHeader>
             <CardContent className="px-10">
                 <form id="form-rhf-member-registration" onSubmit={form.handleSubmit(onSubmit)}>
