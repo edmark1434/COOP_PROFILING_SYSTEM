@@ -288,9 +288,8 @@ export default function MemberOverview() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Overview" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
+                <div className="flex-1">
                     <ProfileCard title="Member Profile" data={profileMember} />
-                    <ProfileCard title="Account Summary" data={profileMember} />
                 </div>
                 <div className="flex flex-row h-fit w-full justify-between">
                     <Popover>
