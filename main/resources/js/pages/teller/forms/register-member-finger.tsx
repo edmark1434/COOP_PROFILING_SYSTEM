@@ -26,7 +26,7 @@ export default function RegisterMemberFinger() {
             const response = await fetch("http://localhost:8080/api/biometric/scan-template")
             if(!response.ok){
                 const errorMessage = await response.text();
-                toast.error("Fingerprint scan failed: " + errorMessage, {
+                toast.error(errorMessage, {
                     position: "bottom-right",
                     classNames: {
                         content: "flex flex-col gap-2",

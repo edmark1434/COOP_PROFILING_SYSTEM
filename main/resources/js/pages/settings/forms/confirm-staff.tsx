@@ -14,7 +14,7 @@ import {
 import {FingerprintIcon, X} from "lucide-react"
 
 export default function ConfirmStaff() {
-    const { staffName, initials,authId } = usePage<{
+    const { staffName, initials, authId } = usePage<{
         staffName: string;
         initials: string;
         authId: number
@@ -25,7 +25,7 @@ export default function ConfirmStaff() {
                     const response = await fetch(`http://localhost:8080/api/biometric/verifying/${authId}`,{method:"POST"})
                     if(!response.ok){
                         const errorMessage = await response.text();
-                        toast.error("Fingerprint scan failed: " + errorMessage, {
+                        toast.error(errorMessage, {
                             position: "bottom-right",
                             classNames: {
                                 content: "flex flex-col gap-2",

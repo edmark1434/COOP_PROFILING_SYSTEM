@@ -44,6 +44,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans');
         Route::get('/staff', [AdminStaffController::class, 'index'])->name('staff');
+        Route::get('/staff/change-role', [AdminStaffController::class, 'redirectChangeRole'])->name('staffChangeRole');
+        Route::get('/staff/suspend', [AdminStaffController::class, 'suspendStaff'])->name('staffSuspend');
         Route::get('/staff/{id}', [AdminStaffController::class, 'viewStaffId'] )->name('staffProfile');
         Route::get('/member-profile/{id}',[AdminMembersController::class,'memberProf'])->name('memberProfile');
         Route::get('/loans/{id}', [AdminLoanController::class, 'loanDetails'])->name('loanView');
