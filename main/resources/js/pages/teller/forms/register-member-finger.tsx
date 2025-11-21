@@ -13,7 +13,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import {FingerprintIcon, X} from "lucide-react"
+import {LoaderCircle, FingerprintIcon, X} from "lucide-react"
 
 export default function RegisterMemberFinger() {
     const { memberName, initials } = usePage<{
@@ -21,7 +21,10 @@ export default function RegisterMemberFinger() {
         initials: string;
     }>().props
 
-    async  function onScan() {
+    const [processing, setProcessing] = React.useState(false);
+
+    async function onScan() {
+        setProcessing(true);
         try{
             const response = await fetch("http://localhost:8080/api/biometric/scan-template")
             if(!response.ok){
@@ -52,6 +55,8 @@ export default function RegisterMemberFinger() {
                     color: "var(--destructive)",
                 } as React.CSSProperties,
             });
+        }finally{
+            setProcessing(false);
         }
 
     }
@@ -83,9 +88,11 @@ export default function RegisterMemberFinger() {
                 </div>
             </CardContent>
             <CardFooter className="px-10 pt-2 pb-4">
-                <Button className="w-full" onClick={onScan}>
-                    <FingerprintIcon className="mr-2 h-4 w-4" />
-                    Scan fingerprint
+                <Button className="w-full" onClick={onScan} disabled={processing}>
+                    {processing ?
+                        <LoaderCircle className="h-4 w-4 animate-spin" /> :
+                        <FingerprintIcon className="mr-2 h-4 w-4"/>}
+                    {processing ? "Place your finger on the scanner" : "Scan fingerprint"}
                 </Button>
             </CardFooter>
         </Card>

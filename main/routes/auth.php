@@ -18,16 +18,16 @@ Route::middleware('guest')->group(function () {
         ->name('register.store');
 
     Route::get('login', [CommonFormsController::class, 'fingerprintLoginGet'])
-        ->name('fingerprintLogin.get');
-
-    Route::post('login', [CommonFormsController::class, 'fingerprintLoginPost'])
-        ->name('fingerprintLogin.post');
-
-    Route::get('login-by-password', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post('login-by-password', [AuthenticatedSessionController::class, 'store'])
+    Route::post('login', [CommonFormsController::class, 'fingerprintLoginPost'])
         ->name('login.store');
+
+    Route::get('login-with-password', [AuthenticatedSessionController::class, 'create'])
+        ->name('login-with-password');
+
+    Route::post('login-with-password', [AuthenticatedSessionController::class, 'store'])
+        ->name('login-with-password.store');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
