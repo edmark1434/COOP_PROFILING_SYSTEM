@@ -14,162 +14,183 @@ import {ProfileCard} from "@/components/ui/profile-card";
 import admin from "@/routes/admin";
 
 interface LoanProp{
-    loanId : {
-        id: number
+    prop : {
+        id: number,
+        name: string,
+        memId : number,
+        memStatus : string
     },
     loanDetail: any,
-    member: any[]
-
+    member: any[],
+    installments: any[],
+    installmentPaid: any[],
+    installmentPaidSum: number,
+    installmentDateAsc : any[],
+    installmentDateDesc : any[],
+    transactions: any[],
+    transactionDateAsc: any[],
+    transactionDateDesc: any[],
+    transactionTypeAsc: any[],
+    transactionTypeDesc: any[],
+    newDueDate : any
 }
 
+type SortField = 'date' | 'type';
+type SortOrder = 'asc' | 'desc';
 
-export default function LoanView({loanId,loanDetail,member}:LoanProp) {
-    let rejected = true
+export function getDateString(dateData:string){
+    const date = new Date(dateData);
+    const formatted = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+    return formatted;
+}
 
-    const transactions = [
+export default function LoanView({prop,loanDetail,member,installments,installmentPaid,installmentDateAsc,installmentDateDesc,installmentPaidSum,transactions,transactionDateAsc, transactionDateDesc, transactionTypeAsc, transactionTypeDesc,newDueDate}:LoanProp) {
+    const [sortField, setSortField] = React.useState<SortField>('date');
+    const [sortOrder, setSortOrder] = React.useState<SortOrder>('desc');
+    const [searchQuery, setSearchQuery] = React.useState('');
+    
+    const dueDate = new Date(newDueDate.due_date);
+    dueDate.setMonth(dueDate.getMonth() + 1);
+    const newDate = dueDate.toISOString().split("T")[0];
+
+    // Dynamic data sorting based on selected field and order
+    const getSortedInstallments = () => {
+        if (sortField === 'date') {
+            return sortOrder === 'asc' ? installmentDateAsc : installmentDateDesc;
+        }
+        // For installments, if type sorting is needed, you can add logic here
+        return sortOrder === 'asc' ? installments.sort((a, b) => a.id - b.id) : installments.sort((a, b) => b.id - a.id);
+    };
+
+    const getSortedTransactions = () => {
+        if (sortField === 'date') {
+            return sortOrder === 'asc' ? transactionDateAsc : transactionDateDesc;
+        } else if (sortField === 'type') {
+            return sortOrder === 'asc' ? transactionTypeAsc : transactionTypeDesc;
+        }
+        return transactions;
+    };
+
+    // Filter data based on search query
+    const filterData = (data: any[]) => {
+        if (!searchQuery) return data;
+        
+        return data.filter(item => 
+            Object.values(item).some(value => 
+                String(value).toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        );
+    };
+
+    const sortedInstallments = filterData(getSortedInstallments());
+    const sortedTransactions = filterData(getSortedTransactions());
+
+    const breadcrumbs: BreadcrumbItem[] = [
         {
-            type: "Loan Payment",
-            date: "October 4, 2025 · 1:32 PM",
-            amount: "₱ 5,125.00"
-        },
-        {
-            type: "Loan Disbursement",
-            date: "October 1, 2025 · 1:30 PM",
-            amount: "₱ 50,000.00"
-        },
-        {
-            type: "Share Capital Contribution",
-            date: "September 29, 2025 · 12:00 PM",
-            amount: "₱ 35,000.00"
+            title: `Loan/ID > ${loanDetail?.ref_no}`,
+            href: admin.loanView(prop.id).url
         }
     ];
-    const installments = [
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 50,000.00",
-            date: "October 23, 2025",
-        },
-        {
-            status: "Paid",
-            badgeType: "outline",
-            amount: "₱ 5,000.00",
-            date: "October 20, 2025",
-        },
-        {
-            status: "Pending",
-            badgeType: "secondary",
-            amount: "₱ 10,000.00",
-            date: "October 18, 2025",
-        },
-        {
-            status: "Overdue",
-            badgeType: "destructive",
-            amount: "₱ 7,500.00",
-            date: "October 15, 2025",
-        },
 
-    ];
-    const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Loan/ID',
-        href: admin.loanView(loanId).url
-    },
-];
+    const handleSortFieldChange = (value: string) => {
+        setSortField(value as SortField);
+    };
+
+    const handleSortOrderChange = (value: string) => {
+        setSortOrder(value as SortOrder);
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="ID" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {!rejected ? (
+                {loanDetail.status != 'Rejected' ? (
                     <>
                         <div className="flex flex-row gap-4">
-                            {/*Balance Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            {/* Balance Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-foreground">Balance</div>
+                                    <div className="text-sm font-medium text-(--color-primary)">Balance</div>
                                 </div>
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row items-end gap-2">
-                                            <p className="text-md font-semibold text-foreground">₱ 4,000.00 </p>
-                                            <p className="text-xs text-muted-foreground pb-1">(33.3%)</p>
+                                            <p className="text-md font-semibold text-primary">{`₱ ${Number(loanDetail?.amount - installmentPaidSum).toLocaleString("en-US") }`}</p>
+                                            <p className="text-xs text-muted-foreground pb-1">({loanDetail.term_months}%)</p>
                                         </div>
-                                        <p className="text-xs text-muted-foreground">out of ₱ 12,600.00</p>
+                                        <p className="text-xs text-muted-foreground">out of {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Current Period </p>
-                                        <p className="text-sm font-semibold text-foreground">3 out of 6</p>
+                                        <p className="text-sm font-semibold text-primary">{installmentPaid.length} out of {loanDetail.term_months} months</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Next Due</p>
-                                        <p className="text-sm font-semibold text-foreground">December 3, 2025 </p>
+                                        <p className="text-sm font-semibold text-primary">{getDateString(newDate)} </p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/*Details Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                            {/* Details Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-foreground">Details</div>
+                                    <div className="text-sm font-medium text-(--color-primary)">Details</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-5">
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-foreground">Ongoing</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.status}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-foreground">March 2, 2025</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-foreground">Medical</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.purpose?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
-                                            <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-foreground">JDan Bejec</p>
-                                        </div>
-                                        <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-foreground">₱ 12,000.00</p>
+                                            <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-foreground">12 months, 5% interest</p>
+                                            <p className="text-sm font-semibold text-primary">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}% interests`}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/*Transactor Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            {/* Transactor Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-foreground">Transactor</div>
+                                    <div className="text-sm font-medium text-(--color-primary)">Transactor</div>
                                 </div>
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Name</p>
-                                        <p className="text-sm font-semibold text-foreground">Jodeci Abria Pacibe</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.name}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Member ID</p>
-                                        <p className="text-sm font-semibold text-foreground">1012345678</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.memId}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Status</p>
-                                        <p className="text-sm font-semibold text-foreground">Active</p>
+                                        <p className="text-sm font-semibold text-primary">{prop.memStatus}</p>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+                        
+                        {/* Sorting and Search Controls */}
                         <div className="flex flex-row h-fit w-full justify-between">
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -185,28 +206,27 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                                 <ArrowUpDown size="16"/>
                                                 <span className="text-sm font-medium">Order by</span>
                                             </div>
-                                            <Select defaultValue="name">
+                                            <Select value={sortField} onValueChange={handleSortFieldChange}>
                                                 <SelectTrigger className="w-34">
                                                     <SelectValue placeholder="Select order"/>
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectGroup>
-                                                        <SelectItem value="name">Name</SelectItem>
-                                                        <SelectItem value="date">Date</SelectItem>
                                                         <SelectItem value="type">Type</SelectItem>
+                                                        <SelectItem value="date">Date</SelectItem>
                                                     </SelectGroup>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <Separator className="bg-gray-300 h-px"/>
                                         <div className="flex items-center w-full gap-4 p-3">
-                                            <RadioGroup defaultValue="comfortable" className="flex gap-6">
+                                            <RadioGroup value={sortOrder} onValueChange={handleSortOrderChange} className="flex gap-6">
                                                 <div className="flex items-center gap-2">
-                                                    <RadioGroupItem value="default" id="r1"/>
+                                                    <RadioGroupItem value="asc" id="r1"/>
                                                     <span className="text-sm font-medium">Ascending</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <RadioGroupItem value="comfortable" id="r2"/>
+                                                    <RadioGroupItem value="desc" id="r2"/>
                                                     <span className="text-sm font-medium">Descending</span>
                                                 </div>
                                             </RadioGroup>
@@ -215,15 +235,22 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                 </PopoverContent>
                             </Popover>
                             <InputGroup className="w-sm">
-                                <InputGroupInput placeholder="Search..."/>
+                                <InputGroupInput 
+                                    placeholder="Search..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
                                 <InputGroupAddon>
                                     <Search/>
                                 </InputGroupAddon>
-                                <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                                <InputGroupAddon align="inline-end">
+                                    {sortedInstallments.length + sortedTransactions.length} results
+                                </InputGroupAddon>
                             </InputGroup>
                         </div>
-                        <div
-                            className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
+                        
+                        {/* Tabbed Table with Sorted Data */}
+                        <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
                             <TabbedTable
                                 variant="bordered"
                                 defaultTab="transactions"
@@ -231,12 +258,12 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                                     {
                                         value: "installments",
                                         label: "Installments",
-                                        data: installments
+                                        data: sortedInstallments
                                     },
                                     {
                                         value: "transactions",
                                         label: "Transactions",
-                                        data: transactions
+                                        data: sortedTransactions
                                     },
                                 ]}/>
                         </div>
@@ -244,45 +271,40 @@ export default function LoanView({loanId,loanDetail,member}:LoanProp) {
                 ):(
                     <>
                         <div className="flex flex-col items-center w-full gap-5">
-                            {/*Details Card*/}
+                            {/* Details Card */}
                             <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium text-foreground">Details</div>
+                                    <div className="text-sm font-medium text-(--color-primary)">Details</div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-5">
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.status}</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.status}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.updated_at.split("T")[0] + " "+ new Date(loanDetail?.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.purpose?.name}</p>
+                                            <p className="text-sm font-semibold text-primary">{loanDetail?.purpose?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        {/* <div className="flex flex-col">
-                                            <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-foreground">{loanDetail?.processBy}</p>
-                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-foreground">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
+                                            <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-foreground">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}%`}</p>
+                                            <p className="text-sm font-semibold text-primary">{`${loanDetail?.term_months} Months , ${loanDetail?.interest_rate}%`}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
                         </div>
-
                     </>
                 )}
             </div>

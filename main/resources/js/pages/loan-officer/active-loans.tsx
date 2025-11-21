@@ -20,12 +20,19 @@ function LoanRow({ data, className, ...props }: any) {
         return initials.join("");
     };
 
+    // In your LoanRow component, update the handleClick function:
+    const handleClick = () => {
+        console.log('Clicked loan ID:', data.id);
+        router.visit(loanOfficer.loanViewActive(data.id).url);
+    };
+
     return (
         <div
             className={cn(
-                "flex flex-row gap-4 items-center px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row gap-4 items-center px-4 py-3 hover:bg-muted/40 transition-colors cursor-pointer",
                 className
             )}
+            onClick={handleClick}
             {...props}
         >
             {/* Member initials */}
@@ -58,6 +65,7 @@ function LoanRow({ data, className, ...props }: any) {
     );
 }
 
+// Rest of the component remains the same...
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Active Loans',

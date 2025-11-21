@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast, Toaster } from "sonner"
-import {router, usePage} from "@inertiajs/react";
+import {router, usePage, Link } from "@inertiajs/react";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -62,9 +62,11 @@ export default function RegisterMemberFinger() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Register Member Fingerprint</CardTitle>
+                <Link href="/teller/register-member">
                 <Button variant="outline" size="icon" className="rounded-full">
                     <X />
                 </Button>
+                </Link>
             </CardHeader>
             <CardContent className="px-10 flex flex-col gap-4">
                 <div className="flex min-w-[200px] items-center gap-4">
