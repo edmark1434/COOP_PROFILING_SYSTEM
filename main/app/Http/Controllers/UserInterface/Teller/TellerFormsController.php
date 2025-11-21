@@ -118,7 +118,7 @@ class TellerFormsController extends Controller
     {
         $template = $request->input('template');
         session()->put('form.member_fingerprint',$template);
-        $this->transactionFormSave();
+        $this->memberRegistrationFormSave();
     }
 
     public function transactionFormSave()
