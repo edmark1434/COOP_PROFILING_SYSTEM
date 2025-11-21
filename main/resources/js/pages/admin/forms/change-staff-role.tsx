@@ -29,7 +29,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { X } from "lucide-react"
-import {router, usePage} from "@inertiajs/react";
+import {Link, router, usePage} from "@inertiajs/react";
 
 const formSchema = z.object({
     role: z
@@ -73,8 +73,8 @@ export default function StaffRoleChangeForm() {
             <Toaster/>
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
-                <CardTitle>Change Staff Role</CardTitle>
-                <Button variant="outline" size="icon" className="rounded-full">
+                    <CardTitle>Change Staff Role</CardTitle>
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => window.history.back()}>
                     <X />
                 </Button>
             </CardHeader>
