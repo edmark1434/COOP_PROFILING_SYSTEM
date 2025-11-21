@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { toast, Toaster } from "sonner"
-import {router, usePage} from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -11,15 +11,10 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {FingerprintIcon, LoaderCircle, X} from "lucide-react"
+import {FingerprintIcon, KeyRound, LoaderCircle, X} from "lucide-react"
+import AuthLayout from '@/layouts/auth-layout';
 
 export default function FingerprintLogin() {
-    const { staffName, initials, authId } = usePage<{
-        staffName: string;
-        initials: string;
-        authId: number
-    }>().props
-
     const [processing, setProcessing] = React.useState(false);
 
     async function onScan() {
@@ -39,9 +34,9 @@ export default function FingerprintLogin() {
                     } as React.CSSProperties,
                 });
             }else{
-                const success = await response.text();
-                toast.success(success);
-                router.post(window.location.pathname);
+                const id = await response.text();
+                toast.success("Logged in successfully!");
+                router.post(window.location.pathname, {id});
             }
         }catch(error){
             toast.error("Fingerprint scan failed: " + error);
@@ -51,26 +46,23 @@ export default function FingerprintLogin() {
     }
 
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-            <Toaster/>
-            <Card className="w-full sm:max-w-md">
-                <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
-                    <CardTitle>Login</CardTitle>
-                    <Button variant="outline" size="icon" className="rounded-full">
-                        <X />
-                    </Button>
-                </CardHeader>
-                <CardContent className="px-10 flex flex-col gap-4">
-                </CardContent>
-                <CardFooter className="px-10 pt-2 pb-4">
-                    <Button className="w-full" onClick={onScan} disabled={processing}>
-                        {processing ?
-                            <LoaderCircle className="h-4 w-4 animate-spin" /> :
-                            <FingerprintIcon className="mr-2 h-4 w-4"/>}
-                        {processing ? "Place your finger on the scanner" : "Scan fingerprint"}
-                    </Button>
-                </CardFooter>
-            </Card>
-        </div>
+        <AuthLayout
+                    title="Log in to your account"
+                    description="Choose a method to log in to your account"
+        >
+            <Toaster />
+            <Button className="w-full" onClick={onScan} disabled={processing}>
+                {processing ?
+                    <LoaderCircle className="h-4 w-4 animate-spin" /> :
+                    <FingerprintIcon className="mr-2 h-4 w-4"/>}
+                {processing ? "Place your finger on the scanner" : "Log in with fingerprint"}
+            </Button>
+            <Link href="/login-with-password">
+                <Button variant="secondary" className="w-full mt-4">
+                        <KeyRound className="mr-2 h-4 w-4" />
+                        Log in with password
+                </Button>
+            </Link>
+        </AuthLayout>
     )
 }
