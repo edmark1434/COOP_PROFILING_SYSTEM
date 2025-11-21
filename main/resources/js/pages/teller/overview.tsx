@@ -7,7 +7,7 @@ import {
     OverviewCardContent,
     OverviewCardFooter,
     OverviewCardHeader,
-    OverviewCardTitle, 
+    OverviewCardTitle,
     OverviewCardValue,
 } from "@/components/ui/overview-card";
 
@@ -45,7 +45,7 @@ interface TellerOverviewProps {
     weekRange: string;
 }
 
-export default function TellerOverview({ 
+export default function TellerOverview({
     transactionsThisWeek,
     transactionDescription,
     cashOnHand,
@@ -58,27 +58,27 @@ export default function TellerOverview({
     weekTransactionCount,
     weekRange
 }: TellerOverviewProps) {
-    
+
     const overviewCards = [
-        { 
-            title: 'Transactions This Week', 
-            value: transactionsThisWeek.toString(), 
-            description: transactionDescription 
+        {
+            title: 'Transactions This Week',
+            value: transactionsThisWeek.toString(),
+            description: transactionDescription
         },
-        { 
-            title: 'Cash On Hand', 
-            value: cashOnHand, 
-            description: `Started at ${startingCash} today` 
+        {
+            title: 'Cash On Hand',
+            value: cashOnHand,
+            description: `Started at ${startingCash} today`
         },
-        { 
-            title: 'Total Cash In', 
-            value: cashInThisWeek, 
-            description: cashInDescription 
+        {
+            title: 'Total Cash In',
+            value: cashInThisWeek,
+            description: cashInDescription
         },
-        { 
-            title: 'Total Cash Out', 
-            value: cashOutThisWeek, 
-            description: cashOutDescription 
+        {
+            title: 'Total Cash Out',
+            value: cashOutThisWeek,
+            description: cashOutDescription
         },
     ];
 
@@ -104,7 +104,7 @@ export default function TellerOverview({
                 {/* Transactions (This Week's) */}
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="flex flex-col px-4 py-2 border-b bg-muted/40">
-                        <div className="text-sm font-medium text-primary">Transactions</div>
+                        <div className="text-sm font-medium text-foreground">Transactions</div>
                         <div className="text-xs text-muted-foreground mt-1">
                             This week's transactions ({weekTransactionCount} total) - {weekRange}
                         </div>
@@ -112,8 +112,8 @@ export default function TellerOverview({
                     <div className="divide-y h-fit">
                         {weekTransactions.length > 0 ? (
                             weekTransactions.map((transaction) => (
-                                <TransactionRow 
-                                    key={transaction.id} 
+                                <TransactionRow
+                                    key={transaction.id}
                                     data={{
                                         id: transaction.id,
                                         type: transaction.type,

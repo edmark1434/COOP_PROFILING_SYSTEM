@@ -14,7 +14,7 @@ export function ProfileCard({
                                 className,
                                ...props
                            }: ProfileCardProps) {
-    
+
     // Debug logging to check what data is received
     React.useEffect(() => {
         console.log('ProfileCard received data:', data);
@@ -30,7 +30,7 @@ export function ProfileCard({
             {...props}
         >
             <div className="flex flex-col p-5 py-2.5 border-b">
-                <div className="text-sm font-medium text-(--color-primary)">{title}</div>
+                <div className="text-sm font-medium text-foreground">{title}</div>
             </div>
 
             {type=="member" && (
@@ -95,21 +95,21 @@ export function ProfileCard({
                         <div className="flex flex-col gap-2 w-[50%]">
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Type</p>
-                                <p className="text-sm font-semibold text-primary">{data.type}</p>
+                                <p className="text-sm font-semibold text-foreground">{data.type}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Joined Since</p>
-                                <p className="text-sm font-semibold text-primary">{data?.created_at?.split("T")[0] + " "+ new Date(data?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
+                                <p className="text-sm font-semibold text-foreground">{data?.created_at?.split("T")[0] + " "+ new Date(data?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2 w-[50%]">
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Status</p>
-                                <p className="text-sm font-semibold ttext-primary">{data.status}</p>
+                                <p className="text-sm font-semibold text-foreground">{data.status}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Email</p>
-                                <p className="text-sm font-semibold text-primary">{data.email}</p>
+                                <p className="text-sm font-semibold text-foreground">{data.email}</p>
                             </div>
                         </div>
                     </div>

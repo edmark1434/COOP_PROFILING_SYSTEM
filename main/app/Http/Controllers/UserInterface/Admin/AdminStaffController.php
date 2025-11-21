@@ -14,12 +14,12 @@ class AdminStaffController extends Controller
     {
         // Get staff
         $staff = User::where('is_member', false)
-                    ->where('is_admin', false) 
                     ->where(function($query) {
                         $query->where('is_teller', true)
-                              ->orWhere('is_loan_officer', true);
+                              ->orWhere('is_loan_officer', true)
+                              ->orWhere('is_admin', true);
                     })->get();
-        
+
         // Sort by name (ascending)
         $nameAsc = User::where('is_member', false)
                       ->where('is_admin', false)
@@ -27,7 +27,7 @@ class AdminStaffController extends Controller
                           $query->where('is_teller', true)
                                 ->orWhere('is_loan_officer', true);
                       })->orderBy('name', 'asc')->get();
-        
+
         // Sort by name (descending)
         $nameDesc = User::where('is_member', false)
                        ->where('is_admin', false)
@@ -35,7 +35,7 @@ class AdminStaffController extends Controller
                            $query->where('is_teller', true)
                                  ->orWhere('is_loan_officer', true);
                        })->orderBy('name', 'desc')->get();
-        
+
         // Sort by role type
         $typeAsc = User::where('is_member', false)
                       ->where('is_admin', false)
@@ -45,7 +45,7 @@ class AdminStaffController extends Controller
                       })->get()->sortBy(function($user) {
             return $this->getRolePriority($user);
         });
-        
+
         $typeDesc = User::where('is_member', false)
                        ->where('is_admin', false)
                        ->where(function($query) {
@@ -54,7 +54,7 @@ class AdminStaffController extends Controller
                        })->get()->sortByDesc(function($user) {
             return $this->getRolePriority($user);
         });
-        
+
         // Sort by date
         $dateAsc = User::where('is_member', false)
                       ->where('is_admin', false)
@@ -62,7 +62,7 @@ class AdminStaffController extends Controller
                           $query->where('is_teller', true)
                                 ->orWhere('is_loan_officer', true);
                       })->orderBy('email_verified_at', 'asc')->get();
-        
+
         $dateDesc = User::where('is_member', false)
                        ->where('is_admin', false)
                        ->where(function($query) {
