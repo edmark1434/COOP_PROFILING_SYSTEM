@@ -61,7 +61,7 @@ class AdminFormsController extends Controller
     public function staffRoleChangeFormGet($id)
     {
         session()->forget('form');
-
+        
         $staffRaw = User::query()
             ->select('name', 'is_teller', 'is_loan_officer', 'is_admin')
             ->findOrFail($id);
