@@ -1,11 +1,13 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, Link } from '@inertiajs/react';
 import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
 import loanOfficer from "@/routes/loan-officer"
 import {Button} from "@/components/ui/button";
 import Swal from 'sweetalert2';
+
+import loanRejectionForm from "@/routes/loan-officer/loanRejectionForm";
 
 interface Member {
     id: number;
@@ -171,18 +173,6 @@ export default function LoanView({ loan }: LoanViewProps) {
         });
     };
 
-    const handleReject = () => {
-        if (confirm('Are you sure you want to reject this loan?')) {
-            router.post(`/loan-officer/loans/${loan.id}/reject`, {}, {
-                onSuccess: () => {
-                    // Redirect to loan applications page after success
-                },
-                onError: (errors) => {
-                    console.error('Error rejecting loan:', errors);
-                }
-            });
-        }
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -237,9 +227,11 @@ export default function LoanView({ loan }: LoanViewProps) {
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve
                         </Button>
-                        <Button variant="destructive" onClick={handleReject}>
+                        <Link href={loanRejectionForm.get(loan.id)}>
+                        <Button variant="destructive" >
                             Reject
                         </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
