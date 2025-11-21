@@ -20,6 +20,8 @@ use App\Http\Controllers\UserInterface\LoanOfficer\LoanApplicationsController;
 use App\Http\Controllers\UserInterface\LoanOfficer\ActiveLoansController;
 use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 use App\Http\Controllers\UserInterface\LoanOfficer\MemberLookUpController;
+use App\Http\Controllers\UserInterface\LoanOfficer\ViewActiveLoanController;
+
 
 
 // Member
@@ -55,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/loans/{id}/approve', [LoanViewController::class, 'approve'])->name('loan-approve');
         Route::get('/member-lookup', [MemberLookUpController::class, 'index'])->name('memberLookup');
         Route::get('/member-lookup/{id}', [MemberLookUpController::class, 'memberProfile'])->name('memberProfile');
+        Route::get('/active-loans/{id}', [ViewActiveLoanController::class, 'loanDetails'])->name('loanViewActive');
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
@@ -66,17 +69,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
-         Route::get('/overview', [MemberOverviewController::class, 'index'])->name('overview');
-        // Route::get('/overview', function () {
-        //     return Inertia::render('member/overview',[]);
-        // })->name('overview');
-
+        Route::get('/overview', [MemberOverviewController::class, 'index'])->name('overview');
         Route::get('/my-transactions', [MemberTransactionController::class, 'index'])->name('myTransactions');
-        // Route::get('/my-transactions', function () {
-        //     return Inertia::render('member/my-transactions',[]);
-        // })->name('myTransactions');
         Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
-
         Route::get('/notifications', [MemberNotificationsController::class, 'index'])->name('notifications');
         Route::patch('/notifications/{id}/mark-as-read', [MemberNotificationsController::class, 'markAsRead'])->name('notifications.markAsRead');
         Route::patch('/notifications/mark-all-as-read', [MemberNotificationsController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
