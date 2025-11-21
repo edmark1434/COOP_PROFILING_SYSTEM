@@ -32,7 +32,7 @@ class LoanOfficerFormsController extends Controller
     public function loanRejectionFormSave()
     {
         $validated = session()->get('form.data');
-        $id = session()->get('id');
+        $id = session()->get('form.id');
 
         $final = [
             'remarks' => $validated['remarks'],
@@ -47,10 +47,12 @@ class LoanOfficerFormsController extends Controller
             'type' => 'Loan Rejected',
             'description' => LoanPurpose::query()->findOrFail($loan->purpose_id)->name . ' - Loan ID: ' . $loan->ref_no,
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
-        return redirect()->route('loanOfficer.loan-view', $id);
+        session()->forget('form');
+        return redirect()->route('loan-officer.loan-applications');
     }
 
 }
