@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\AuditLog;
 use App\Models\Member;
 use App\Models\Transaction;
+use App\Models\BiometricData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -117,7 +118,7 @@ class TellerFormsController extends Controller
     {
         $template = $request->input('template');
         session()->put('form.member_fingerprint',$template);
-        $this->transactionFormSave();
+        $this->memberRegistrationFormSave();
     }
 
     public function transactionFormSave()
@@ -148,6 +149,7 @@ class TellerFormsController extends Controller
     public function memberRegistrationFormSave()
     {
         $validated = session()->get('form.data');
+        $fingerprint = session()->get('form.member_fingerprint');
 
         $coop_id = fake()->numberBetween(6700000000, 6799999999);
         $name = session()->get('form.member_name');
@@ -185,6 +187,15 @@ class TellerFormsController extends Controller
 
             User::query()->create($userForm);
         }
+
+        $user = User::query()->where('email', $validated['email'])->first();
+
+        // biometric_data
+        $biometric = [
+            'template' => $fingerprint,
+            'user_id'=> $user->id,
+        ];
+        BiometricData::query()->create($biometric);
 
         // account
         $account = [

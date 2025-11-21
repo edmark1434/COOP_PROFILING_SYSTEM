@@ -52,6 +52,7 @@ class CommonFormsController extends Controller
         return Inertia::render('settings/forms/confirm-staff',[
             'staffName' => $user->name,
             'initials' => $initials,
+            'authId' => $user->id
         ]);
     }
     public function confirmStaffPost()
