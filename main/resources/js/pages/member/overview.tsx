@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
 import * as React from "react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
@@ -119,6 +119,11 @@ export default function MemberOverview() {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         })}`;
+    };
+
+    // Handle loan row click
+    const handleLoanClick = (loanId: string | number) => {
+        router.visit(`/member/loan-details/${loanId}`);
     };
 
     React.useEffect(() => {
@@ -364,15 +369,16 @@ export default function MemberOverview() {
                                 <TabsTrigger value="transactions">Transactions</TabsTrigger>
                             </TabsList>
 
-                            {/* Loans Tab - Clean design */}
+                            {/* Loans Tab - Clickable rows */}
                             <TabsContent value="loans" className="w-full overflow-x-auto">
                                 {displayedLoans.length > 0 ? (
                                     <div className="divide-y">
                                         {displayedLoans.map((loan, index) => (
                                             <div
                                                 key={index}
+                                                onClick={() => handleLoanClick(loan.id)}
                                                 className={cn(
-                                                    "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors"
+                                                    "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors cursor-pointer"
                                                 )}
                                             >
                                                 <div className="flex-1 min-w-[200px]">
