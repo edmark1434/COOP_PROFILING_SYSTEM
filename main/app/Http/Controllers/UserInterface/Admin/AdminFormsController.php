@@ -130,7 +130,7 @@ class AdminFormsController extends Controller
         // biometric data
         $biometric = [
             'user_id' => $user->id,
-            'fingerprint_template' => session()->get('form.staff_fingerprint'),
+            'template' => session()->get('form.staff_fingerprint'),
         ];
         BiometricData::query()->create($biometric);
 

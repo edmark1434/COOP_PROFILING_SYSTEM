@@ -149,7 +149,6 @@ class TellerFormsController extends Controller
     public function memberRegistrationFormSave()
     {
         $validated = session()->get('form.data');
-        $fingerprint = session()->get('form.member_fingerprint');
 
         $coop_id = fake()->numberBetween(6700000000, 6799999999);
         $name = session()->get('form.member_name');
@@ -186,14 +185,13 @@ class TellerFormsController extends Controller
             ];
 
             User::query()->create($userForm);
+            $user = User::query()->where('email', $validated['email'])->first();
         }
 
-        $user = User::query()->where('email', $validated['email'])->first();
-
-        // biometric_data
+        // biometric data
         $biometric = [
-            'template' => $fingerprint,
-            'user_id'=> $user->id,
+            'user_id' => $user->id,
+            'template' => session()->get('form.staff_fingerprint'),
         ];
         BiometricData::query()->create($biometric);
 
