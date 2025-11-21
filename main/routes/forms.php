@@ -23,30 +23,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/add-staff',[AdminFormsController::class,'staffAddFormGet'] )->name('staffAddForm.get');
         Route::post('/add-staff',[AdminFormsController::class,'staffAddFormPost'] )->name('staffAddForm.post');
+        Route::get('/save-staff-add',[AdminFormsController::class,'staffAddFormSave'] )->name('staffAddForm.save');
 
         Route::get('/register-staff-finger',[AdminFormsController::class,'registerStaffFingerprintGet'] )->name('registerStaffFingerprint.get');
         Route::post('/register-staff-finger',[AdminFormsController::class,'registerStaffFingerprintPost'] )->name('registerStaffFingerprint.post');
 
         Route::get('/staff/{id}/change-role',[AdminFormsController::class,'staffRoleChangeFormGet'] )->name('staffRoleChangeForm.get');
         Route::post('/staff/{id}/change-role',[AdminFormsController::class,'staffRoleChangeFormPost'] )->name('staffRoleChangeForm.post');
+        Route::get('/save-staff-role-change',[AdminFormsController::class,'staffRoleChangeFormSave'] )->name('staffRoleChangeForm.save');
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
         Route::get('/loans/{id}/reject',[LoanOfficerFormsController::class,'loanRejectionFormGet'] )->name('loanRejectionForm.get');
         Route::post('/loans/{id}/reject',[LoanOfficerFormsController::class,'loanRejectionFormPost'] )->name('loanRejectionForm.post');
+        Route::get('/save-loan-rejection',[LoanOfficerFormsController::class,'loanRejectionFormSave'] )->name('loanRejectionForm.save');
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
         Route::get('/add-transaction',[TellerFormsController::class,'transactionFormGet'] )->name('transactionForm.get');
         Route::post('/add-transaction',[TellerFormsController::class,'transactionFormPost'] )->name('transactionForm.post');
+        Route::get('/save-transaction-add',[TellerFormsController::class,'transactionFormSave'] )->name('transactionForm.save');
 
         Route::get('/confirm-transaction',[TellerFormsController::class,'confirmTransactionGet'] )->name('confirmTransaction.get');
+        Route::post('/confirm-transaction',[TellerFormsController::class,'confirmTransactionPost'] )->name('confirmTransaction.post');
 
         Route::get('/confirm-member',[TellerFormsController::class,'confirmMemberGet'] )->name('confirmMember.get');
         Route::post('/confirm-member',[TellerFormsController::class,'confirmMemberPost'] )->name('confirmMember.post');
 
         Route::get('/register-member',[TellerFormsController::class,'memberRegistrationFormGet'] )->name('memberRegistrationForm.get');
         Route::post('/register-member',[TellerFormsController::class,'memberRegistrationFormPost'] )->name('memberRegistrationForm.post');
+        Route::get('/save-member-register',[TellerFormsController::class,'memberRegistrationFormSave'] )->name('memberRegistrationForm.save');
 
         Route::get('/register-member-finger',[TellerFormsController::class,'registerMemberFingerprintGet'] )->name('registerMemberFingerprint.get');
         Route::post('/register-member-finger',[TellerFormsController::class,'registerMemberFingerprintPost'] )->name('registerMemberFingerprint.post');

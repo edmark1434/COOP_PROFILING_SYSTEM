@@ -16,17 +16,18 @@ import {FingerprintIcon, X} from "lucide-react"
 import transactionForm from "@/routes/teller/transactionForm";
 
 export default function ConfirmMember() {
-    const { memberName, initials } = usePage<{
+    const { memberName, initials, authId } = usePage<{
         memberName: string;
         initials: string;
+        authId: number;
     }>().props
 
     async function onScan() {
             try{
-                const response = await fetch("http://localhost:8080/api/biometric/verifying/1",{method:"POST"})
+                const response = await fetch(`http://localhost:8080/api/biometric/verifying/${authId}`,{method:"POST"})
                 if(!response.ok){
                     const errorMessage = await response.text();
-                    toast.error("Fingerprint scan failed: " + errorMessage, {
+                    toast.error(errorMessage, {
                         position: "bottom-right",
                         classNames: {
                             content: "flex flex-col gap-2",
@@ -38,7 +39,7 @@ export default function ConfirmMember() {
                     });
                 }else{
                     const success = await response.text();
-                    alert(success);
+                    toast.success(success);
                     router.post(window.location.pathname);
                 }
             }catch(error){

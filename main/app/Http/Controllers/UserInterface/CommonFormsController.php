@@ -62,17 +62,13 @@ class CommonFormsController extends Controller
         $formType = session()->get('form.type');
         switch ($formType) {
             case 'add-transaction':
-                TellerFormsController::class->transactionFormSave();
-                break;
+                return redirect()->route('teller.transactionForm.save');
             case 'reject-loan':
-                LoanOfficerFormsController::class->loanRejectionFormSave();
-                break;
+                return redirect()->route('loan-officer.loanRejectionForm.save');
             case 'add-staff':
-                AdminFormsController::class->staffAddFormSave();
-                break;
+                return redirect()->route('admin.staffAddForm.save');
             case 'change-staff-role':
-                AdminFormsController::class->staffRoleChangeFormSave();
-                break;
+                return redirect()->route('admin.staffRoleChangeForm.save');
             default:
                 abort(404);
         }

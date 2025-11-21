@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_admin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->enum('status',['Active','Inactive'],20)->default('Active');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedBigInteger('member_id')->nullable();

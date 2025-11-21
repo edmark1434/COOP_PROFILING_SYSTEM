@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Link, router } from '@inertiajs/react';
 import loanApplicationForm from "@/routes/member/loanApplicationForm";
 import staffAddForm from "@/routes/admin/staffAddForm";
+import { staffChangeRole, staffSuspend } from "@/routes/admin";
 // import { loanApplicationForm } from "@/routes/member";
 
 
@@ -15,8 +16,12 @@ const handleMarkAllAsRead = () => {
 export const headerConfigs: Record<string, React.ReactNode> = {
     "/admin/staff/": (
         <>
-            <Button variant="secondary"><Settings /> Change Role</Button>
-            <Button variant="destructive">Suspend</Button>
+            <Link href={staffChangeRole()}>
+                <Button variant="secondary"><Settings /> Change Role</Button>
+            </Link>
+            <Link href={staffSuspend()}>
+                <Button variant="destructive">Suspend</Button>
+            </Link>
         </>
     ),
     "/admin/staff": (
