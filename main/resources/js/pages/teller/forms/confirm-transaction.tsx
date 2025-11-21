@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card"
 import { X } from "lucide-react"
 import {Toaster} from "sonner";
-import {router,usePage} from "@inertiajs/react";
+import {router,usePage, Link} from "@inertiajs/react";
 
 export default function ConfirmTransaction() {
     const { data, memberName } = usePage<{
@@ -26,9 +26,11 @@ export default function ConfirmTransaction() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Confirm Transaction</CardTitle>
+                <Link href="/teller/add-transaction">
                 <Button variant="outline" size="icon" className="rounded-full">
                     <X />
                 </Button>
+                </Link>
             </CardHeader>
             <CardContent className="px-10 flex flex-col gap-4">
                 <div className="flex-1 min-w-[200px]">

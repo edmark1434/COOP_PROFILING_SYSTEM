@@ -33,30 +33,77 @@ interface LoanProp{
     transactionTypeAsc: any[],
     transactionTypeDesc: any[],
     newDueDate : any
-
 }
 
+type SortField = 'date' | 'type';
+type SortOrder = 'asc' | 'desc';
+
 export function getDateString(dateData:string){
-        const date = new Date(dateData);
-        const formatted = date.toLocaleDateString("en-US", {
+    const date = new Date(dateData);
+    const formatted = date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
-        });
-        return formatted;
-    }
+    });
+    return formatted;
+}
+
 export default function LoanView({prop,loanDetail,member,installments,installmentPaid,installmentDateAsc,installmentDateDesc,installmentPaidSum,transactions,transactionDateAsc, transactionDateDesc, transactionTypeAsc, transactionTypeDesc,newDueDate}:LoanProp) {
+    const [sortField, setSortField] = React.useState<SortField>('date');
+    const [sortOrder, setSortOrder] = React.useState<SortOrder>('desc');
+    const [searchQuery, setSearchQuery] = React.useState('');
+    
     const dueDate = new Date(newDueDate.due_date);
     dueDate.setMonth(dueDate.getMonth() + 1);
     const newDate = dueDate.toISOString().split("T")[0];
 
+    // Dynamic data sorting based on selected field and order
+    const getSortedInstallments = () => {
+        if (sortField === 'date') {
+            return sortOrder === 'asc' ? installmentDateAsc : installmentDateDesc;
+        }
+        // For installments, if type sorting is needed, you can add logic here
+        return sortOrder === 'asc' ? installments.sort((a, b) => a.id - b.id) : installments.sort((a, b) => b.id - a.id);
+    };
+
+    const getSortedTransactions = () => {
+        if (sortField === 'date') {
+            return sortOrder === 'asc' ? transactionDateAsc : transactionDateDesc;
+        } else if (sortField === 'type') {
+            return sortOrder === 'asc' ? transactionTypeAsc : transactionTypeDesc;
+        }
+        return transactions;
+    };
+
+    // Filter data based on search query
+    const filterData = (data: any[]) => {
+        if (!searchQuery) return data;
+        
+        return data.filter(item => 
+            Object.values(item).some(value => 
+                String(value).toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        );
+    };
+
+    const sortedInstallments = filterData(getSortedInstallments());
+    const sortedTransactions = filterData(getSortedTransactions());
 
     const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Loan/ID',
-        href: admin.loanView(prop.id).url
-    },
-];
+        {
+            title: `Loan/ID > ${loanDetail?.ref_no}`,
+            href: admin.loanView(prop.id).url
+        }
+    ];
+
+    const handleSortFieldChange = (value: string) => {
+        setSortField(value as SortField);
+    };
+
+    const handleSortOrderChange = (value: string) => {
+        setSortOrder(value as SortOrder);
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="ID" />
@@ -64,9 +111,8 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                 {loanDetail.status != 'Rejected' ? (
                     <>
                         <div className="flex flex-row gap-4">
-                            {/*Balance Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            {/* Balance Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium text-(--color-primary)">Balance</div>
                                 </div>
@@ -89,8 +135,8 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </div>
                             </div>
 
-                            {/*Details Card*/}
-                           <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                            {/* Details Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium text-(--color-primary)">Details</div>
                                 </div>
@@ -110,10 +156,6 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                         </div>
                                     </div>
                                     <div className="flex flex-col p-5 gap-3">
-                                        {/* <div className="flex flex-col">
-                                            <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">{loanDetail?.processBy}</p>
-                                        </div> */}
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
                                             <p className="text-sm font-semibold text-primary">{`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}</p>
@@ -126,9 +168,8 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </div>
                             </div>
 
-                            {/*Transactor Card*/}
-                            <div
-                                className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            {/* Transactor Card */}
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium text-(--color-primary)">Transactor</div>
                                 </div>
@@ -147,9 +188,9 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
+                        
+                        {/* Sorting and Search Controls */}
                         <div className="flex flex-row h-fit w-full justify-between">
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -165,7 +206,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                                 <ArrowUpDown size="16"/>
                                                 <span className="text-sm font-medium">Order by</span>
                                             </div>
-                                            <Select defaultValue="date">
+                                            <Select value={sortField} onValueChange={handleSortFieldChange}>
                                                 <SelectTrigger className="w-34">
                                                     <SelectValue placeholder="Select order"/>
                                                 </SelectTrigger>
@@ -179,13 +220,13 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                         </div>
                                         <Separator className="bg-gray-300 h-px"/>
                                         <div className="flex items-center w-full gap-4 p-3">
-                                            <RadioGroup defaultValue="comfortable" className="flex gap-6">
+                                            <RadioGroup value={sortOrder} onValueChange={handleSortOrderChange} className="flex gap-6">
                                                 <div className="flex items-center gap-2">
-                                                    <RadioGroupItem value="default" id="r1"/>
+                                                    <RadioGroupItem value="asc" id="r1"/>
                                                     <span className="text-sm font-medium">Ascending</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <RadioGroupItem value="comfortable" id="r2"/>
+                                                    <RadioGroupItem value="desc" id="r2"/>
                                                     <span className="text-sm font-medium">Descending</span>
                                                 </div>
                                             </RadioGroup>
@@ -194,15 +235,22 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </PopoverContent>
                             </Popover>
                             <InputGroup className="w-sm">
-                                <InputGroupInput placeholder="Search..."/>
+                                <InputGroupInput 
+                                    placeholder="Search..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
                                 <InputGroupAddon>
                                     <Search/>
                                 </InputGroupAddon>
-                                <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+                                <InputGroupAddon align="inline-end">
+                                    {sortedInstallments.length + sortedTransactions.length} results
+                                </InputGroupAddon>
                             </InputGroup>
                         </div>
-                        <div
-                            className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
+                        
+                        {/* Tabbed Table with Sorted Data */}
+                        <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
                             <TabbedTable
                                 variant="bordered"
                                 defaultTab="transactions"
@@ -210,12 +258,12 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                     {
                                         value: "installments",
                                         label: "Installments",
-                                        data: installments
+                                        data: sortedInstallments
                                     },
                                     {
                                         value: "transactions",
                                         label: "Transactions",
-                                        data: transactions
+                                        data: sortedTransactions
                                     },
                                 ]}/>
                         </div>
@@ -223,7 +271,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                 ):(
                     <>
                         <div className="flex flex-col items-center w-full gap-5">
-                            {/*Details Card*/}
+                            {/* Details Card */}
                             <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium text-(--color-primary)">Details</div>
@@ -257,7 +305,6 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                             </div>
                             <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
                         </div>
-
                     </>
                 )}
             </div>
