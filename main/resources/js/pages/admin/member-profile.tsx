@@ -86,7 +86,7 @@ export default function MemberProfile({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members/id" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex-1  ">
+                <div className="flex h-fit w-full">
                     <ProfileCard type="member" data={member} />
                 </div>
                 <div className="flex flex-row h-fit w-full justify-between">
