@@ -78,7 +78,7 @@ class LoanViewController extends Controller
             $loanData['member']['delinquency_rate'] = 0.00; // Changed to 0.00 for consistency
         }
         $loanData['member']['name'] = $memberName;
-
+        $loanData['member']['contact'] = $loan->member->contact_num;
         return Inertia::render('loan-officer/loan-view', [
             'loan' => $loanData,
         ]);
