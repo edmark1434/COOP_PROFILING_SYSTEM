@@ -73,7 +73,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:member'])->prefix('member')->name('member.')->group(function () {
         Route::get('/overview', [MemberOverviewController::class, 'index'])->name('overview');
         Route::get('/my-transactions', [MemberTransactionController::class, 'index'])->name('myTransactions');
-        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('myLoans');
+        Route::get('/my-loans', [MemberLoansController::class, 'index'])->name('my-loans');
+        Route::get('/loan-details/{id}', [MemberLoansController::class, 'loanDetails'])->name('loan-details');
         Route::get('/notifications', [MemberNotificationsController::class, 'index'])->name('notifications');
         Route::patch('/notifications/{id}/mark-as-read', [MemberNotificationsController::class, 'markAsRead'])->name('notifications.markAsRead');
         Route::patch('/notifications/mark-all-as-read', [MemberNotificationsController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');

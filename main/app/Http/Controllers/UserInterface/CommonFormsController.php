@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -74,4 +75,23 @@ class CommonFormsController extends Controller
         }
     }
 
+    public function fingerprintLoginGet()
+    {
+        return Inertia::render('settings/forms/fingerprint-login', []);
+    }
+
+    public function fingerprintLoginPost(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::query()->findOrFail($id);
+        Auth::login($user);
+
+        $route = match (true) {
+            $user->is_admin => 'admin.overview',
+            $user->is_loan_officer => 'loan-officer.overview',
+            $user->is_teller => 'teller.overview',
+            default => 'member.overview',
+        };
+        return redirect()->intended(route($route,absolute: false));
+    }
 }
