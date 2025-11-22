@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserInterface\LoanOfficer;
 
+use App\Http\Controllers\CommonLogic;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use App\Models\Loan;
@@ -28,7 +29,14 @@ class LoanViewController extends Controller
 
         // Transform the data to include account information
         $loanData = $loan->toArray();
-
+        $memberName = trim(
+                ($loan->member->first_name ?? "") . " " .
+                ($loan->member->middle_name ?? "") . " " .
+                ($loan->member->last_name ?? "") . " " .
+                ($loan->member->suffix ?? "")
+            );
+        $initials = CommonLogic::getInitials($memberName);
+        $loanData['member']['initials'] = $initials;
         // Add user email to member data
         if ($loan->member->user) {
             $loanData['member']['email'] = $loan->member->user->email;
@@ -51,7 +59,7 @@ class LoanViewController extends Controller
                 $loanData['member']['share_capital'] = (float) $balance;
             }
 
-            $loanData['member']['account_status'] = $shareCapitalAccount->status;
+            $loanData['member']['account_status'] = $loan->member->status;
         } else {
             $loanData['member']['share_capital'] = 0.00;
             $loanData['member']['account_status'] = null;
@@ -69,6 +77,7 @@ class LoanViewController extends Controller
         } else {
             $loanData['member']['delinquency_rate'] = 0.00; // Changed to 0.00 for consistency
         }
+        $loanData['member']['name'] = $memberName;
 
         return Inertia::render('loan-officer/loan-view', [
             'loan' => $loanData,

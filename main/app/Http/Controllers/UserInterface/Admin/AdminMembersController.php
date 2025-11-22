@@ -10,7 +10,7 @@ use App\Models\Member;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\Transaction;
-
+use App\Http\Controllers\UserInterface\LoanOfficer\MemberLookUpController;
 class AdminMembersController extends Controller
 {
     public function index()
@@ -56,6 +56,7 @@ class AdminMembersController extends Controller
     }
     public function memberProf($id)
     {
+        $memLookUp = new MemberLookUpController();
         $member = Member::with(['accounts','user'])->find($id);
         if(!$member)return redirect()->route('admin.members');
         $user = User::where('member_id',$id)->first();
@@ -135,7 +136,13 @@ class AdminMembersController extends Controller
         $loansDescDate = $loansBase->clone()
             ->orderBy('created_at', 'desc')
             ->get();
-
+        $memberName = trim(
+                ($member->first_name ?? "") . " " .
+                ($member->middle_name ?? "") . " " .
+                ($member->last_name ?? "") . " " .
+                ($member->suffix ?? "")
+            );
+        $delinquencyRate = $memLookUp->calculateDelinquencyRate($member->id);
         return Inertia::render('admin/member-profile', [
             'member'=> [
                 'id' => $member->id,
@@ -143,8 +150,10 @@ class AdminMembersController extends Controller
                 'dateJoined' => $member->join_date,
                 'email' => $user->email,
                 'contact' => $member->contact_num,
-                'status' => $member->accounts->first()->status,
-                'initial' => $initial
+                'status' => $member->status,
+                'initial' => $initial,
+                'name' => $memberName,
+                'delinquencyRate' => $delinquencyRate
             ],
             'transactionsAscName' => $transactionsAscName,
             'transactionsDescName' => $transactionsDescName,

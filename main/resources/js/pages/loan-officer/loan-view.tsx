@@ -11,10 +11,7 @@ import loanRejectionForm from "@/routes/loan-officer/loanRejectionForm";
 
 interface Member {
     id: number;
-    first_name: string;
-    middle_name?: string;
-    last_name: string;
-    suffix?: string;
+    name: string;
     email?: string;
     contact_num?: string;
     id_coop?: string;
@@ -22,6 +19,7 @@ interface Member {
     join_date?: string;
     account_status?: string;
     delinquency_rate?: number;
+    initials: string;
 }
 
 interface Purpose {
@@ -62,9 +60,11 @@ export default function LoanView({ loan }: LoanViewProps) {
         });
     }, [loan]);
 
-    const getInitials = (firstName: string, lastName: string) => {
-        return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-    };
+    const getInitials = (name: string) => {
+    const names = name.split(" ");
+    const initials = names.map((n) => n.charAt(0).toUpperCase());
+    return initials.join("");
+  };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -100,9 +100,9 @@ export default function LoanView({ loan }: LoanViewProps) {
     const isHighRisk = delinquencyRate >= 10;
 
     const member = {
-        initial: getInitials(loan.member.first_name, loan.member.last_name),
+        initial: loan.member.initials,
         id: loan.member.id.toString(),
-        member: `${loan.member.first_name} ${loan.member.middle_name ? loan.member.middle_name + ' ' : ''}${loan.member.last_name}${loan.member.suffix ? ' ' + loan.member.suffix : ''}`,
+        name: loan.member.name,
         rate: delinquencyRate.toString(),
         rateClassName: isHighRisk ? 'text-red-600' : '',
         shareCapital: loan.member.share_capital || 0,

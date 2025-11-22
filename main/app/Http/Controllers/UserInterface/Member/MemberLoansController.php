@@ -172,7 +172,7 @@ class MemberLoansController extends Controller
                 'id' => $loan->id,
                 'name' => $memberName,
                 'memId' => $member->id,
-                'memStatus' => $member->accounts->first()->status ?? 'Unknown'
+                'memStatus' => $member->status ?? 'Unknown'
             ],
             'loanDetail' => $loan,
             'member' => [
@@ -181,7 +181,7 @@ class MemberLoansController extends Controller
                 'dateJoined' => $member->join_date,
                 'email' => $user->email ?? '',
                 'contact' => $member->contact_num,
-                'status' => $member->accounts->first()->status ?? 'Unknown',
+                'status' => $member->status ?? 'Unknown',
                 'initial' => $initial,
                 'processBy' => $processBy,
             ],
