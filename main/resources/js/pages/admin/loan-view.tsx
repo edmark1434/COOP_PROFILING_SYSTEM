@@ -52,7 +52,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
     const [sortField, setSortField] = React.useState<SortField>('date');
     const [sortOrder, setSortOrder] = React.useState<SortOrder>('desc');
     const [searchQuery, setSearchQuery] = React.useState('');
-    
+
     const dueDate = new Date(newDueDate.due_date);
     dueDate.setMonth(dueDate.getMonth() + 1);
     const newDate = dueDate.toISOString().split("T")[0];
@@ -78,9 +78,9 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
     // Filter data based on search query
     const filterData = (data: any[]) => {
         if (!searchQuery) return data;
-        
-        return data.filter(item => 
-            Object.values(item).some(value => 
+
+        return data.filter(item =>
+            Object.values(item).some(value =>
                 String(value).toLowerCase().includes(searchQuery.toLowerCase())
             )
         );
@@ -189,7 +189,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </div>
                             </div>
                         </div>
-                        
+
                         {/* Sorting and Search Controls */}
                         <div className="flex flex-row h-fit w-full justify-between">
                             <Popover>
@@ -235,7 +235,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </PopoverContent>
                             </Popover>
                             <InputGroup className="w-sm">
-                                <InputGroupInput 
+                                <InputGroupInput
                                     placeholder="Search..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -248,7 +248,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 </InputGroupAddon>
                             </InputGroup>
                         </div>
-                        
+
                         {/* Tabbed Table with Sorted Data */}
                         <div className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min dark:border-sidebar-border">
                             <TabbedTable
