@@ -35,7 +35,7 @@ export function ProfileCard({
 
             {type=="member" && (
                     <div className="flex flex-row p-5 gap-4 justify-between">
-                        <div className="flex flex-col justify-between items-start gap-2 min-w-[30%]">
+                        <div className="flex flex-col justify-center min-w-[30%]">
                             <div className="flex flex-row gap-4 items-center">
                                 <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
                                     <p className="font-semibold text-2xl">{data.initial}</p>
@@ -67,18 +67,18 @@ export function ProfileCard({
                                     <p className="text-sm font-semibold text-foreground">{data.status}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-3 w-[50%]">
-                                <div className="flex-1 flex-col ">
+                            <div className="flex flex-col gap-3 w-[25%] text-right">
+                                <div className="flex flex-col">
+                                    <p className="text-xs text-muted-foreground">Share Capital</p>
+                                    <p className="text-sm font-semibold text-foreground">{data.status}</p>
+                                </div>
+                                <div className="flex flex-col ">
                                     <p className="text-xs text-muted-foreground">Delinquency Rate</p>
                                     <p className={`text-sm font-semibold ${
                                         (data.delinquencyRate || 0) >= 10 ? 'text-primary' : 'text-foreground'
                                     }`}>
                                         {(data.delinquencyRate || 0)}%
                                     </p>
-                                </div>
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="text-xs text-muted-foreground">Share Capital</p>
-                                    <p className="text-sm font-semibold text-foreground">{data.status}</p>
                                 </div>
                             </div>
                         </div>
