@@ -97,7 +97,6 @@ export function ProfileCard({
                             </div>
                         </div>
                         <div className="flex-1 w-fit text-right">
-                            <p className="text-xs text-muted-foreground">Delinquency Rate</p>
                             <div className="flex flex-col ">
                                 <p className="text-xs text-muted-foreground">Delinquency Rate</p>
                                 <p className={`text-sm font-semibold ${
@@ -110,7 +109,7 @@ export function ProfileCard({
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
-                        <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
+                        <p className="font-semibold text-sm text-right">₱ {Number(data?.shareCapital ?? 0).toLocaleString("en-US")}</p>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">

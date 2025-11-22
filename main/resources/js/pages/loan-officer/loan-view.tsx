@@ -222,7 +222,7 @@ export default function LoanView({ loan }: LoanViewProps) {
                         )}
                     </div>
 
-                    <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
+                    <ProfileCard title="Transactor" type="member-loan" data={member} className="w-[50%]"/>
                     <div className="flex flex-row w-[50%] justify-between">
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve

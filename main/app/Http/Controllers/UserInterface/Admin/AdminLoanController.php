@@ -126,6 +126,7 @@ class AdminLoanController extends Controller
                 'status' => $member->status,
                 'initial' => $initial,
                 'processBy' => $processBy,
+                'name' => $memberName
             ],
             'installments' => $installment,
             'installmentPaid' => $InstallmentPaid,
