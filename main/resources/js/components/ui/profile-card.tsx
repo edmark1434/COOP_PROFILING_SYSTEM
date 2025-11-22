@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 
 interface ProfileCardProps extends React.ComponentProps<"div"> {
     title?: string
-    type? : "member" | "staff"
+    type? : "member" | "staff" | "member-loan"
     data? : any
 }
 
@@ -34,62 +34,109 @@ export function ProfileCard({
             </div>
 
             {type=="member" && (
-                    <div className="flex flex-row p-5 gap-4 justify-between">
-                        <div className="flex flex-col justify-center min-w-[30%]">
-                            <div className="flex flex-row gap-4 items-center">
-                                <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
-                                    <p className="font-semibold text-2xl">{data.initial}</p>
-                                </div>
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="font-semibold text-md">Jodeci Pacodbe asas</p>
-                                    <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
-                                </div>
+                <div className="flex flex-row p-5 gap-4 justify-between">
+                    <div className="flex flex-col justify-center min-w-[30%]">
+                        <div className="flex flex-row gap-4 items-center">
+                            <div className="rounded-full aspect-square bg-muted w-16 h-16 flex items-center justify-center border-b">
+                                <p className="font-semibold text-2xl">{data.initial}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="font-semibold text-md">Jodeci Pacodbe asas</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
                             </div>
                         </div>
-                        <div className="flex flex-row w-full items-end">
-                            <div className="flex flex-col gap-3 w-[50%]">
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="text-xs text-muted-foreground">Joined Since</p>
-                                    <p className="text-sm font-semibold text-foreground">{data?.created_at?.split("T")[0] + " "+ new Date(data?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
-                                </div>
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="text-xs text-muted-foreground">Email</p>
-                                    <p className="text-sm font-semibold text-foreground">{data.email}</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-3 w-[50%]">
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="text-xs text-muted-foreground">Contact</p>
-                                    <p className="text-sm font-semibold text-foreground">{data.email}</p>
-                                </div>
-                                <div className="flex-1 min-w-[200px]">
-                                    <p className="text-xs text-muted-foreground">Status</p>
-                                    <p className="text-sm font-semibold text-foreground">{data.status}</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-3 w-[25%] text-right">
-                                <div className="flex flex-col">
-                                    <p className="text-xs text-muted-foreground">Share Capital</p>
-                                    <p className="text-sm font-semibold text-foreground">{data.status}</p>
-                                </div>
-                                <div className="flex flex-col ">
-                                    <p className="text-xs text-muted-foreground">Delinquency Rate</p>
-                                    <p className={`text-sm font-semibold ${
-                                        (data.delinquencyRate || 0) >= 10 ? 'text-primary' : 'text-foreground'
-                                    }`}>
-                                        {(data.delinquencyRate || 0)}%
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    <div className="flex flex-row w-full items-end">
+                        <div className="flex flex-col gap-3 w-[50%]">
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Joined Since</p>
+                                <p className="text-sm font-semibold text-foreground">{data?.created_at?.split("T")[0] + " "+ new Date(data?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Email</p>
+                                <p className="text-sm font-semibold text-foreground">{data.email}</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-3 w-[50%]">
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Contact</p>
+                                <p className="text-sm font-semibold text-foreground">{data.email}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="text-xs text-muted-foreground">Status</p>
+                                <p className="text-sm font-semibold text-foreground">{data.status}</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-3 w-[25%] text-right">
+                            <div className="flex flex-col">
+                                <p className="text-xs text-muted-foreground">Share Capital</p>
+                                <p className="text-sm font-semibold text-foreground">{data.status}</p>
+                            </div>
+                            <div className="flex flex-col ">
+                                <p className="text-xs text-muted-foreground">Delinquency Rate</p>
+                                <p className={`text-sm font-semibold ${
+                                    (data.delinquencyRate || 0) >= 10 ? 'text-primary' : 'text-foreground'
+                                }`}>
+                                    {(data.delinquencyRate || 0)}%
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {type=="member-loan" && (
+                <div className="flex flex-col p-5 gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row gap-4 items-center">
+                            <div className="rounded-full aspect-square bg-muted w-16 h-16 flex items-center justify-center border-b">
+                                <p className="font-semibold text-2xl">{data.initial}</p>
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <p className="font-semibold text-md">{data.member}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                            </div>
+                        </div>
+                        <div className="flex-1 w-fit text-right">
+                            <p className="text-xs text-muted-foreground">Delinquency Rate</p>
+                            <div className="flex flex-col ">
+                                <p className="text-xs text-muted-foreground">Delinquency Rate</p>
+                                <p className={`text-sm font-semibold ${
+                                    (data.delinquencyRate || 0) >= 10 ? 'text-primary' : 'text-foreground'
+                                }`}>
+                                    {(data.delinquencyRate || 0)}%
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <p className="text-xs text-muted-foreground">Share Capital</p>
+                        <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Joined Since</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.dateJoined}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Email</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.email}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
+                            <p className="text-xs text-muted-foreground">Contact Number</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.contact}</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <p className="text-xs text-muted-foreground">Status</p>
+                            <p className="text-xs text-muted-foreground text-right">{data.status}</p>
+                        </div>
+                    </div>
+                </div>
             )}
             {type=="staff" && (
                 <div className="flex flex-row p-5 gap-4 justify-between">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <div className="flex flex-row gap-4 items-center">
-                            <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
+                            <div className="rounded-full aspect-square bg-muted w-16 h-16 flex items-center justify-center border-b">
                                 <p className="font-semibold text-2xl">{data.initial}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
