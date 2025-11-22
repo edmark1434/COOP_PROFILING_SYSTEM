@@ -303,7 +303,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                     </div>
                                 </div>
                             </div>
-                            <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
+                            <ProfileCard title="Transactor" type="member-loan" data={member} className="w-[50%]"/>
                         </div>
                     </>
                 )}

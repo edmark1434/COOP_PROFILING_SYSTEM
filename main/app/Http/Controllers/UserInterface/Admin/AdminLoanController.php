@@ -114,7 +114,7 @@ class AdminLoanController extends Controller
                 'id' => $loanDetail->id,
                 'name' => $memberName,
                 'memId' => $member->id,
-                'memStatus' => $member->accounts->first()->status               
+                'memStatus' => $member->status               
             ],
             'loanDetail' => $loanDetail,
             'member'=> [
@@ -123,9 +123,10 @@ class AdminLoanController extends Controller
                 'dateJoined' => $member->join_date,
                 'email' => $user->email,
                 'contact' => $member->contact_num,
-                'status' => $member->accounts->first()->status,
+                'status' => $member->status,
                 'initial' => $initial,
                 'processBy' => $processBy,
+                'name' => $memberName
             ],
             'installments' => $installment,
             'installmentPaid' => $InstallmentPaid,

@@ -41,7 +41,7 @@ export function ProfileCard({
                                 <p className="font-semibold text-2xl">{data.initial}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
-                                <p className="font-semibold text-md">Jodeci Pacodbe asas</p>
+                                <p className="font-semibold text-md">{ data.name}</p>
                                 <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
                             </div>
                         </div>
@@ -50,7 +50,7 @@ export function ProfileCard({
                         <div className="flex flex-col gap-3 w-[50%]">
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Joined Since</p>
-                                <p className="text-sm font-semibold text-foreground">{data?.created_at?.split("T")[0] + " "+ new Date(data?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
+                                <p className="text-sm font-semibold text-foreground">{data?.dateJoined?.split("T")[0] + " "+ new Date(data?.dateJoined).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Email</p>
@@ -60,7 +60,7 @@ export function ProfileCard({
                         <div className="flex flex-col gap-3 w-[50%]">
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Contact</p>
-                                <p className="text-sm font-semibold text-foreground">{data.email}</p>
+                                <p className="text-sm font-semibold text-foreground">{data.contact}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
                                 <p className="text-xs text-muted-foreground">Status</p>
@@ -70,7 +70,7 @@ export function ProfileCard({
                         <div className="flex flex-col gap-3 w-[25%] text-right">
                             <div className="flex flex-col">
                                 <p className="text-xs text-muted-foreground">Share Capital</p>
-                                <p className="text-sm font-semibold text-foreground">{data.status}</p>
+                                <p className="text-sm font-semibold text-foreground">₱ {Number(data?.shareCapital ?? 0).toLocaleString("en-US")}</p>
                             </div>
                             <div className="flex flex-col ">
                                 <p className="text-xs text-muted-foreground">Delinquency Rate</p>
@@ -92,12 +92,11 @@ export function ProfileCard({
                                 <p className="font-semibold text-2xl">{data.initial}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
-                                <p className="font-semibold text-md">{data.member}</p>
+                                <p className="font-semibold text-md">{data.name}</p>
                                 <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
                             </div>
                         </div>
                         <div className="flex-1 w-fit text-right">
-                            <p className="text-xs text-muted-foreground">Delinquency Rate</p>
                             <div className="flex flex-col ">
                                 <p className="text-xs text-muted-foreground">Delinquency Rate</p>
                                 <p className={`text-sm font-semibold ${
@@ -110,12 +109,12 @@ export function ProfileCard({
                     </div>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
-                        <p className="font-semibold text-sm text-right">{data.shareCapital}</p>
+                        <p className="font-semibold text-sm text-right">₱ {Number(data?.shareCapital ?? 0).toLocaleString("en-US")}</p>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                             <p className="text-xs text-muted-foreground">Joined Since</p>
-                            <p className="text-xs text-muted-foreground text-right">{data.dateJoined}</p>
+                            <p className="text-xs text-muted-foreground text-right">{data?.dateJoined?.split("T")[0] + " "+ new Date(data?.dateJoined).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLocaleUpperCase()}</p>
                         </div>
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center ">
                             <p className="text-xs text-muted-foreground">Email</p>
