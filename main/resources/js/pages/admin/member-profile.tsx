@@ -45,7 +45,7 @@ export default function MemberProfile({
     loansDescDate,
 }: MemberProp) {
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Members/ID', href: memberProfile(member.id).url },
+        { title: 'Member', href: memberProfile(member.id).url },
     ];
 
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
@@ -89,7 +89,7 @@ export default function MemberProfile({
                 <div className="flex h-fit w-full">
                     <ProfileCard type="member" data={member} />
                 </div>
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">

@@ -134,16 +134,16 @@ export default function LoanOfficerLoanView({
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 {loanDetail.status !== 'Rejected' ? (
                     <>
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-col lg:flex-row gap-4">
                             {/* Balance Card */}
-                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
-                                    <div className="text-sm font-medium">Balance</div>
+                                    <div className="text-sm font-medium text-foreground">Balance</div>
                                 </div>
-                                <div className="flex flex-col p-5 gap-3">
+                                <div className="flex flex-col justify-between p-5 gap-3">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row items-end gap-2">
-                                            <p className="text-md font-semibold text-primary">
+                                            <p className="text-md font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount - installmentPaidSum).toLocaleString("en-US")}`}
                                             </p>
                                             <p className="text-xs text-muted-foreground pb-1">
@@ -154,37 +154,39 @@ export default function LoanOfficerLoanView({
                                             out of {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}
                                         </p>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <p className="text-xs text-muted-foreground">Current Period</p>
-                                        <p className="text-sm font-semibold text-primary">
-                                            {installmentPaid.length} out of {loanDetail.term_months} months
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <p className="text-xs text-muted-foreground">Next Due</p>
-                                        <p className="text-sm font-semibold text-primary">
-                                            {getDateString(newDate)}
-                                        </p>
+                                    <div className="flex flex-row lg:flex-col w-full justify-between gap-3">
+                                        <div className="flex-1 flex-col">
+                                            <p className="text-xs text-muted-foreground">Current Period</p>
+                                            <p className="text-sm font-semibold text-foreground">
+                                                {installmentPaid.length} out of {loanDetail.term_months} months
+                                            </p>
+                                        </div>
+                                        <div className="flex-1 flex-col">
+                                            <p className="text-xs text-muted-foreground">Next Due</p>
+                                            <p className="text-sm font-semibold text-foreground">
+                                                {getDateString(newDate)}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Details Card */}
-                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium">Details</div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-5">
-                                    <div className="flex flex-col p-5 gap-3">
+                                <div className="grid grid-cols-2 gap-5 p-5 ">
+                                    <div className="flex flex-col gap-3 ">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.status}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.updated_at.split("T")[0] + " " +
                                                     new Date(loanDetail?.updated_at).toLocaleTimeString([], {
                                                         hour: '2-digit',
@@ -195,21 +197,21 @@ export default function LoanOfficerLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.purpose?.name}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col p-5 gap-3">
+                                    <div className="flex flex-col gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`${loanDetail?.term_months} Months, ${loanDetail?.interest_rate}% interest`}
                                             </p>
                                         </div>
@@ -218,22 +220,24 @@ export default function LoanOfficerLoanView({
                             </div>
 
                             {/* Transactor Card */}
-                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[25%]">
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[25%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium">Transactor</div>
                                 </div>
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Name</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.name}</p>
+                                        <p className="text-sm font-semibold text-foreground">{prop.name}</p>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <p className="text-xs text-muted-foreground">Member ID</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.memId}</p>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <p className="text-xs text-muted-foreground">Status</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.memStatus}</p>
+                                    <div className="flex flex-row lg:flex-col w-full justify-between gap-3">
+                                        <div className="flex-1 flex-col">
+                                            <p className="text-xs text-muted-foreground">Member ID</p>
+                                            <p className="text-sm font-semibold text-foreground">{prop.memId}</p>
+                                        </div>
+                                        <div className="flex-1 flex-col">
+                                            <p className="text-xs text-muted-foreground">Status</p>
+                                            <p className="text-sm font-semibold text-foreground">{prop.memStatus}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -337,7 +341,7 @@ export default function LoanOfficerLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Rejected</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.updated_at.split("T")[0] + " " +
                                                     new Date(loanDetail?.updated_at).toLocaleTimeString([], {
                                                         hour: '2-digit',
@@ -348,7 +352,7 @@ export default function LoanOfficerLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.purpose?.name}
                                             </p>
                                         </div>
@@ -356,13 +360,13 @@ export default function LoanOfficerLoanView({
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`${loanDetail?.term_months} Months, ${loanDetail?.interest_rate}%`}
                                             </p>
                                         </div>

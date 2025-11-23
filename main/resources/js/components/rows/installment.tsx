@@ -16,7 +16,7 @@ export function InstallmentRow({
         <div
             data-slot="installment-row"
             className={cn(
-                "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row justify-between items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
                 className
             )}
             {...props}
@@ -28,7 +28,7 @@ export function InstallmentRow({
                 </Badge>
             </div>
 
-            <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
+            <div className="text-right font-semibold text-sm min-w-[100px]">
                 {`₱ ${Number(data.amount).toLocaleString("en-US")}`}
             </div>
         </div>

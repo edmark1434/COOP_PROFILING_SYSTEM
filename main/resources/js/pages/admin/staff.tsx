@@ -94,14 +94,8 @@ export default function AdminStaff({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Staff" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <div className="flex gap-2">
-                        {/* <Link href={staffAddForm.get()}>
-                            <Button variant="default" className="bg-primary hover:bg-primary/90" >
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Staff
-                            </Button>
-                        </Link> */}
                         <Popover>
                             <PopoverTrigger asChild>
                                     <Button variant="outline">
@@ -166,7 +160,7 @@ export default function AdminStaff({
                                     key={i}
                                     data={staffMember}
                                     category={category}
-                                    
+
                                 />
                             </Link>
                         ))}

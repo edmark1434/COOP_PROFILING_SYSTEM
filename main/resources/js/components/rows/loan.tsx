@@ -24,14 +24,14 @@ export function LoanRow({
     <div
       data-slot="loan-row"
       className={cn(
-        "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+        "flex flex-row justify-between items-center border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
         className
       )}
       {...props}
     >
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex items-center gap-4">
         {/* Member initials */}
-        <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
+        <div className="rounded-full bg-muted w-10 h-10 aspect-square flex items-center justify-center">
           <p className="font-semibold text-sm">
             {getInitials(
               (data?.member?.first_name ?? "") +
@@ -42,7 +42,7 @@ export function LoanRow({
         </div>
 
         {/* Member info */}
-        <div className="flex-1 min-w-[200px]">
+        <div className="flex flex-col min-w-[200px]">
           <p className="font-semibold text-sm">
             {data?.member?.first_name} {data?.member?.middle_name ?? ""}{" "}
             {data?.member?.last_name} {data?.member?.suffix ?? ""}
@@ -54,7 +54,7 @@ export function LoanRow({
 
         {/* Member-only initial */}
         {isMember && (
-          <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
+          <div className="flex rounded-full bg-muted w-10 h-10 items-center justify-center">
             <p className="font-semibold text-sm">
               {getInitials(
                 (data?.member?.first_name ?? "") +
@@ -64,18 +64,14 @@ export function LoanRow({
             </p>
           </div>
         )}
-
-        {/* Status & type */}
-        <div className="flex-1 min-w-[200px] ml-30  text-center">
-          {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
-          
-        </div>
       </div>
-
-     
+        {/* Status & type */}
+        <div className="flex min-w-[200px] ml-30  text-center">
+            {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
+        </div>
 
       {/* Amount */}
-      <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
+      <div className="flex text-right justify-end pr-3 font-semibold text-sm min-w-[100px]">
         ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
       </div>
     </div>

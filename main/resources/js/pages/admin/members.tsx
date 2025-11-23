@@ -41,7 +41,7 @@ interface AdminMembersProps {
     dateAsc: any[],
 }
 export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstNameAsc,firstNameDesc,typeAsc,typeDesc,dateAsc,dateDesc}: AdminMembersProps) {
-    const [memberList, setMemberList] = React.useState(members); 
+    const [memberList, setMemberList] = React.useState(members);
     const [category, setCategory] = React.useState('fname');
     const [order, setOrder] = React.useState('comfortable');
     const [search,setSearch] = React.useState('');
@@ -97,7 +97,7 @@ export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstName
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Members" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">
@@ -150,7 +150,7 @@ export default function AdminMembers({members,lastNameDesc,lastNameAsc,firstName
                         <InputGroupAddon align="inline-end">{memberList?.length+" "+ "Result(s)"} </InputGroupAddon>
                     </InputGroup>
                 </div>
-                <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                <div className="relative h-fit overflow-auto rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="divide-y h-fit">
                         {memberList.map((member, i) => (
                             <Link href={memberProfile(member.id)}>
