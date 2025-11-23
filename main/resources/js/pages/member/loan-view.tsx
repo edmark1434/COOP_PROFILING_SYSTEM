@@ -329,7 +329,7 @@ export default function MemberLoanView({
                     <>
                         <div className="flex flex-col items-center w-full gap-5">
                             {/* Details Card - Rejected */}
-                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                            <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[50%]">
                                 <div className="flex flex-col p-5 py-2.5 border-b">
                                     <div className="text-sm font-medium">Details</div>
                                 </div>
@@ -383,9 +383,9 @@ export default function MemberLoanView({
                             </div>
                             <ProfileCard
                                 title="Transactor"
-                                type="member"
+                                type="member-loan"
                                 data={memberData}
-                                className="w-[50%]"
+                                className="w-full lg:w-[50%]"
                             />
                         </div>
                     </>

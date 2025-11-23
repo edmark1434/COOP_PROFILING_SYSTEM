@@ -72,7 +72,7 @@ export default function AdminStaff({user,typeAsc,typeDesc,DateAsc,DateDesc}:Admi
                 </div>
 
                 {/*Search & Filter Bar*/}
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">

@@ -180,7 +180,7 @@ export default function LoanView({ loan }: LoanViewProps) {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-col items-center w-full gap-5">
                     {/*Details Card*/}
-                    <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                    <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[50%]">
                         <div className="flex flex-col p-5 py-2.5 border-b">
                             <div className="text-sm font-medium text-foreground">Details</div>
                         </div>
@@ -222,8 +222,8 @@ export default function LoanView({ loan }: LoanViewProps) {
                         )}
                     </div>
 
-                    <ProfileCard title="Transactor" type="member-loan" data={member} className="w-[50%]"/>
-                    <div className="flex flex-row w-[50%] justify-between">
+                    <ProfileCard title="Transactor" type="member-loan" data={member} className="w-full lg:w-[50%]"/>
+                    <div className="flex flex-row w-full lg:w-[50%] justify-between">
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve
                         </Button>

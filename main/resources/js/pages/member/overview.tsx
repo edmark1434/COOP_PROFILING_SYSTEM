@@ -232,7 +232,7 @@ export default function MemberOverview() {
                 </div>
 
                 <div className="flex flex-col p-5 gap-4">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row gap-4 items-center">
                             <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
                                 <p className="font-semibold text-2xl">{data?.initial}</p>
@@ -249,26 +249,26 @@ export default function MemberOverview() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="flex flex-row justify-between items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
                         <p className="font-semibold text-sm text-right">
                             {formatShareCapital(memberData.share_capital)}
                         </p>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Joined Since</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.dateJoined}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Email</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.email}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Contact Number</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.contact}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Status</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.status}</p>
                         </div>
