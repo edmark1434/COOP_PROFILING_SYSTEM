@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import {Head, router} from '@inertiajs/react';
 
 import {
     OverviewCard,
@@ -14,20 +14,38 @@ import loanOfficer from "@/routes/loan-officer";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// Simplified LoanRow component without status
-function LoanRow({ data, className, ...props }: any) {
+// Updated LoanRow component with table type prop
+function LoanRow({ data, tableType, className, ...props }: any) {
     const getInitials = (name: string) => {
         const names = name.split(" ");
         const initials = names.map((n) => n.charAt(0).toUpperCase());
         return initials.join("");
     };
 
+    const handleClickLoanApplication = () => {
+        router.visit(`/loan-officer/loans/${data.id}`);
+    };
+
+    const handleClickActiveLoans = () => {
+        router.visit(loanOfficer.loanViewActive(data.id).url);
+    };
+
+    // Determine which handler to use based on tableType
+    const handleClick = () => {
+        if (tableType === 'applications') {
+            handleClickLoanApplication();
+        } else if (tableType === 'active') {
+            handleClickActiveLoans();
+        }
+    };
+
     return (
         <div
             className={cn(
-                "flex flex-row gap-4 items-center px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row gap-4 items-center px-4 py-3 hover:bg-muted/40 transition-colors cursor-pointer",
                 className
             )}
+            onClick={handleClick}
             {...props}
         >
             {/* Member initials */}
@@ -156,7 +174,11 @@ export default function LoanOfficerOverview({ stats, recentApplications, activeL
                     <div className="divide-y h-fit">
                         {recentApplications.length > 0 ? (
                             recentApplications.map((loan) => (
-                                <LoanRow key={loan.id} data={loan} />
+                                <LoanRow
+                                    key={loan.id}
+                                    data={loan}
+                                    tableType="applications"
+                                />
                             ))
                         ) : (
                             <div className="text-sm text-center py-8 text-muted-foreground">
@@ -172,7 +194,11 @@ export default function LoanOfficerOverview({ stats, recentApplications, activeL
                     <div className="divide-y h-fit">
                         {activeLoans.length > 0 ? (
                             activeLoans.map((loan) => (
-                                <LoanRow key={loan.id} data={loan} />
+                                <LoanRow
+                                    key={loan.id}
+                                    data={loan}
+                                    tableType="active"
+                                />
                             ))
                         ) : (
                             <div className="text-sm text-center py-8 text-muted-foreground">

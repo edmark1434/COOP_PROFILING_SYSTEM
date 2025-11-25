@@ -15,6 +15,7 @@ import {TabbedTable} from "@/components/tabbed-table";
 interface MemberProp {
     member: {
         id: number | string;
+        id_coop: string;
         shareCapital?: number;
         dateJoined?: string;
         email?: string;
@@ -59,7 +60,7 @@ export default function LoanMemberProfile({
                                             }: MemberProp) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Member Lookup', href: '/loan-officer/member-lookup' },
-        { title: `Member ${member.id}`, href: `/loan-officer/member-lookup/${member.id}` },
+        { title: `${member.id_coop}`, href: `/loan-officer/member-lookup/${member.id_coop}` },
     ];
 
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");

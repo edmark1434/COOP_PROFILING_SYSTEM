@@ -22,7 +22,6 @@ function LoanRow({ data, className, ...props }: any) {
 
     // In your LoanRow component, update the handleClick function:
     const handleClick = () => {
-        console.log('Clicked loan ID:', data.id);
         router.visit(loanOfficer.loanViewActive(data.id).url);
     };
 
