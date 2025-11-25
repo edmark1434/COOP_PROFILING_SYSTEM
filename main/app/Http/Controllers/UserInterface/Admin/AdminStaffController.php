@@ -14,10 +14,11 @@ class AdminStaffController extends Controller
     {
         // Get staff
         $staff = User::where('is_member', false)
-                    ->where('is_admin', false) 
+                    // ->where('is_admin', false) 
                     ->where(function($query) {
                         $query->where('is_teller', true)
-                              ->orWhere('is_loan_officer', true);
+                              ->orWhere('is_loan_officer', true)
+                              ->orWhere('is_admin', true);
                     })->get();
         
         // Sort by name (ascending)
