@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { useState, useMemo } from 'react';
 
 import * as React from "react";
@@ -61,7 +61,7 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
 
         // 🔍 Type filter - FIXED: Case-insensitive comparison
         if (typeFilter !== 'all') {
-            data = data.filter((t) => 
+            data = data.filter((t) =>
                 t.type.toLowerCase() === typeFilter.toLowerCase()
             );
         }
@@ -78,12 +78,12 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
                 // Use raw_amount and ensure it's a number
                 aValue = typeof a.raw_amount === 'number' ? a.raw_amount : parseFloat(a.raw_amount || '0');
                 bValue = typeof b.raw_amount === 'number' ? b.raw_amount : parseFloat(b.raw_amount || '0');
-                
-                console.log(`Sorting amounts: ${aValue} vs ${bValue}`, { 
-                    aAmount: a.amount, 
-                    aRaw: a.raw_amount, 
-                    bAmount: b.amount, 
-                    bRaw: b.raw_amount 
+
+                console.log(`Sorting amounts: ${aValue} vs ${bValue}`, {
+                    aAmount: a.amount,
+                    aRaw: a.raw_amount,
+                    bAmount: b.amount,
+                    bRaw: b.raw_amount
                 });
             } else {
                 // Sort by date
@@ -93,10 +93,10 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
 
             // Handle string comparison
             if (typeof aValue === 'string' && typeof bValue === 'string') {
-                return direction === "asc" 
+                return direction === "asc"
                     ? aValue.localeCompare(bValue)
                     : bValue.localeCompare(aValue);
-            } 
+            }
             // Handle number comparison
             else {
                 if (direction === "asc") {
@@ -152,9 +152,9 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    
+
                                     <Separator />
-                                    
+
                                     <div className="space-y-2">
                                         <Label className="text-sm font-medium">Sort direction</Label>
                                         <RadioGroup value={direction} onValueChange={(val) => setDirection(val as 'asc' | 'desc')} className="flex gap-4">
@@ -193,16 +193,16 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
 
                         {/* Current Sort Indicator */}
                         <div className="text-sm text-muted-foreground hidden md:block">
-                            Sorted by: {orderBy === 'date' ? 'Date' : 
-                                      orderBy === 'type' ? 'Type' : 'Amount'} 
+                            Sorted by: {orderBy === 'date' ? 'Date' :
+                                      orderBy === 'type' ? 'Type' : 'Amount'}
                             ({direction === 'asc' ? 'Ascending' : 'Descending'})
                         </div>
                     </div>
 
                     {/* Search */}
                     <InputGroup className="w-full md:w-80">
-                        <InputGroupInput 
-                            placeholder="Search members..." 
+                        <InputGroupInput
+                            placeholder="Search members..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -220,8 +220,8 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
                     <div className="divide-y h-fit">
                         {filteredTransactions.length > 0 ? (
                             filteredTransactions.map((transaction) => (
-                                <TransactionRow 
-                                    key={transaction.id} 
+                                <TransactionRow
+                                    key={transaction.id}
                                     data={{
                                         id: transaction.id,
                                         type: transaction.type,
@@ -235,8 +235,8 @@ export default function TellerTransactions({ transactions, transactionTypes }: T
                             ))
                         ) : (
                             <div className="p-8 text-center text-muted-foreground">
-                                {search || typeFilter !== 'all' ? 
-                                    'No transactions found matching your filters' : 
+                                {search || typeFilter !== 'all' ?
+                                    'No transactions found matching your filters' :
                                     'No transactions found for your account'
                                 }
                             </div>

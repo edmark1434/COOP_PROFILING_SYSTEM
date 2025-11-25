@@ -67,11 +67,11 @@ type PageProps = {
 export default function MemberTransactions() {
     const { props } = usePage<PageProps>();
     const { transactions, filters } = props;
-    
+
     const [localSearch, setLocalSearch] = React.useState(filters.search || '');
     const [localOrderBy, setLocalOrderBy] = React.useState(filters.order_by || 'created_at');
     const [localOrderDirection, setLocalOrderDirection] = React.useState(filters.order_direction || 'desc');
-    
+
     // Local filtered and sorted data
     const [displayedTransactions, setDisplayedTransactions] = React.useState(transactions.data);
 
@@ -82,7 +82,7 @@ export default function MemberTransactions() {
         // Apply search filter
         if (localSearch) {
             const searchLower = localSearch.toLowerCase();
-            filtered = filtered.filter(transaction => 
+            filtered = filtered.filter(transaction =>
                 transaction.type.toLowerCase().includes(searchLower) ||
                 transaction.ref_no.toLowerCase().includes(searchLower) ||
                 transaction.amount.toString().includes(searchLower) ||
@@ -144,7 +144,7 @@ export default function MemberTransactions() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="My Transactions" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">
@@ -159,8 +159,8 @@ export default function MemberTransactions() {
                                         <ArrowUpDown size="16"/>
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select 
-                                        value={localOrderBy} 
+                                    <Select
+                                        value={localOrderBy}
                                         onValueChange={handleOrderChange}
                                     >
                                         <SelectTrigger className="w-34">
@@ -178,8 +178,8 @@ export default function MemberTransactions() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup 
-                                        value={localOrderDirection} 
+                                    <RadioGroup
+                                        value={localOrderDirection}
                                         onValueChange={handleDirectionChange}
                                         className="flex gap-6"
                                     >
@@ -197,8 +197,8 @@ export default function MemberTransactions() {
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput 
-                            placeholder="Search" 
+                        <InputGroupInput
+                            placeholder="Search"
                             value={localSearch}
                             onChange={(e) => setLocalSearch(e.target.value)}
                         />
@@ -211,7 +211,7 @@ export default function MemberTransactions() {
                     <div className="divide-y h-fit">
                         {displayedTransactions.length > 0 ? (
                             displayedTransactions.map((transaction) => (
-                                <div 
+                                <div
                                     key={transaction.id}
                                     className="flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors"
                                 >

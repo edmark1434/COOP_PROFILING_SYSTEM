@@ -76,11 +76,9 @@ export function TabbedTable({
                         <TabsContent
                             key={tab.value}
                             value={tab.value}
-                            className="w-full overflow-x-auto"
                         >
                             {tab.data && tab.data.length > 0 ? (
                                 RowComponent ? (
-                                    // ✅ Use a registered or provided custom row component
                                     <div className="divide-y">
                                         {tab.data.map((item, i) => (
                                             <RowComponent key={i} data={item} />

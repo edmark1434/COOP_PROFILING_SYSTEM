@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserInterface\Admin;
 use App\Http\Controllers\CommonLogic;
 use App\Models\AuditLog;
+use App\Models\BiometricData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -60,7 +61,7 @@ class AdminFormsController extends Controller
     public function staffRoleChangeFormGet($id)
     {
         session()->forget('form');
-
+        
         $staffRaw = User::query()
             ->select('name', 'is_teller', 'is_loan_officer', 'is_admin')
             ->findOrFail($id);
@@ -123,16 +124,26 @@ class AdminFormsController extends Controller
             ];
 
             User::query()->create($userForm);
+            $user = User::query()->where('email', $validated['email'])->first();
         }
+
+        // biometric data
+        $biometric = [
+            'user_id' => $user->id,
+            'template' => session()->get('form.staff_fingerprint'),
+        ];
+        BiometricData::query()->create($biometric);
 
         // audit log
         $auditLog = [
             'type' => 'Staff Added',
             'description' => $validated['fullName'] . ' - ' . $validated['role'],
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('admin.staff');
     }
 
@@ -158,9 +169,11 @@ class AdminFormsController extends Controller
             'description' =>
                 $staff->name . ' - ' . $pastRole . ' to ' . $validated['role'],
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('admin.staffProfile', $id);
     }
 

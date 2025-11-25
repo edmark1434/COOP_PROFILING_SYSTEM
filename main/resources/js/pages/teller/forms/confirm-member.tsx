@@ -12,37 +12,25 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import {FingerprintIcon, X} from "lucide-react"
+import {LoaderCircle, FingerprintIcon, X} from "lucide-react"
 import transactionForm from "@/routes/teller/transactionForm";
 
 export default function ConfirmMember() {
-    const { memberName, initials } = usePage<{
+    const { memberName, initials, authId } = usePage<{
         memberName: string;
         initials: string;
+        authId: number;
     }>().props
 
+    const [processing, setProcessing] = React.useState(false);
+
     async function onScan() {
-            try{
-                const response = await fetch("http://localhost:8080/api/biometric/verifying/1",{method:"POST"})
-                if(!response.ok){
-                    const errorMessage = await response.text();
-                    toast.error("Fingerprint scan failed: " + errorMessage, {
-                        position: "bottom-right",
-                        classNames: {
-                            content: "flex flex-col gap-2",
-                        },
-                        style: {
-                            "--border-radius": "calc(var(--radius) + 4px)",
-                            color: "var(--destructive)",
-                        } as React.CSSProperties,
-                    });
-                }else{
-                    const success = await response.text();
-                    alert(success);
-                    router.post(window.location.pathname);
-                }
-            }catch(error){
-                toast.error("Fingerprint scan failed: " + error, {
+        setProcessing(true);
+        try{
+            const response = await fetch(`http://localhost:8080/api/biometric/verifying/${authId}`,{method:"POST"})
+            if(!response.ok){
+                const errorMessage = await response.text();
+                toast.error(errorMessage, {
                     position: "bottom-right",
                     classNames: {
                         content: "flex flex-col gap-2",
@@ -52,9 +40,27 @@ export default function ConfirmMember() {
                         color: "var(--destructive)",
                     } as React.CSSProperties,
                 });
+            }else{
+                const success = await response.text();
+                toast.success(success);
+                router.post(window.location.pathname);
             }
-
+        }catch(error){
+            toast.error("Fingerprint scan failed: " + error, {
+                position: "bottom-right",
+                classNames: {
+                    content: "flex flex-col gap-2",
+                },
+                style: {
+                    "--border-radius": "calc(var(--radius) + 4px)",
+                    color: "var(--destructive)",
+                } as React.CSSProperties,
+            });
+        }finally{
+            setProcessing(false);
         }
+
+    }
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -83,9 +89,11 @@ export default function ConfirmMember() {
                 </div>
             </CardContent>
             <CardFooter className="px-10 pt-2 pb-4">
-                <Button className="w-full" onClick={onScan}>
-                    <FingerprintIcon className="mr-2 h-4 w-4" />
-                    Scan fingerprint
+                <Button className="w-full" onClick={onScan} disabled={processing}>
+                    {processing ?
+                        <LoaderCircle className="h-4 w-4 animate-spin" /> :
+                        <FingerprintIcon className="mr-2 h-4 w-4"/>}
+                    {processing ? "Place your finger on the scanner" : "Scan fingerprint"}
                 </Button>
             </CardFooter>
         </Card>

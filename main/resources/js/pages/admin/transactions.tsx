@@ -31,7 +31,7 @@ interface Transaction {
   type: string;
   date: string;
   amount: number;
-  member: { 
+  member: {
     first_name: string;
     middle_name: string;
     last_name: string;
@@ -81,11 +81,11 @@ export default function AdminTransactions({ transactions }: AdminTransactionsPro
       }
 
       if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return direction === "asc" 
+        return direction === "asc"
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       } else {
-        return direction === "asc" 
+        return direction === "asc"
           ? (aValue as number) - (bValue as number)
           : (bValue as number) - (aValue as number);
       }
@@ -99,7 +99,7 @@ export default function AdminTransactions({ transactions }: AdminTransactionsPro
       <Head title="Transactions" />
       <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
         {/* --- Header Controls --- */}
-        <div className="flex flex-col sm:flex-row h-fit w-full justify-between items-start sm:items-center gap-4">
+        <div className="flex flex-row h-fit w-full justify-between items-start gap-4">
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2">
@@ -167,7 +167,7 @@ export default function AdminTransactions({ transactions }: AdminTransactionsPro
         </div>
 
         {/* --- Transactions List --- */}
-        <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+        <div className="relative flex-1 h-fit overflow-x-auto rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
           <div className="divide-y h-fit">
             {filteredTransactions.length > 0 ? (
               filteredTransactions.map((item) => (

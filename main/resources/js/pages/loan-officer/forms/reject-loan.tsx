@@ -62,9 +62,11 @@ export default function LoanRejectionForm(id:number) {
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Reject Loan</CardTitle>
                 <Link href={loanView(id)}>
+                    <Link href={loanView(id)} className="flex items-center">
                     <Button variant="outline" size="icon" className="rounded-full">
                         <X />
                     </Button>
+                    </Link>
                 </Link>
             </CardHeader>
             <CardContent className="px-10">

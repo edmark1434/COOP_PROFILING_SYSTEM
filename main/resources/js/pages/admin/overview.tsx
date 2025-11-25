@@ -41,13 +41,13 @@ export default function AdminOverview({memberCount,loanCount,transactionCount,lo
         { title: 'Active Loans', value: loanCount, description: `${newLoanToday} new today` },
         { title: 'Total Transactions', value: transactionCount, description: `${newTransactionToday} new today` },
     ];
-    
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+                <div className="grid auto-rows-min gap-4 lg:grid-cols-4">
                     {overviewCards.map((card, index) => (
                         <OverviewCard>
                             <OverviewCardHeader>

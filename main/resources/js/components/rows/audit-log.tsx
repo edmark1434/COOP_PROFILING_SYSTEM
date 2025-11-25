@@ -14,7 +14,7 @@ export function AuditLogRow({
         <div
             data-slot="audit-log-row"
             className={cn(
-                "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row justify-between items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
                 className
             )}
             {...props}
