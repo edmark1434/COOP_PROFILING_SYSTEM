@@ -10,19 +10,19 @@ use App\Models\Member;
 use App\Models\Loan;
 use App\Models\Transaction;
 
-
 class MemberLookUpController extends Controller
 {
     public function index()
     {
         // Get members for the combobox dropdown
-        $members = Member::select('id', 'first_name', 'last_name', 'middle_name')
+        $members = Member::select('id', 'first_name', 'last_name', 'middle_name', 'id_coop')
             ->orderBy('first_name')
             ->get()
             ->map(function ($member) {
                 return [
                     'id' => (string)$member->id,
                     'name' => $member->first_name . ' ' . $member->last_name,
+                    'idCoop' => $member->id_coop,
                 ];
             });
 
@@ -130,15 +130,18 @@ class MemberLookUpController extends Controller
         $loansDescDate = $loansBase->clone()
             ->orderBy('created_at', 'desc')
             ->get();
+
         $memberName = trim(
-                ($member->first_name ?? "") . " " .
-                ($member->middle_name ?? "") . " " .
-                ($member->last_name ?? "") . " " .
-                ($member->suffix ?? "")
-            );
+            ($member->first_name ?? "") . " " .
+            ($member->middle_name ?? "") . " " .
+            ($member->last_name ?? "") . " " .
+            ($member->suffix ?? "")
+        );
+
         return Inertia::render('loan-officer/member-profile', [
             'member'=> [
                 'id' => $member->id,
+                'id_coop' => $member->id_coop,
                 'name' => $memberName,
                 'shareCapital' => $member->accounts->first()->balance ?? 0,
                 'dateJoined' => $member->join_date,
