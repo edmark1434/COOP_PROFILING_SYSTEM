@@ -18,7 +18,7 @@ class AdminAccountsController extends Controller
                 'Loan Receivable' => $acc->balance ?? 0,
                 'Interest Income' => $acc->balance ?? 0,
                 'Dividends Payable' => $acc->balance ?? 0,
-                'Retained Earnings' => $acc->balance ?? 0, // to be computed
+                'Retained Earnings' => $acc->balance ?? 0,
                 'Coop Cash' => $acc->balance ?? 0,
                 default => null,
             };
