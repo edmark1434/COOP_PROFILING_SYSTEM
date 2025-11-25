@@ -34,7 +34,7 @@ export default function Welcome() {
                                 <p className="text-foreground font-semibold text-xl">Real-time cooperative profiling and management</p>
                             </div>
                             <div className="flex flex-col leading-none">
-                                <p className="text-foreground font-light text-sm">CoopProfiling streamlines tracking, evaluating, and managing cooperative</p>
+                                <p className="text-foreground font-light text-sm">Cooperative Profiling System streamlines tracking, evaluating, and managing cooperative</p>
                                 <p className="text-foreground font-light text-sm"> members’ profiles and progress in a secure platform.</p>
                             </div>
                         </div>

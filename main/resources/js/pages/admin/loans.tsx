@@ -17,7 +17,7 @@ function LoanRow({ data, className, ...props }: any) {
         <div
             data-slot="loan-row"
             className={cn(
-                "flex flex-row gap-4 items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row w-full gap-4 justify-between items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
                 className
             )}
             {...props}
@@ -50,7 +50,7 @@ function LoanRow({ data, className, ...props }: any) {
                 </div>
             )}
             {/* Amount ONLY */}
-            <div className="text-right font-semibold text-sm min-w-[100px] flex-shrink-0">
+            <div className="text-right font-semibold text-sm min-w-[100px]">
                 ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
             </div>
         </div>
@@ -123,7 +123,7 @@ export default function AdminLoans({ loansByStatus, totalResults }: AdminLoansPr
                         </TabsList>
                         {tabs.map((tab) => (
                             <TabsContent key={tab.value} value={tab.value} className="m-0">
-                                <div className="flex flex-col">
+                                <div className="flex flex-col w-full">
                                     {tab.data.map((loan) => (
                                         <Link href={loanView(loan.id)}>
                                             <LoanRow key={loan.id} data={loan} />

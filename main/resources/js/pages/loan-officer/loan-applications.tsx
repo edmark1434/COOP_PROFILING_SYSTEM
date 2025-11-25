@@ -142,7 +142,7 @@ export default function LoanOfficerLoanApplications({ loans, filters }: LoanAppl
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Loan Applications" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">

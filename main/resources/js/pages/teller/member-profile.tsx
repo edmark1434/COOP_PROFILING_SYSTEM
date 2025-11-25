@@ -13,7 +13,7 @@ import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/inpu
 import {TabbedTable} from "@/components/tabbed-table";
 
 interface MemberProp {
-    member: { 
+    member: {
         id: number | string;
         shareCapital?: number;
         dateJoined?: string;
@@ -117,21 +117,15 @@ export default function TellerMemberProfile({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Member ${member.id}`} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
+                <div className="flex">
                     {/* First Profile Card */}
-                    <ProfileCard 
-                        type="member" 
-                        data={memberWithDelinquencyRate} 
-                    />
-                    
-                    {/* Second Profile Card - also includes delinquency rate */}
-                    <ProfileCard 
-                        type="member" 
-                        data={memberWithDelinquencyRate} 
+                    <ProfileCard
+                        type="member"
+                        data={memberWithDelinquencyRate}
                     />
                 </div>
 
-                <div className="flex flex-row h-fit w-full justify-between">
+                <div className="flex flex-row h-fit w-full justify-between gap-4">
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button variant="outline">
@@ -189,8 +183,8 @@ export default function TellerMemberProfile({
                             <Search />
                         </InputGroupAddon>
                         <InputGroupAddon align="inline-end">
-                            {searchQuery ? 
-                                (filteredLoans.length + filteredTransactions.length) + " Result(s)" : 
+                            {searchQuery ?
+                                (filteredLoans.length + filteredTransactions.length) + " Result(s)" :
                                 ""}
                         </InputGroupAddon>
                     </InputGroup>

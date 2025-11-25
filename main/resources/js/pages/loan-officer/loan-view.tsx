@@ -1,18 +1,17 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, Link } from '@inertiajs/react';
 import * as React from "react";
 import {ProfileCard} from "@/components/ui/profile-card";
 import loanOfficer from "@/routes/loan-officer"
 import {Button} from "@/components/ui/button";
 import Swal from 'sweetalert2';
 
+import loanRejectionForm from "@/routes/loan-officer/loanRejectionForm";
+
 interface Member {
     id: number;
-    first_name: string;
-    middle_name?: string;
-    last_name: string;
-    suffix?: string;
+    name: string;
     email?: string;
     contact_num?: string;
     id_coop?: string;
@@ -20,6 +19,7 @@ interface Member {
     join_date?: string;
     account_status?: string;
     delinquency_rate?: number;
+    initials: string;
 }
 
 interface Purpose {
@@ -60,9 +60,11 @@ export default function LoanView({ loan }: LoanViewProps) {
         });
     }, [loan]);
 
-    const getInitials = (firstName: string, lastName: string) => {
-        return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-    };
+    const getInitials = (name: string) => {
+    const names = name.split(" ");
+    const initials = names.map((n) => n.charAt(0).toUpperCase());
+    return initials.join("");
+  };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -98,9 +100,9 @@ export default function LoanView({ loan }: LoanViewProps) {
     const isHighRisk = delinquencyRate >= 10;
 
     const member = {
-        initial: getInitials(loan.member.first_name, loan.member.last_name),
+        initial: loan.member.initials,
         id: loan.member.id.toString(),
-        member: `${loan.member.first_name} ${loan.member.middle_name ? loan.member.middle_name + ' ' : ''}${loan.member.last_name}${loan.member.suffix ? ' ' + loan.member.suffix : ''}`,
+        name: loan.member.name,
         rate: delinquencyRate.toString(),
         rateClassName: isHighRisk ? 'text-red-600' : '',
         shareCapital: loan.member.share_capital || 0,
@@ -171,18 +173,6 @@ export default function LoanView({ loan }: LoanViewProps) {
         });
     };
 
-    const handleReject = () => {
-        if (confirm('Are you sure you want to reject this loan?')) {
-            router.post(`/loan-officer/loans/${loan.id}/reject`, {}, {
-                onSuccess: () => {
-                    // Redirect to loan applications page after success
-                },
-                onError: (errors) => {
-                    console.error('Error rejecting loan:', errors);
-                }
-            });
-        }
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -190,21 +180,21 @@ export default function LoanView({ loan }: LoanViewProps) {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-col items-center w-full gap-5">
                     {/*Details Card*/}
-                    <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-[50%]">
+                    <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border w-full lg:w-[50%]">
                         <div className="flex flex-col p-5 py-2.5 border-b">
-                            <div className="text-sm font-medium text-(--color-primary)">Details</div>
+                            <div className="text-sm font-medium text-foreground">Details</div>
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="flex flex-col p-5 gap-3">
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Date Applied</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {formatDate(loan.created_at)}
                                     </p>
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Purpose</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {loan.purpose.name}
                                     </p>
                                 </div>
@@ -212,13 +202,13 @@ export default function LoanView({ loan }: LoanViewProps) {
                             <div className="flex flex-col p-5 gap-3">
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Amount</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {formatCurrency(loan.amount)}
                                     </p>
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Plan</p>
-                                    <p className="text-sm font-semibold text-primary">
+                                    <p className="text-sm font-semibold text-foreground">
                                         {loan.term_months} months, {loan.interest_rate}% interest
                                     </p>
                                 </div>
@@ -227,19 +217,21 @@ export default function LoanView({ loan }: LoanViewProps) {
                         {loan.remarks && (
                             <div className="flex flex-col p-5 pt-0">
                                 <p className="text-xs text-muted-foreground">Remarks</p>
-                                <p className="text-sm font-semibold text-primary">{loan.remarks}</p>
+                                <p className="text-sm font-semibold text-foreground">{loan.remarks}</p>
                             </div>
                         )}
                     </div>
 
-                    <ProfileCard title="Transactor" type="member" data={member} className="w-[50%]"/>
-                    <div className="flex flex-row w-[50%] justify-between">
+                    <ProfileCard title="Transactor" type="member-loan" data={member} className="w-full lg:w-[50%]"/>
+                    <div className="flex flex-row w-full lg:w-[50%] justify-between">
                         <Button variant="secondary" onClick={handleApprove}>
                             Approve
                         </Button>
-                        <Button variant="destructive" onClick={handleReject}>
+                        <Link href={loanRejectionForm.get(loan.id)}>
+                        <Button variant="destructive" >
                             Reject
                         </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

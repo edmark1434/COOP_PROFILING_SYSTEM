@@ -130,20 +130,23 @@ class MemberLookUpController extends Controller
         $loansDescDate = $loansBase->clone()
             ->orderBy('created_at', 'desc')
             ->get();
-
+        $memberName = trim(
+                ($member->first_name ?? "") . " " .
+                ($member->middle_name ?? "") . " " .
+                ($member->last_name ?? "") . " " .
+                ($member->suffix ?? "")
+            );
         return Inertia::render('loan-officer/member-profile', [
             'member'=> [
                 'id' => $member->id,
-                'first_name' => $member->first_name,
-                'last_name' => $member->last_name,
-                'middle_name' => $member->middle_name,
-                'suffix' => $member->suffix,
+                'name' => $memberName,
                 'shareCapital' => $member->accounts->first()->balance ?? 0,
                 'dateJoined' => $member->join_date,
                 'email' => $user->email ?? '',
                 'contact' => $member->contact_num,
-                'status' => $member->accounts->first()->status ?? 'unknown',
-                'initial' => $initial
+                'status' => $member->status ?? 'unknown',
+                'initial' => $initial,
+                'delinquencyRate' => $delinquencyRate,
             ],
             'delinquencyRate' => $delinquencyRate,
             'transactionsAscName' => $transactionsAscName,
@@ -166,7 +169,7 @@ class MemberLookUpController extends Controller
      * Calculate delinquency rate using the formula: (number of overdue loans / total loans) × 100
      * Text should be red if >= 10%
      */
-    private function calculateDelinquencyRate($memberId)
+    public function calculateDelinquencyRate($memberId)
     {
         try {
             // Use exact status match for 'Overdue'

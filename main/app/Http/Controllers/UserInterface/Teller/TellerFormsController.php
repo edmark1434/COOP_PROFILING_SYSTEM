@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\AuditLog;
 use App\Models\Member;
 use App\Models\Transaction;
+use App\Models\BiometricData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -53,13 +54,22 @@ class TellerFormsController extends Controller
         ]);
     }
 
+    public function confirmTransactionPost()
+    {
+        return redirect()->route('teller.confirmMember.get');
+    }
+
     public function confirmMemberGet()
     {
         $name = session()->get('form.member_name');
         $initials = CommonLogic::getInitials($name);
+        $data = session()->get('form.data');
+        $id = User::query()->where('member_id', $data['member'])->first()->id;
+
         return Inertia::render('teller/forms/confirm-member',[
             'memberName' => $name,
             'initials' => $initials,
+            'authId' => $id,
         ]);
     }
     public function confirmMemberPost()
@@ -80,6 +90,11 @@ class TellerFormsController extends Controller
         $emailExists = User::where('email', $request->email)->exists();
         if ($emailExists) {
             return back()->withErrors(['email' => 'This email is already registered.']);
+        }
+
+        $contactNumExists = Member::where('contact_num', $request->contactNum)->exists();
+        if ($contactNumExists) {
+            return back()->withErrors(['contactNum' => 'This contact number is already registered.']);
         }
 
         $validated = $request->validate([
@@ -117,7 +132,7 @@ class TellerFormsController extends Controller
     {
         $template = $request->input('template');
         session()->put('form.member_fingerprint',$template);
-        $this->transactionFormSave();
+        return redirect()->route('teller.memberRegistrationForm.save');
     }
 
     public function transactionFormSave()
@@ -139,9 +154,11 @@ class TellerFormsController extends Controller
             'type' => 'Transaction Recorded',
             'description' => $validated['type'] . ' - Transaction ID: ' . $final['ref_no'],
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('teller.transactions');
     }
 
@@ -184,7 +201,15 @@ class TellerFormsController extends Controller
             ];
 
             User::query()->create($userForm);
+            $user = User::query()->where('email', $validated['email'])->first();
         }
+
+        // biometric data
+        $biometric = [
+            'user_id' => $user->id,
+            'template' => session()->get('form.member_fingerprint'),
+        ];
+        BiometricData::query()->create($biometric);
 
         // account
         $account = [
@@ -200,9 +225,11 @@ class TellerFormsController extends Controller
             'type' => 'Member Registered',
             'description' => $name . ' - Member ID: ' . $coop_id,
             'user_id' => auth()->id(),
+            'created_at' => now(),
         ];
 
         AuditLog::query()->create($auditLog);
+        session()->forget('form');
         return redirect()->route('teller.memberLookup');
     }
 

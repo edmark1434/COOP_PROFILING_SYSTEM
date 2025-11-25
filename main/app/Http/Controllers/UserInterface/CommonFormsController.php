@@ -9,6 +9,7 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -52,6 +53,7 @@ class CommonFormsController extends Controller
         return Inertia::render('settings/forms/confirm-staff',[
             'staffName' => $user->name,
             'initials' => $initials,
+            'authId' => $user->id
         ]);
     }
     public function confirmStaffPost()
@@ -61,20 +63,35 @@ class CommonFormsController extends Controller
         $formType = session()->get('form.type');
         switch ($formType) {
             case 'add-transaction':
-                TellerFormsController::class->transactionFormSave();
-                break;
+                return redirect()->route('teller.transactionForm.save');
             case 'reject-loan':
-                LoanOfficerFormsController::class->loanRejectionFormSave();
-                break;
+                return redirect()->route('loan-officer.loanRejectionForm.save');
             case 'add-staff':
-                AdminFormsController::class->staffAddFormSave();
-                break;
+                return redirect()->route('admin.staffAddForm.save');
             case 'change-staff-role':
-                AdminFormsController::class->staffRoleChangeFormSave();
-                break;
+                return redirect()->route('admin.staffRoleChangeForm.save');
             default:
                 abort(404);
         }
     }
 
+    public function fingerprintLoginGet()
+    {
+        return Inertia::render('settings/forms/fingerprint-login', []);
+    }
+
+    public function fingerprintLoginPost(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::query()->findOrFail($id);
+        Auth::login($user);
+
+        $route = match (true) {
+            $user->is_admin => 'admin.overview',
+            $user->is_loan_officer => 'loan-officer.overview',
+            $user->is_teller => 'teller.overview',
+            default => 'member.overview',
+        };
+        return redirect()->intended(route($route,absolute: false));
+    }
 }

@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
 import * as React from "react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
@@ -70,32 +70,32 @@ export default function MemberOverview() {
     const [localSearch, setLocalSearch] = React.useState('');
     const [localOrderBy, setLocalOrderBy] = React.useState('date');
     const [localOrderDirection, setLocalOrderDirection] = React.useState('comfortable');
-    
+
     const [displayedTransactions, setDisplayedTransactions] = React.useState(recentTransactions);
     const [displayedLoans, setDisplayedLoans] = React.useState(currentLoans);
 
     // Format date to "November 12, 2025 · 12:01 PM"
     const formatDateTime = (dateString: string) => {
         if (!dateString) return "No date available";
-        
+
         try {
             const date = new Date(dateString);
             if (isNaN(date.getTime())) return "Invalid date";
-            
-            const dateOptions: Intl.DateTimeFormatOptions = { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+
+            const dateOptions: Intl.DateTimeFormatOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             };
-            const timeOptions: Intl.DateTimeFormatOptions = { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const timeOptions: Intl.DateTimeFormatOptions = {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             };
-            
+
             const formattedDate = date.toLocaleDateString('en-US', dateOptions);
             const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
-            
+
             return `${formattedDate} · ${formattedTime}`;
         } catch {
             return "Invalid date";
@@ -121,12 +121,17 @@ export default function MemberOverview() {
         })}`;
     };
 
+    // Handle loan row click
+    const handleLoanClick = (loanId: string | number) => {
+        router.visit(`/member/loan-details/${loanId}`);
+    };
+
     React.useEffect(() => {
         let filteredTransactions = [...recentTransactions];
-        
+
         if (localSearch) {
             const searchLower = localSearch.toLowerCase();
-            filteredTransactions = filteredTransactions.filter(transaction => 
+            filteredTransactions = filteredTransactions.filter(transaction =>
                 transaction.type.toLowerCase().includes(searchLower) ||
                 transaction.amount.toString().includes(searchLower) ||
                 transaction.created_at.toLowerCase().includes(searchLower)
@@ -135,7 +140,7 @@ export default function MemberOverview() {
 
         filteredTransactions.sort((a, b) => {
             let compareA: any, compareB: any;
-            
+
             switch (localOrderBy) {
                 case 'date':
                     compareA = new Date(a.created_at_raw).getTime();
@@ -162,10 +167,10 @@ export default function MemberOverview() {
         });
 
         let filteredLoans = [...currentLoans];
-        
+
         if (localSearch) {
             const searchLower = localSearch.toLowerCase();
-            filteredLoans = filteredLoans.filter(loan => 
+            filteredLoans = filteredLoans.filter(loan =>
                 loan.type.toLowerCase().includes(searchLower) ||
                 loan.amount.toLowerCase().includes(searchLower) ||
                 loan.status.toLowerCase().includes(searchLower)
@@ -174,7 +179,7 @@ export default function MemberOverview() {
 
         filteredLoans.sort((a, b) => {
             let compareA: any, compareB: any;
-            
+
             switch (localOrderBy) {
                 case 'date':
                     compareA = new Date(a.application_date).getTime();
@@ -223,11 +228,11 @@ export default function MemberOverview() {
         return (
             <div className="bg-card text-card-foreground flex flex-col justify-between rounded-xl border">
                 <div className="flex flex-col p-5 py-2.5 border-b">
-                    <div className="text-sm font-medium text-primary">{title}</div>
+                    <div className="text-sm font-medium text-foreground">{title}</div>
                 </div>
 
                 <div className="flex flex-col p-5 gap-4">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row gap-4 items-center">
                             <div className="rounded-full bg-muted w-16 h-16 flex items-center justify-center border-b">
                                 <p className="font-semibold text-2xl">{data?.initial}</p>
@@ -244,26 +249,26 @@ export default function MemberOverview() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="flex flex-row justify-between items-center">
                         <p className="text-xs text-muted-foreground">Share Capital</p>
                         <p className="font-semibold text-sm text-right">
                             {formatShareCapital(memberData.share_capital)}
                         </p>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Joined Since</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.dateJoined}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Email</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.email}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Contact Number</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.contact}</p>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div className="flex flex-row justify-between items-center">
                             <p className="text-xs text-muted-foreground">Status</p>
                             <p className="text-xs text-muted-foreground text-right">{data?.status}</p>
                         </div>
@@ -277,7 +282,7 @@ export default function MemberOverview() {
         initial: getInitials(memberData.first_name, memberData.last_name),
         id: memberData.id_coop,
         member: memberData.full_name,
-        rate: memberData.delinquency_rate?.toString() || "0", 
+        rate: memberData.delinquency_rate?.toString() || "0",
         dateJoined: memberData.join_date,
         email: memberData.email,
         contact: memberData.contact_num,
@@ -288,9 +293,8 @@ export default function MemberOverview() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Overview" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-2">
+                <div className="flex-1">
                     <ProfileCard title="Member Profile" data={profileMember} />
-                    <ProfileCard title="Account Summary" data={profileMember} />
                 </div>
                 <div className="flex flex-row h-fit w-full justify-between">
                     <Popover>
@@ -307,7 +311,7 @@ export default function MemberOverview() {
                                         <ArrowUpDown size="16"/>
                                         <span className="text-sm font-medium">Order by</span>
                                     </div>
-                                    <Select 
+                                    <Select
                                         value={localOrderBy}
                                         onValueChange={setLocalOrderBy}
                                     >
@@ -327,7 +331,7 @@ export default function MemberOverview() {
                                 </div>
                                 <Separator className="bg-gray-300 h-px" />
                                 <div className="flex items-center w-full gap-4 p-3">
-                                    <RadioGroup 
+                                    <RadioGroup
                                         value={localOrderDirection}
                                         onValueChange={setLocalOrderDirection}
                                         className="flex gap-6"
@@ -346,8 +350,8 @@ export default function MemberOverview() {
                         </PopoverContent>
                     </Popover>
                     <InputGroup className="w-sm">
-                        <InputGroupInput 
-                            placeholder="Search" 
+                        <InputGroupInput
+                            placeholder="Search"
                             value={localSearch}
                             onChange={(e) => setLocalSearch(e.target.value)}
                         />
@@ -364,15 +368,16 @@ export default function MemberOverview() {
                                 <TabsTrigger value="transactions">Transactions</TabsTrigger>
                             </TabsList>
 
-                            {/* Loans Tab - Clean design */}
+                            {/* Loans Tab - Clickable rows */}
                             <TabsContent value="loans" className="w-full overflow-x-auto">
                                 {displayedLoans.length > 0 ? (
                                     <div className="divide-y">
                                         {displayedLoans.map((loan, index) => (
                                             <div
                                                 key={index}
+                                                onClick={() => handleLoanClick(loan.id)}
                                                 className={cn(
-                                                    "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors"
+                                                    "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors cursor-pointer"
                                                 )}
                                             >
                                                 <div className="flex-1 min-w-[200px]">

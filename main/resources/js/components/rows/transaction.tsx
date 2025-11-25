@@ -22,12 +22,12 @@ interface TransactionRowData {
   created_at: string;
   // For teller variant
   date?: string;
-  member_name?: string; 
+  member_name?: string;
 }
 
 interface TransactionRowProps extends React.ComponentProps<"div"> {
   data?: TransactionRowData;
-  variant?: 'default' | 'teller'; 
+  variant?: 'default' | 'teller';
 }
 
 export function TransactionRow({
@@ -38,11 +38,11 @@ export function TransactionRow({
 }: TransactionRowProps) {
   const formatDate = (dateString: string) => {
     if (!dateString) return "No date available";
-    
+
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return "Invalid date";
-      
+
       return date.toLocaleString("en-US", {
         year: "numeric",
         month: "long",
@@ -65,15 +65,15 @@ export function TransactionRow({
 
   const formatTime = (dateString: string) => {
     if (!dateString) return "";
-    
+
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return "";
-      
-      return date.toLocaleTimeString([], { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        hour12: true 
+
+      return date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
       }).toUpperCase();
     } catch {
       return "";
@@ -82,11 +82,11 @@ export function TransactionRow({
 
   const formatDateOnly = (dateString: string) => {
     if (!dateString) return "";
-    
+
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return "";
-      
+
       return date.toLocaleDateString("en-US");
     } catch {
       return "";
@@ -95,11 +95,11 @@ export function TransactionRow({
 
   const getMemberDisplayName = (member?: Member) => {
     if (!member) return "No member linked";
-    
+
     if (member.full_name && member.full_name !== "No member linked") {
       return member.full_name;
     }
-    
+
     // Build name from individual parts
     const names = [
       member.first_name,
@@ -107,7 +107,7 @@ export function TransactionRow({
       member.last_name,
       member.suffix
     ].filter(part => part && part.trim() !== '');
-    
+
     return names.join(' ') || "No member linked";
   };
 
@@ -115,7 +115,7 @@ export function TransactionRow({
     return (
       <div
         className={cn(
-          "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3",
+          "flex flex-row justify-between items-start md:items-center border-b px-4 py-3",
           className
         )}
         {...props}
@@ -131,7 +131,7 @@ export function TransactionRow({
       <div
         data-slot="transaction-row"
         className={cn(
-          "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+            "flex flex-row justify-between items-center border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
           className
         )}
         {...props}
@@ -145,14 +145,14 @@ export function TransactionRow({
         </div>
 
         {/* Center: Member Name with Label */}
-        <div className="flex-1 min-w-[200px] text-center mt-2 md:mt-0">
+        <div className="flex-1 min-w-[200px] text-center">
           <p className="text-sm text-muted-foreground">
             Member: {data.member_name || getMemberDisplayName(data.member)}
           </p>
         </div>
 
         {/* Right: Amount */}
-        <div className="flex-1 min-w-[100px] text-right font-semibold text-sm mt-2 md:mt-0">
+        <div className="flex-1 min-w-[100px] text-right font-semibold text-sm">
           {formatAmount(data.amount || 0)}
         </div>
       </div>
@@ -160,34 +160,37 @@ export function TransactionRow({
   }
 
   // DEFAULT VARIANT - Original layout
-  return (
-    <div
-      data-slot="transaction-row"
-      className={cn(
-        "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
-        className
-      )}
-      {...props}
-    >
-      <div className="flex-1 min-w-[200px]">
-        <p className="font-semibold text-sm capitalize">{data.type?.toLowerCase() || "Unknown"}</p>
-        <p className="text-xs text-muted-foreground">
-          {formatDateOnly(data.created_at)} {formatTime(data.created_at)}
-        </p>
-      </div>
+    return (
+        <div
+            data-slot="transaction-row"
+            className={cn(
+                "flex flex-row w-full items-center justify-between border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
+                className
+            )}
+            {...props}
+        >
+            <div className="flex flex-col min-w-[200px]">
+                <p className="font-semibold text-sm capitalize">
+                    {data.type?.toLowerCase() || "Unknown"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                    {formatDateOnly(data.created_at)} {formatTime(data.created_at)}
+                </p>
+            </div>
 
-      <div className="flex-1 min-w-[200px] mt-2 md:mt-0">
-        <p className="text-xs text-muted-foreground">
-          Member: {getMemberDisplayName(data.member)}
-        </p>
-        <p className="text-xs text-muted-foreground">
-          Processed by: {data.user?.name || "System"}
-        </p>
-      </div>
+            <div className="flex flex-col min-w-[200px]">
+                <p className="text-xs text-muted-foreground">
+                    Member: {getMemberDisplayName(data.member)}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                    Processed by: {data.user?.name || "System"}
+                </p>
+            </div>
 
-      <div className="text-right font-semibold text-sm min-w-[100px] md:mt-0 mt-2">
-        {formatAmount(data.amount || 0)}
-      </div>
-    </div>
-  );
+            <div className="flex text-right justify-end pr-3 lg:pr-0 font-semibold text-sm min-w-[100px]">
+                {formatAmount(data.amount || 0)}
+            </div>
+        </div>
+    )
+
 }

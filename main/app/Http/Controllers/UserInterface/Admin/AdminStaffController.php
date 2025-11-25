@@ -12,71 +12,58 @@ class AdminStaffController extends Controller
 {
     public function index()
     {
-        // Get staff
-        $staff = User::where('is_member', false)
-                    // ->where('is_admin', false) 
-                    ->where(function($query) {
-                        $query->where('is_teller', true)
-                              ->orWhere('is_loan_officer', true)
-                              ->orWhere('is_admin', true);
-                    })->get();
-        
-        // Sort by name (ascending)
-        $nameAsc = User::where('is_member', false)
-                      ->where('is_admin', false)
-                      ->where(function($query) {
-                          $query->where('is_teller', true)
-                                ->orWhere('is_loan_officer', true);
-                      })->orderBy('name', 'asc')->get();
-        
-        // Sort by name (descending)
-        $nameDesc = User::where('is_member', false)
-                       ->where('is_admin', false)
-                       ->where(function($query) {
-                           $query->where('is_teller', true)
-                                 ->orWhere('is_loan_officer', true);
-                       })->orderBy('name', 'desc')->get();
-        
-        // Sort by role type
-        $typeAsc = User::where('is_member', false)
-                      ->where('is_admin', false)
-                      ->where(function($query) {
-                          $query->where('is_teller', true)
-                                ->orWhere('is_loan_officer', true);
-                      })->get()->sortBy(function($user) {
-            return $this->getRolePriority($user);
-        });
-        
-        $typeDesc = User::where('is_member', false)
-                       ->where('is_admin', false)
-                       ->where(function($query) {
-                           $query->where('is_teller', true)
-                                 ->orWhere('is_loan_officer', true);
-                       })->get()->sortByDesc(function($user) {
-            return $this->getRolePriority($user);
-        });
-        
-        // Sort by date
-        $dateAsc = User::where('is_member', false)
-                      ->where('is_admin', false)
-                      ->where(function($query) {
-                          $query->where('is_teller', true)
-                                ->orWhere('is_loan_officer', true);
-                      })->orderBy('email_verified_at', 'asc')->get();
-        
-        $dateDesc = User::where('is_member', false)
-                       ->where('is_admin', false)
-                       ->where(function($query) {
-                           $query->where('is_teller', true)
-                                 ->orWhere('is_loan_officer', true);
-                       })->orderBy('email_verified_at', 'desc')->get();
+        $id = auth()->id(); // authenticated user ID
+
+        // ---- Base staff query (reusable) ----
+        $baseQuery = User::where('is_member', false)
+            ->where('status', 'Active')       // Make sure staff is active
+            ->where('id', '!=', $id)          // Exclude authenticated user
+            ->where(function ($query) {
+                $query->where('is_teller', true)
+                    ->orWhere('is_loan_officer', true)
+                    ->orWhere('is_admin', true);
+            });
+
+        // Get all staff
+        $staff = $baseQuery->get();
+
+        // Sort by name ascending
+        $nameAsc = (clone $baseQuery)
+            ->orderBy('name', 'asc')
+            ->get();
+
+        // Sort by name descending
+        $nameDesc = (clone $baseQuery)
+            ->orderBy('name', 'desc')
+            ->get();
+
+        // Sort by role priority ascending
+        $typeAsc = (clone $baseQuery)
+            ->get()
+            ->sortBy(fn($user) => $this->getRolePriority($user))
+            ->values();
+
+        // Sort by role priority descending
+        $typeDesc = (clone $baseQuery)
+            ->get()
+            ->sortByDesc(fn($user) => $this->getRolePriority($user))
+            ->values();
+
+        // Sort by email verification (date added)
+        $dateAsc = (clone $baseQuery)
+            ->orderBy('email_verified_at', 'asc')
+            ->get();
+
+        $dateDesc = (clone $baseQuery)
+            ->orderBy('email_verified_at', 'desc')
+            ->get();
 
         return Inertia::render('admin/staff', [
             'staff' => $staff,
             'nameAsc' => $nameAsc,
             'nameDesc' => $nameDesc,
-            'typeAsc' => $typeAsc->values(),
-            'typeDesc' => $typeDesc->values(),
+            'typeAsc' => $typeAsc,
+            'typeDesc' => $typeDesc,
             'dateAsc' => $dateAsc,
             'dateDesc' => $dateDesc,
         ]);
@@ -104,7 +91,7 @@ class AdminStaffController extends Controller
         }
         // Eager load audit logs
         $user->load('auditLogs');
-
+        session(['changeRoleId'=>$user->id]);
         // Sort audit logs for frontend
         $userAuditLogsTypeAsc = $user->auditLogs->sortBy('type')->values();
         $userAuditLogsTypeDesc = $user->auditLogs->sortByDesc('type')->values();
@@ -126,5 +113,17 @@ class AdminStaffController extends Controller
             'typeAsc' => $userAuditLogsTypeAsc,
             'typeDesc' => $userAuditLogsTypeDesc
         ]);
+    }
+    public function redirectChangeRole(){
+        $id = session('changeRoleId');
+        return redirect()->route('admin.staffRoleChangeForm.get', $id);
+    }
+    
+    public function suspendStaff(){
+        $id = session('changeRoleId');
+        User::where('id', $id)->update([
+            'status' => "Inactive"
+        ]);
+        return redirect()->route('admin.staff');
     }
 }

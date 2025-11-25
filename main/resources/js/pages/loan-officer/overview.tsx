@@ -151,7 +151,7 @@ export default function LoanOfficerOverview({ stats, recentApplications, activeL
                 </div>
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="flex flex-col px-4 py-2 border-b">
-                        <div className="text-sm font-medium text-(--color-primary)">Loan Applications</div>
+                        <div className="text-sm font-medium text-foreground">Loan Applications</div>
                     </div>
                     <div className="divide-y h-fit">
                         {recentApplications.length > 0 ? (
@@ -167,7 +167,7 @@ export default function LoanOfficerOverview({ stats, recentApplications, activeL
                 </div>
                 <div className="relative h-fit overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <div className="flex flex-col px-4 py-2 border-b">
-                        <div className="text-sm font-medium text-(--color-primary)">Active Loans</div>
+                        <div className="text-sm font-medium text-foreground">Active Loans</div>
                     </div>
                     <div className="divide-y h-fit">
                         {activeLoans.length > 0 ? (

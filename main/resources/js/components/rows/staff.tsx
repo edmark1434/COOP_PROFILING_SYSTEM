@@ -13,16 +13,16 @@ export function StaffRow({
     ...props
 }: StaffRowProps) {
     const getInitials = (name: string) => {
-        const names = name.split(" ").filter(n => n.length > 0); 
+        const names = name.split(" ").filter(n => n.length > 0);
         const initials = names.map((n) => n.charAt(0).toUpperCase());
-        
+
         // Take only first 2 letters maximum
         if (initials.length > 2) {
-            return initials[0] + initials[initials.length - 1]; 
+            return initials[0] + initials[initials.length - 1];
         }
-        
+
         // Take up to 2 initials
-        return initials.slice(0, 2).join(""); 
+        return initials.slice(0, 2).join("");
     };
 
     const getRoleName = (user: any) => {
@@ -36,14 +36,14 @@ export function StaffRow({
         <div
             data-slot="staff-row"
             className={cn(
-                "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
+                "flex flex-row justify-between items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors",
                 className
             )}
             {...props}
         >
             <div className="flex flex-row gap-4 items-center">
                 {/* Staff initials */}
-                <div className="rounded-full bg-muted w-10 h-10 flex items-center justify-center">
+                <div className="rounded-full bg-muted w-10 h-10 flex aspect-square items-center justify-center">
                     <p className="font-semibold text-sm">
                         {getInitials(data?.name ?? "U")}
                     </p>
@@ -61,8 +61,8 @@ export function StaffRow({
             </div>
 
             {/* Role/Type */}
-            <div className="text-right text-sm min-w-[100px] md:mt-0 mt-2">
-                <p className="font-normal">{getRoleName(data) ?? '—'}</p>
+            <div className="text-right text-xs text-foreground min-w-[100px]">
+                <p>{getRoleName(data) ?? '—'}</p>
             </div>
         </div>
     );
