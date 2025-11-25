@@ -19,12 +19,6 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { TransactionRow } from "@/components/rows/transaction";
 import admin from "@/routes/admin";
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Accounts  >  ',
-        href: admin.accountView(id).url
-    },
-];
 
 interface Transaction {
     id: number;
@@ -43,12 +37,23 @@ interface Transaction {
 
 interface AdminTransactionsProps {
     transactions: Transaction[];
+    acc_id : number;
+    type: string;
 }
 
-export default function AdminTransactions({ transactions }: AdminTransactionsProps) {
+export default function AdminTransactions({ transactions,acc_id,type }: AdminTransactionsProps) {
     const [search, setSearch] = useState("");
     const [orderBy, setOrderBy] = useState<"name" | "date" | "type">("date");
     const [direction, setDirection] = useState<"asc" | "desc">("desc");
+    const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Accounts ',
+        href: admin.accountView(acc_id).url
+    },{
+        title: type,
+        href: admin.accountView(acc_id).url
+    },
+];
 
     const filteredTransactions = useMemo(() => {
         let data = [...transactions];
@@ -181,6 +186,7 @@ export default function AdminTransactions({ transactions }: AdminTransactionsPro
                                         amount: item.amount,
                                         created_at: item.date
                                     }}
+                                    acc = {acc_id}
                                 />
                             ))
                         ) : (

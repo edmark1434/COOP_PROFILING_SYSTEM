@@ -113,12 +113,13 @@ class AdminLoanController extends Controller
             'prop' => [
                 'id' => $loanDetail->id,
                 'name' => $memberName,
-                'memId' => $member->id,
+                'memId' => $member->id_coop,
                 'memStatus' => $member->status               
             ],
             'loanDetail' => $loanDetail,
             'member'=> [
                 'id' => $member->id,
+                'id_coop' => $member->id_coop,
                 'shareCapital' => $member->accounts->first()->balance,
                 'dateJoined' => $member->join_date,
                 'email' => $user->email,

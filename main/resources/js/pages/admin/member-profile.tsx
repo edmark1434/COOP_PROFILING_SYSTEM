@@ -14,7 +14,7 @@ import {TabbedTable} from "@/components/tabbed-table";
 import {memberProfile} from "@/routes/admin";
 
 interface MemberProp {
-    member: { id: number | string };
+    member: { id: number | string,id_coop : number | string };
     transactionsAscName: any[];
     transactionsDescName: any[];
     transactionsAscType: any[];
@@ -45,7 +45,7 @@ export default function MemberProfile({
     loansDescDate,
 }: MemberProp) {
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Member', href: memberProfile(member.id).url },
+        { title: 'Member', href: memberProfile(member.id).url },{ title: member.id_coop.toString(), href: memberProfile(member.id).url }
     ];
 
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
