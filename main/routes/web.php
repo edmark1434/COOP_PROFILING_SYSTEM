@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard',[AdminOverviewController::class,'index'])->name('dashboard');
         Route::get('/overview',[AdminOverviewController::class,'index'])->name('overview');
         Route::get('/accounts', [AdminAccountsController::class, 'index'])->name('accounts');
+        Route::get('/accounts/{id}', [AdminAccountsController::class, 'accountId'])->name('accountView');
         Route::get('/transactions', [AdminTransactionsController::class, 'index'])->name('transactions');
         Route::get('/members',[AdminMembersController::class,'index'])->name('members');
         Route::get('/loans', [AdminLoanController::class, 'index'])->name('loans');
