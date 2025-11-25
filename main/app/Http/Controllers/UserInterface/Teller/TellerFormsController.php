@@ -148,7 +148,7 @@ class TellerFormsController extends Controller
         ];
 
         Transaction::query()->create($final);
-
+        
         // audit log
         $auditLog = [
             'type' => 'Transaction Recorded',
