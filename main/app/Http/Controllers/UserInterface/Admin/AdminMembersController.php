@@ -146,6 +146,7 @@ class AdminMembersController extends Controller
         return Inertia::render('admin/member-profile', [
             'member'=> [
                 'id' => $member->id,
+                'id_coop' => $member->id_coop,
                 'shareCapital' => $member->accounts->first()->balance,
                 'dateJoined' => $member->join_date,
                 'email' => $user->email,

@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import admin from "@/routes/admin";
+import { Head, Link } from '@inertiajs/react';
+import admin, { accountView } from "@/routes/admin";
 import * as React from "react";
 import { AccountRow } from "@/components/rows/account";
 
@@ -33,10 +33,12 @@ export default function AdminAccounts({ accounts }: AdminAccountsProps) {
                     <div className="divide-y h-fit">
                         {accounts.length > 0 ? (
                             accounts.map((account) => (
+                            <Link href={accountView(account.id)}>
                                 <AccountRow 
                                     key={account.id} 
                                     data={account} 
                                 />
+                            </Link>
                             ))
                         ) : (
                             <div className="p-6 text-center text-muted-foreground text-sm">
