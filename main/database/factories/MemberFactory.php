@@ -23,7 +23,7 @@ class MemberFactory extends Factory
             'middle_name' => $this->faker->optional()->firstName(),
             'last_name'   => $this->faker->lastName(),
             'suffix'      => $this->faker->optional()->randomElement(Member::SUFFIX),
-            'contact_num' => $this->faker->phoneNumber(),
+            'contact_num' => '+63' . $this->faker->numerify('##########'),
             'status'      => $this->faker->randomElement(Member::STATUS),
             'join_date'   => $this->faker->dateTimeBetween('-5 years', 'now'),
             'exit_date'   => $this->faker->optional()->dateTimeBetween('now', '+2 years'),
@@ -37,7 +37,7 @@ class MemberFactory extends Factory
             Account::factory()
                 ->for($member)   // sets member_id
                 ->state(['type' => 'Equity'])
-                ->create();  
+                ->create();
             User::factory()
                 ->for($member)   // sets member_id
                 ->create();    // creates only ONE account

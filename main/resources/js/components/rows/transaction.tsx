@@ -27,11 +27,13 @@ interface TransactionRowData {
 
 interface TransactionRowProps extends React.ComponentProps<"div"> {
   data?: TransactionRowData;
+  acc: null | number;
   variant?: 'default' | 'teller';
 }
 
 export function TransactionRow({
   data,
+  acc = null,
   variant = 'default',
   className,
   ...props
@@ -125,13 +127,41 @@ export function TransactionRow({
     );
   }
 
+  // ======================================================
+  // Conditional text color based on acc and transaction type
+  // ======================================================
+  let textColor = "text-foreground"; // default (white)
+  if (acc !== null) {
+    switch (Number(acc)) {
+      case 1: // Share Capital Total
+        // all white → default
+        break;
+      case 2: // Loan Receivable
+        if (data.type === "Loan Payment") textColor = "text-destructive";
+        break;
+      case 3: // Interest Income
+        // all white → default
+        break;
+      case 4: // Dividends Payable
+        if (["Dividend Credit", "Dividend Reinvestment"].includes(data.type)) {
+          textColor = "text-destructive";
+        }
+        break;
+      case 6: // Coop Cash
+        if (["Loan Disbursement", "Dividend Credit"].includes(data.type)) {
+          textColor = "text-destructive";
+        }
+        break;
+    }
+  }
+
   // TELLER VARIANT - Simple layout with member in center
   if (variant === 'teller') {
     return (
       <div
         data-slot="transaction-row"
         className={cn(
-            "flex flex-row justify-between items-center border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
+          "flex flex-row justify-between items-center border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
           className
         )}
         {...props}
@@ -152,7 +182,7 @@ export function TransactionRow({
         </div>
 
         {/* Right: Amount */}
-        <div className="flex-1 min-w-[100px] text-right font-semibold text-sm">
+        <div className={cn("flex-1 min-w-[100px] text-right font-semibold text-sm", textColor)}>
           {formatAmount(data.amount || 0)}
         </div>
       </div>
@@ -160,37 +190,36 @@ export function TransactionRow({
   }
 
   // DEFAULT VARIANT - Original layout
-    return (
-        <div
-            data-slot="transaction-row"
-            className={cn(
-                "flex flex-row w-full items-center justify-between border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
-                className
-            )}
-            {...props}
-        >
-            <div className="flex flex-col min-w-[200px]">
-                <p className="font-semibold text-sm capitalize">
-                    {data.type?.toLowerCase() || "Unknown"}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                    {formatDateOnly(data.created_at)} {formatTime(data.created_at)}
-                </p>
-            </div>
+  return (
+    <div
+      data-slot="transaction-row"
+      className={cn(
+        "flex flex-row w-full items-center justify-between border-b px-4 py-3 gap-4 hover:bg-muted/40 transition-colors",
+        className
+      )}
+      {...props}
+    >
+      <div className="flex flex-col min-w-[200px]">
+        <p className="font-semibold text-sm capitalize">
+          {data.type?.toLowerCase() || "Unknown"}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {formatDateOnly(data.created_at)} {formatTime(data.created_at)}
+        </p>
+      </div>
 
-            <div className="flex flex-col min-w-[200px]">
-                <p className="text-xs text-muted-foreground">
-                    Member: {getMemberDisplayName(data.member)}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                    Processed by: {data.user?.name || "System"}
-                </p>
-            </div>
+      <div className="flex flex-col min-w-[200px]">
+        <p className="text-xs text-muted-foreground">
+          Member: {getMemberDisplayName(data.member)}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Processed by: {data.user?.name || "System"}
+        </p>
+      </div>
 
-            <div className="flex text-right justify-end pr-3 lg:pr-0 font-semibold text-sm min-w-[100px]">
-                {formatAmount(data.amount || 0)}
-            </div>
-        </div>
-    )
-
+      <div className={cn("flex text-right justify-end pr-3 lg:pr-0 font-semibold text-sm min-w-[100px]", textColor)}>
+        {formatAmount(data.amount || 0)}
+      </div>
+    </div>
+  );
 }

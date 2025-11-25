@@ -60,7 +60,7 @@ export default function LoanMemberProfile({
                                             }: MemberProp) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Member Lookup', href: '/loan-officer/member-lookup' },
-        { title: `${member.id_coop}`, href: `/loan-officer/member-lookup/${member.id}` },
+        { title: `${member.id_coop}`, href: `/loan-officer/member-lookup/${member.id_coop}` },
     ];
 
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
