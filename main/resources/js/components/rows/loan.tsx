@@ -2,7 +2,8 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import {useState} from "react";
 import {Badge} from "@/components/ui/badge";
-
+import { Link } from "@inertiajs/react";
+import { loanView } from "@/routes/admin";
 interface LoanRowProps extends React.ComponentProps<"div"> {
     isMember? : boolean
     data? : any
@@ -21,6 +22,7 @@ export function LoanRow({
   };
 
   return (
+  <Link href={loanView(data.id)}>
     <div
       data-slot="loan-row"
       className={cn(
@@ -70,10 +72,13 @@ export function LoanRow({
             {data?.status && <Badge variant="secondary">{data?.status}</Badge>}
         </div>
 
-      {/* Amount */}
-      <div className="flex text-right justify-end pr-3 font-semibold text-sm min-w-[100px]">
-        ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
+        {/* Amount */}
+        <div className="flex text-right justify-end pr-3 font-semibold text-sm min-w-[100px]">
+          ₱ {Number(data?.amount ?? 0).toLocaleString("en-US")}
+        </div>
+      
       </div>
-    </div>
+    </Link>
+
   );
 }

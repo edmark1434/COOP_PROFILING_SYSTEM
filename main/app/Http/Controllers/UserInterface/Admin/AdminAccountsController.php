@@ -28,4 +28,8 @@ class AdminAccountsController extends Controller
             'accounts' => $accounts,
         ]);
     }
+    public function accountId($id){
+        return Inertia::render('admin/account-view', [
+        ]);
+    }
 }
