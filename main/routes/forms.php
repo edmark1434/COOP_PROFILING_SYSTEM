@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserInterface\LoanOfficer\LoanViewController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserInterface\Admin\AdminOverviewController;
@@ -31,12 +32,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/staff/{id}/change-role',[AdminFormsController::class,'staffRoleChangeFormGet'] )->name('staffRoleChangeForm.get');
         Route::post('/staff/{id}/change-role',[AdminFormsController::class,'staffRoleChangeFormPost'] )->name('staffRoleChangeForm.post');
         Route::get('/save-staff-role-change',[AdminFormsController::class,'staffRoleChangeFormSave'] )->name('staffRoleChangeForm.save');
+
+        Route::get('/save-staff-suspend',[AdminStaffController::class,'suspendStaffSave'] )->name('staffSuspend.save');
     });
 
     Route::middleware(['role:loan-officer'])->prefix('loan-officer')->name('loan-officer.')->group(function () {
         Route::get('/loans/{id}/reject',[LoanOfficerFormsController::class,'loanRejectionFormGet'] )->name('loanRejectionForm.get');
         Route::post('/loans/{id}/reject',[LoanOfficerFormsController::class,'loanRejectionFormPost'] )->name('loanRejectionForm.post');
         Route::get('/save-loan-rejection',[LoanOfficerFormsController::class,'loanRejectionFormSave'] )->name('loanRejectionForm.save');
+
+        Route::get('/save-loan-approval',[LoanViewController::class,'approveSave'] )->name('loanApproval.save');
     });
 
     Route::middleware(['role:teller'])->prefix('teller')->name('teller.')->group(function () {
