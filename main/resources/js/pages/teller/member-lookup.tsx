@@ -32,6 +32,11 @@ export default function TellerMemberLookup() {
     const handleMemberSelect = (memberId: string) => {
         setSelectedMemberId(memberId);
         setIsInvalid(false);
+        
+        // Auto-redirect when a member is selected
+        if (memberId) {
+            router.get(`/teller/member-lookup/${memberId}`);
+        }
     };
 
     return (
