@@ -18,7 +18,7 @@ class AdminAccountsController extends Controller
                 'Loan Receivable' => $acc->balance ?? 0,
                 'Interest Income' => $acc->balance ?? 0,
                 'Dividends Payable' => $acc->balance ?? 0,
-                'Retained Earnings' => $acc->balance ?? 0,
+                'Retained Earnings' => $acc->balance ?? 0, // to be computed
                 'Coop Cash' => $acc->balance ?? 0,
                 default => null,
             };
@@ -26,6 +26,10 @@ class AdminAccountsController extends Controller
 
         return Inertia::render('admin/accounts', [
             'accounts' => $accounts,
+        ]);
+    }
+    public function accountId($id){
+        return Inertia::render('admin/account-view', [
         ]);
     }
 }
