@@ -54,6 +54,9 @@ class MemberLoansController extends Controller
                     'status' => ucfirst(strtolower($loan->status)),
                     'amount' => number_format($loan->amount, 2),
                     'type' => $loan->purpose->name ?? 'General Loan',
+                    'purpose' => [
+                        'name' => $loan->purpose->name ?? 'General Loan',
+                    ],
                     'remarks' => $loan->remarks,
                     'application_date' => $loan->created_at?->format('F j, Y'),
                 ];
@@ -71,6 +74,9 @@ class MemberLoansController extends Controller
                 return [
                     'id' => $loan->id,
                     'type' => $loan->purpose->name ?? 'General Loan',
+                    'purpose' => [
+                        'name' => $loan->purpose->name ?? 'General Loan',
+                    ],
                     'amount' => number_format($loan->amount, 2),
                     'application_date' => $loan->created_at?->format('F j, Y'),
                 ];
@@ -79,6 +85,97 @@ class MemberLoansController extends Controller
         return Inertia::render('member/my-loans', [
             'currentLoans' => $currentLoans,
             'previousLoans' => $previousLoans,
+        ]);
+    }
+
+    public function pendingLoanDetails($id)
+    {
+        $user = Auth::user();
+
+        if (!$user->member_id) {
+            return redirect()->route('member.my-loans')
+                ->with('error', 'Member profile not found.');
+        }
+
+        $member = Member::with(['accounts'])->find($user->member_id);
+
+        if (!$member) {
+            return redirect()->route('member.my-loans')
+                ->with('error', 'Member profile not found.');
+        }
+
+        // Fetch loan
+        $loan = Loan::with('purpose')->find($id);
+
+        if (!$loan) {
+            return redirect()->route('member.my-loans')
+                ->with('error', 'Loan not found.');
+        }
+
+        // Security check — ensure the loan is theirs
+        if ((int)$loan->member_id !== (int)$member->id) {
+            return redirect()->route('member.my-loans')
+                ->with('error', 'You do not have permission to view this loan.');
+        }
+
+        // Check if loan status is pending (case insensitive)
+        if (strtolower($loan->status) !== 'pending') {
+            return redirect()->route('member.loan-details', ['id' => $loan->id])
+                ->with('info', 'This loan is no longer pending.');
+        }
+
+        // Member full name + initials
+        $memberName = trim(
+            ($member->first_name . ' ' . ($member->middle_name ?? '') . ' ' . $member->last_name . ' ' . ($member->suffix ?? ''))
+        );
+
+        $initial = CommonLogic::getInitials($memberName);
+
+        // Calculate delinquency rate
+        $totalLoans = Loan::where('member_id', $member->id)->count();
+        $delinquentLoans = Loan::where('member_id', $member->id)
+            ->where(DB::raw('LOWER(status)'), 'overdue')
+            ->count();
+        
+        $delinquencyRate = $totalLoans > 0 ? ($delinquentLoans / $totalLoans) * 100 : 0;
+
+        // Get share capital
+        $shareCapital = $member->accounts->first() ? $member->accounts->first()->balance : 0;
+
+        // Format join date
+        $joinDate = $member->join_date ? $member->join_date : null;
+
+        return Inertia::render('member/pending-loan-view', [
+            'prop' => [
+                'id' => $loan->id,
+                'name' => $memberName,
+                'memId' => $member->id_coop,
+                'memStatus' => $member->status ?? 'Unknown'
+            ],
+            'loanDetail' => [
+                'id' => $loan->id,
+                'ref_no' => $loan->ref_no,
+                'amount' => (float) $loan->amount,
+                'interest_rate' => (float) $loan->interest_rate,
+                'term_months' => (int) $loan->term_months,
+                'status' => ucfirst($loan->status),
+                'remarks' => $loan->remarks,
+                'created_at' => $loan->created_at->toISOString(),
+                'purpose' => [
+                    'id' => $loan->purpose->id ?? null,
+                    'name' => $loan->purpose->name ?? 'General Loan',
+                ],
+            ],
+            'member' => [
+                'id' => $member->id_coop,
+                'shareCapital' => (float) $shareCapital,
+                'dateJoined' => $joinDate,
+                'email' => $user->email ?? '',
+                'contact' => $member->contact_num,
+                'status' => $member->status ?? 'Unknown',
+                'initial' => $initial,
+                'delinquency_rate' => round($delinquencyRate, 2),
+            ],
         ]);
     }
 
@@ -171,12 +268,12 @@ class MemberLoansController extends Controller
             'prop' => [
                 'id' => $loan->id,
                 'name' => $memberName,
-                'memId' => $member->id,
+                'memId' => $member->id_coop,
                 'memStatus' => $member->status ?? 'Unknown'
             ],
             'loanDetail' => $loan,
             'member' => [
-                'id' => $member->id,
+                'id' => $member->id_coop,
                 'shareCapital' => $member->accounts->first()->balance ?? 0,
                 'dateJoined' => $member->join_date,
                 'email' => $user->email ?? '',
