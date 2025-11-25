@@ -55,7 +55,7 @@ class TellerMemberLookupController extends Controller
         $delinquencyRate = $this->calculateDelinquencyRate($id);
 
         // Log what we're sending to frontend
-        \Log::info("Sending to frontend - Member: {$member->id}, Delinquency Rate: {$delinquencyRate}%");
+        \Log::info("Sending to frontend - Member: {$member->id_coop}, Delinquency Rate: {$delinquencyRate}%");
 
         // BASE QUERIES (same as admin but for teller view)
         $transactionsBase = Transaction::with(['member','user'])
@@ -129,23 +129,20 @@ class TellerMemberLookupController extends Controller
         $loansDescDate = $loansBase->clone()
             ->orderBy('created_at', 'desc')
             ->get();
-        $memberName = trim(
-                ($member->first_name ?? "") . " " .
-                ($member->middle_name ?? "") . " " .
-                ($member->last_name ?? "") . " " .
-                ($member->suffix ?? "")
-            );
+
         return Inertia::render('teller/member-profile', [
             'member'=> [
-                'id' => $member->id,
-                'name' => $memberName,
+                'id' => $member->id_coop, 
+                'first_name' => $member->first_name,
+                'last_name' => $member->last_name,
+                'middle_name' => $member->middle_name,
+                'suffix' => $member->suffix,
                 'shareCapital' => $member->accounts->first()->balance ?? 0,
                 'dateJoined' => $member->join_date,
                 'email' => $user->email ?? '',
                 'contact' => $member->contact_num,
-                'status' => $member->status ?? 'unknown',
-                'initial' => $initial,
-                'delinquencyRate' => $delinquencyRate,
+                'status' => $member->accounts->first()->status ?? 'unknown',
+                'initial' => $initial
             ],
             'delinquencyRate' => $delinquencyRate,
             'transactionsAscName' => $transactionsAscName,
