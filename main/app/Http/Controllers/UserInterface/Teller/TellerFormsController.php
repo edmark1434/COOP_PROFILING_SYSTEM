@@ -147,14 +147,11 @@ class TellerFormsController extends Controller
             'user_id' => auth()->id(),
         ];
 
-        $transaction = Transaction::query()->create($final);
+        Transaction::query()->create($final);
 
-        $member = Member::find($validated['member']);
-        
         $memberShareCapitalAccount = Account::where('member_id', $validated['member'])
                                         ->where('type', 'Equity')
                                         ->first();
-        
         $loanReceivableAccount = Account::where('name', 'Loan Receivable')->firstOrFail();
         $interestIncomeAccount = Account::where('name', 'Interest Income')->firstOrFail();
         $dividendsPayableAccount = Account::where('name', 'Dividends Payable')->firstOrFail();
@@ -165,11 +162,11 @@ class TellerFormsController extends Controller
             case 'Share Capital Contribution':
                 $memberShareCapitalAccount->balance += $validated['amount'];
                 $memberShareCapitalAccount->save();
-                
-                
+
+
                 $shareCapitalTotalAccount->balance += $validated['amount'];
                 $shareCapitalTotalAccount->save();
-                
+
                 $coopCashAccount->balance += $validated['amount'];
                 $coopCashAccount->save();
                 break;
@@ -177,25 +174,25 @@ class TellerFormsController extends Controller
             case 'Loan Disbursement':
                 $loanReceivableAccount->balance += $validated['amount'];
                 $loanReceivableAccount->save();
-                
+
                 $coopCashAccount->balance -= $validated['amount'];
                 $coopCashAccount->save();
                 break;
 
             case 'Loan Payment':
                 $principalAmount = $validated['amount'] * 0.95;
-                $interestAmount = $validated['amount'] * 0.05; 
-                $dividendAmount = $validated['amount'] * 0.05; 
+                $interestAmount = $validated['amount'] * 0.05;
+                $dividendAmount = $validated['amount'] * 0.05;
 
                 $loanReceivableAccount->balance -= $principalAmount;
                 $loanReceivableAccount->save();
-                
+
                 $interestIncomeAccount->balance += $interestAmount;
                 $interestIncomeAccount->save();
-                
+
                 $dividendsPayableAccount->balance += $dividendAmount;
                 $dividendsPayableAccount->save();
-                
+
                 $coopCashAccount->balance += $validated['amount'];
                 $coopCashAccount->save();
                 break;
@@ -204,7 +201,7 @@ class TellerFormsController extends Controller
 
                 $dividendsPayableAccount->balance -= $validated['amount'];
                 $dividendsPayableAccount->save();
-                
+
                 $coopCashAccount->balance -= $validated['amount'];
                 $coopCashAccount->save();
                 break;
@@ -212,12 +209,10 @@ class TellerFormsController extends Controller
             case 'Dividend Reinvestment':
                 $dividendsPayableAccount->balance -= $validated['amount'];
                 $dividendsPayableAccount->save();
-                
-                if ($memberShareCapitalAccount) {
-                    $memberShareCapitalAccount->balance += $validated['amount'];
-                    $memberShareCapitalAccount->save();
-                }
-                
+
+                $memberShareCapitalAccount->balance += $validated['amount'];
+                $memberShareCapitalAccount->save();
+
                 $shareCapitalTotalAccount->balance += $validated['amount'];
                 $shareCapitalTotalAccount->save();
                 break;

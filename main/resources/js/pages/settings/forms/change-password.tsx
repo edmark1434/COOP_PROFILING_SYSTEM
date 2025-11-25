@@ -70,7 +70,7 @@ export default function StaffRoleChangeForm() {
             <Card className="w-full sm:max-w-md">
             <CardHeader className="px-10 pt-4 flex flex-row justify-between items-center">
                 <CardTitle>Change Password</CardTitle>
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => window.history.back()}>
                     <X />
                 </Button>
             </CardHeader>
