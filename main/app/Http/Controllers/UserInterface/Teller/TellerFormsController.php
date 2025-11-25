@@ -147,12 +147,89 @@ class TellerFormsController extends Controller
             'user_id' => auth()->id(),
         ];
 
-        Transaction::query()->create($final);
+        $transaction = Transaction::query()->create($final);
+
+        $member = Member::find($validated['member']);
+        
+        $memberShareCapitalAccount = Account::where('member_id', $validated['member'])
+                                        ->where('type', 'Equity')
+                                        ->first();
+        
+        $loanReceivableAccount = Account::where('name', 'Loan Receivable')->firstOrFail();
+        $interestIncomeAccount = Account::where('name', 'Interest Income')->firstOrFail();
+        $dividendsPayableAccount = Account::where('name', 'Dividends Payable')->firstOrFail();
+        $coopCashAccount = Account::where('name', 'Coop Cash')->firstOrFail();
+        $shareCapitalTotalAccount = Account::where('name', 'Share Capital Total')->firstOrFail();
+
+        switch ($validated['type']) {
+            case 'Share Capital Contribution':
+                $memberShareCapitalAccount->balance += $validated['amount'];
+                $memberShareCapitalAccount->save();
+                
+                
+                $shareCapitalTotalAccount->balance += $validated['amount'];
+                $shareCapitalTotalAccount->save();
+                
+                $coopCashAccount->balance += $validated['amount'];
+                $coopCashAccount->save();
+                break;
+
+            case 'Loan Disbursement':
+                $loanReceivableAccount->balance += $validated['amount'];
+                $loanReceivableAccount->save();
+                
+                $coopCashAccount->balance -= $validated['amount'];
+                $coopCashAccount->save();
+                break;
+
+            case 'Loan Payment':
+                $principalAmount = $validated['amount'] * 0.95;
+                $interestAmount = $validated['amount'] * 0.05; 
+                $dividendAmount = $validated['amount'] * 0.05; 
+
+                $loanReceivableAccount->balance -= $principalAmount;
+                $loanReceivableAccount->save();
+                
+                $interestIncomeAccount->balance += $interestAmount;
+                $interestIncomeAccount->save();
+                
+                $dividendsPayableAccount->balance += $dividendAmount;
+                $dividendsPayableAccount->save();
+                
+                $coopCashAccount->balance += $validated['amount'];
+                $coopCashAccount->save();
+                break;
+
+            case 'Dividend Credit':
+
+                $dividendsPayableAccount->balance -= $validated['amount'];
+                $dividendsPayableAccount->save();
+                
+                $coopCashAccount->balance -= $validated['amount'];
+                $coopCashAccount->save();
+                break;
+
+            case 'Dividend Reinvestment':
+                $dividendsPayableAccount->balance -= $validated['amount'];
+                $dividendsPayableAccount->save();
+                
+                if ($memberShareCapitalAccount) {
+                    $memberShareCapitalAccount->balance += $validated['amount'];
+                    $memberShareCapitalAccount->save();
+                }
+                
+                $shareCapitalTotalAccount->balance += $validated['amount'];
+                $shareCapitalTotalAccount->save();
+                break;
+
+            default:
+                break;
+        }
 
         // audit log
         $auditLog = [
             'type' => 'Transaction Recorded',
-            'description' => $validated['type'] . ' - Transaction ID: ' . $final['ref_no'],
+            'description' => $validated['type'] . ' - Transaction ID: ' . $final['ref_no'] . ' - Amount: ' . $validated['amount'],
             'user_id' => auth()->id(),
             'created_at' => now(),
         ];
