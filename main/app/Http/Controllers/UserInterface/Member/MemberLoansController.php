@@ -62,7 +62,7 @@ class MemberLoansController extends Controller
                 ];
             });
 
-        // Previous loans
+        // Previous loans - FIXED: Added member data
         $previousLoans = Loan::with('purpose')
             ->where('member_id', $member->id)
             ->whereIn(DB::raw('LOWER(status)'), [
@@ -70,9 +70,16 @@ class MemberLoansController extends Controller
             ])
             ->orderByDesc('id')
             ->get()
-            ->map(function ($loan) {
+            ->map(function ($loan) use ($member) {
                 return [
                     'id' => $loan->id,
+                    'member' => [
+                        'first_name' => $member->first_name,
+                        'middle_name' => $member->middle_name,
+                        'last_name' => $member->last_name,
+                        'suffix' => $member->suffix,
+                    ],
+                    'status' => ucfirst(strtolower($loan->status)),
                     'type' => $loan->purpose->name ?? 'General Loan',
                     'purpose' => [
                         'name' => $loan->purpose->name ?? 'General Loan',
@@ -118,10 +125,12 @@ class MemberLoansController extends Controller
                 ->with('error', 'You do not have permission to view this loan.');
         }
 
-        // Check if loan status is pending (case insensitive)
-        if (strtolower($loan->status) !== 'pending') {
+        $loanStatus = strtolower($loan->status);
+
+        // Check if loan status is pending or rejected
+        if (!in_array($loanStatus, ['pending', 'rejected'])) {
             return redirect()->route('member.loan-details', ['id' => $loan->id])
-                ->with('info', 'This loan is no longer pending.');
+                ->with('info', 'This loan has been processed.');
         }
 
         // Member full name + initials
@@ -136,7 +145,7 @@ class MemberLoansController extends Controller
         $delinquentLoans = Loan::where('member_id', $member->id)
             ->where(DB::raw('LOWER(status)'), 'overdue')
             ->count();
-        
+
         $delinquencyRate = $totalLoans > 0 ? ($delinquentLoans / $totalLoans) * 100 : 0;
 
         // Get share capital
@@ -144,6 +153,16 @@ class MemberLoansController extends Controller
 
         // Format join date
         $joinDate = $member->join_date ? $member->join_date : null;
+
+        // Get processed by for rejected loans
+        $processedBy = null;
+        if ($loanStatus === 'rejected') {
+            $auditLogLoan = AuditLog::where('type', 'Loan Rejected')
+                ->where('description', 'LIKE', '%Loan ID: '.$id.'%')
+                ->with('user')
+                ->first();
+            $processedBy = $auditLogLoan?->user?->name ?? "Staff";
+        }
 
         return Inertia::render('member/pending-loan-view', [
             'prop' => [
@@ -175,6 +194,7 @@ class MemberLoansController extends Controller
                 'status' => $member->status ?? 'Unknown',
                 'initial' => $initial,
                 'delinquency_rate' => round($delinquencyRate, 2),
+                'processedBy' => $processedBy,
             ],
         ]);
     }

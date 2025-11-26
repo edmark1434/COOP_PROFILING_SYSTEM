@@ -34,10 +34,12 @@ interface PendingLoanViewProps {
         status: string;
         initial: string;
         delinquency_rate: number;
+        processedBy?: string;
     };
 }
 
 export default function PendingLoanView({ prop, loanDetail, member }: PendingLoanViewProps) {
+    console.log(prop.name);
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -68,10 +70,13 @@ export default function PendingLoanView({ prop, loanDetail, member }: PendingLoa
     const delinquencyRate = member.delinquency_rate || 0;
     const isHighRisk = delinquencyRate >= 10;
 
+    // Check if loan is rejected
+    const isRejected = loanDetail.status.toLowerCase() === 'rejected';
+
     const memberData = {
         initial: member.initial,
         id: member.id,
-        name: prop.name,
+        name: prop.name || "N / A",
         rate: delinquencyRate.toString(),
         rateClassName: isHighRisk ? 'text-red-600' : '',
         shareCapital: member.shareCapital || 0,
@@ -88,7 +93,7 @@ export default function PendingLoanView({ prop, loanDetail, member }: PendingLoa
         },
         {
             title: loanDetail.ref_no,
-            href: `/member/loans/${prop.id}/pending`  // FIXED: removed "-details"
+            href: `/member/loans/${prop.id}/pending`
         },
     ];
 
@@ -106,10 +111,14 @@ export default function PendingLoanView({ prop, loanDetail, member }: PendingLoa
                             <div className="flex flex-col p-5 gap-3">
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Status</p>
-                                    <p className="text-sm font-semibold text-foreground">{loanDetail.status}</p>
+                                    <p className={`text-sm font-semibold ${isRejected ? 'text-red-600' : 'text-foreground'}`}>
+                                        {loanDetail.status}
+                                    </p>
                                 </div>
                                 <div className="flex flex-col">
-                                    <p className="text-xs text-muted-foreground">Date Applied</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {isRejected ? 'Date Rejected' : 'Date Applied'}
+                                    </p>
                                     <p className="text-sm font-semibold text-foreground">
                                         {formatDate(loanDetail.created_at)}
                                     </p>
@@ -134,6 +143,14 @@ export default function PendingLoanView({ prop, loanDetail, member }: PendingLoa
                                         {loanDetail.term_months} Months, {loanDetail.interest_rate}% interest
                                     </p>
                                 </div>
+                                {isRejected && member.processedBy && (
+                                    <div className="flex flex-col">
+                                        <p className="text-xs text-muted-foreground">Processed By</p>
+                                        <p className="text-sm font-semibold text-foreground">
+                                            {member.processedBy}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         {loanDetail.remarks && (
@@ -145,10 +162,10 @@ export default function PendingLoanView({ prop, loanDetail, member }: PendingLoa
                     </div>
 
                     {/* Profile Card */}
-                    <ProfileCard 
-                        title="Transactor" 
-                        type="member-loan" 
-                        data={memberData} 
+                    <ProfileCard
+                        title="Transactor"
+                        type="member-loan"
+                        data={memberData}
                         className="w-full lg:w-[50%]"
                     />
                 </div>
