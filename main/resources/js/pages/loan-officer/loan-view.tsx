@@ -45,26 +45,11 @@ interface LoanViewProps {
 }
 
 export default function LoanView({ loan }: LoanViewProps) {
-    // Add this debug effect at the top of your component
-    React.useEffect(() => {
-        console.log('Full loan data:', loan);
-        console.log('Share capital debug:', {
-            raw: loan.member.share_capital,
-            type: typeof loan.member.share_capital,
-            asNumber: Number(loan.member.share_capital),
-            isNaN: isNaN(Number(loan.member.share_capital))
-        });
-        console.log('Delinquency rate debug:', {
-            raw: loan.member.delinquency_rate,
-            type: typeof loan.member.delinquency_rate,
-        });
-    }, [loan]);
-
     const getInitials = (name: string) => {
-    const names = name.split(" ");
-    const initials = names.map((n) => n.charAt(0).toUpperCase());
-    return initials.join("");
-  };
+        const names = name.split(" ");
+        const initials = names.map((n) => n.charAt(0).toUpperCase());
+        return initials.join("");
+    };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -103,6 +88,7 @@ export default function LoanView({ loan }: LoanViewProps) {
         initial: loan.member.initials,
         id: loan.member.id.toString(),
         name: loan.member.name,
+        id_coop: loan.member.id_coop,
         rate: delinquencyRate.toString(),
         rateClassName: isHighRisk ? 'text-red-600' : '',
         shareCapital: loan.member.share_capital || 0,
@@ -118,7 +104,7 @@ export default function LoanView({ loan }: LoanViewProps) {
             href: loanOfficer.loanApplications().url
         },
         {
-            title: loan.ref_no,
+            title:  loan.ref_no,
             href: `/loan-officer/loans/${loan.id}`
         },
     ];
@@ -176,7 +162,7 @@ export default function LoanView({ loan }: LoanViewProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Loan ${loan.ref_no}`} />
+            <Head title={`Loan ${loan.member.id_coop || loan.ref_no}`} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex flex-col items-center w-full gap-5">
                     {/*Details Card*/}
@@ -186,6 +172,12 @@ export default function LoanView({ loan }: LoanViewProps) {
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="flex flex-col p-5 gap-3">
+                                <div className="flex flex-col">
+                                    <p className="text-xs text-muted-foreground">Cooperative ID</p>
+                                    <p className="text-sm font-semibold text-foreground">
+                                        {loan.member.id_coop || 'N/A'}
+                                    </p>
+                                </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Date Applied</p>
                                     <p className="text-sm font-semibold text-foreground">
@@ -200,6 +192,12 @@ export default function LoanView({ loan }: LoanViewProps) {
                                 </div>
                             </div>
                             <div className="flex flex-col p-5 gap-3">
+                                <div className="flex flex-col">
+                                    <p className="text-xs text-muted-foreground">Reference No.</p>
+                                    <p className="text-sm font-semibold text-foreground">
+                                        {loan.ref_no}
+                                    </p>
+                                </div>
                                 <div className="flex flex-col">
                                     <p className="text-xs text-muted-foreground">Amount</p>
                                     <p className="text-sm font-semibold text-foreground">
@@ -228,9 +226,9 @@ export default function LoanView({ loan }: LoanViewProps) {
                             Approve
                         </Button>
                         <Link href={loanRejectionForm.get(loan.id)}>
-                        <Button variant="destructive" >
-                            Reject
-                        </Button>
+                            <Button variant="destructive" >
+                                Reject
+                            </Button>
                         </Link>
                     </div>
                 </div>
