@@ -109,7 +109,8 @@ class ViewActiveLoanController extends Controller
                 'id' => $loanDetail->id,
                 'name' => $memberName,
                 'memId' => $member->id,
-                'memStatus' => $member->status ?? 'Unknown'
+                'memStatus' => $member->status ?? 'Unknown',
+                'id_coop' => $member->id_coop ?? ''
             ],
             'loanDetail' => $loanDetail,
             'member' => [
