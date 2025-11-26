@@ -57,9 +57,22 @@ export default function TellerMemberProfile({
     loansAscDate,
     loansDescDate,
 }: MemberProp) {
+    // Format full name with proper handling of middle name and suffix
+    const fullName = React.useMemo(() => {
+        const names = [member.first_name, member.middle_name, member.last_name].filter(Boolean);
+        let name = names.join(' ');
+        
+        if (member.suffix) {
+            name += ` ${member.suffix}`;
+        }
+        
+        return name;
+    }, [member.first_name, member.middle_name, member.last_name, member.suffix]);
+
+    // Breadcrumb shows only Member ID
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Member Lookup', href: '/teller/member-lookup' },
-        { title: `${member.id}`, href: `/teller/member-lookup/${member.id}` }, 
+        { title: `${member.id}`, href: `/teller/member-lookup/${member.id}` }, // Only ID in breadcrumb
     ];
 
     const [orderByField, setOrderByField] = React.useState<"name" | "date" | "type">("name");
@@ -70,10 +83,11 @@ export default function TellerMemberProfile({
     React.useEffect(() => {
         console.log('=== MEMBER PROFILE DATA ===');
         console.log('Member:', member);
+        console.log('Full Name:', fullName);
         console.log('Delinquency Rate:', delinquencyRate);
         console.log('Type of Delinquency Rate:', typeof delinquencyRate);
         console.log('===========================');
-    }, [member, delinquencyRate]);
+    }, [member, fullName, delinquencyRate]);
 
     // Sorting logic
     const transactions = React.useMemo(() => {
@@ -105,9 +119,11 @@ export default function TellerMemberProfile({
         );
     }, [transactions, searchQuery]);
 
-    // Create member data with delinquency rate for both profile cards
+    // Create member data with full name and delinquency rate for ProfileCard
     const memberWithDelinquencyRate = {
         ...member,
+        name: fullName, // This will display the full name at the top of ProfileCard
+        fullName: fullName,
         delinquencyRate: delinquencyRate
     };
 
@@ -115,15 +131,14 @@ export default function TellerMemberProfile({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Member ${member.id}`} /> {/* This will now show coop_id */}
+            <Head title={`Member ${member.id}`} /> {/* Page title shows only Member ID */}
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex-1">
-                    {/* First Profile Card */}
+                    {/* Profile Card - This will display the full name at the top like in your screenshot */}
                     <ProfileCard 
                         type="member" 
                         data={memberWithDelinquencyRate} 
                     />
-                    
                 </div>
 
                 <div className="flex flex-row h-fit w-full justify-between">

@@ -64,12 +64,16 @@ class CommonFormsController extends Controller
         switch ($formType) {
             case 'add-transaction':
                 return redirect()->route('teller.transactionForm.save');
+            case 'approve-loan':
+                return redirect()->route('loan-officer.loanApproval.save');
             case 'reject-loan':
                 return redirect()->route('loan-officer.loanRejectionForm.save');
             case 'add-staff':
                 return redirect()->route('admin.staffAddForm.save');
             case 'change-staff-role':
                 return redirect()->route('admin.staffRoleChangeForm.save');
+            case 'suspend-staff':
+                return redirect()->route('admin.staffSuspend.save');
             default:
                 abort(404);
         }

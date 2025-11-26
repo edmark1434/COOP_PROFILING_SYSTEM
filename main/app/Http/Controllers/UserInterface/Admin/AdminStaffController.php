@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Http\Controllers\CommonLogic;
+use function Pest\Laravel\put;
 
 class AdminStaffController extends Controller
 {
@@ -118,8 +119,13 @@ class AdminStaffController extends Controller
         $id = session('changeRoleId');
         return redirect()->route('admin.staffRoleChangeForm.get', $id);
     }
-    
+
     public function suspendStaff(){
+        session()->put('form.type', 'suspend-staff');
+        return redirect()->route('confirmStaff.get');
+    }
+
+    public function suspendStaffSave(){
         $id = session('changeRoleId');
         User::where('id', $id)->update([
             'status' => "Inactive"

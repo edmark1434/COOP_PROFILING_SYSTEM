@@ -42,7 +42,7 @@ export function ProfileCard({
                             </div>
                             <div className="flex-1 min-w-[200px]">
                                 <p className="font-semibold text-md">{ data.name}</p>
-                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id_coop}</p>
                             </div>
                         </div>
                     </div>

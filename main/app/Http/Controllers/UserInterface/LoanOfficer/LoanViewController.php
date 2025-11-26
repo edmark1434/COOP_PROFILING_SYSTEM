@@ -92,6 +92,14 @@ class LoanViewController extends Controller
 
     public function approve($id)
     {
+        session()->put('form.type', 'approve-loan');
+        session()->put('form.id', $id);
+        return redirect()->route('confirmStaff.get');
+    }
+
+    public function approveSave()
+    {
+        $id = session()->get('form.id');
         $loan = Loan::findOrFail($id);
 
         // Update loan status to Approved (matching the model's case)

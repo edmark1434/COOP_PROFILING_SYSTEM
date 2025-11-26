@@ -143,7 +143,7 @@ export default function MemberLoanView({
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <div className="flex flex-row items-end gap-2">
-                                            <p className="text-md font-semibold text-primary">
+                                            <p className="text-md font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount - installmentPaidSum).toLocaleString("en-US")}`}
                                             </p>
                                             <p className="text-xs text-muted-foreground pb-1">
@@ -156,13 +156,13 @@ export default function MemberLoanView({
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Current Period</p>
-                                        <p className="text-sm font-semibold text-primary">
+                                        <p className="text-sm font-semibold text-foreground">
                                             {installmentPaid.length} out of {loanDetail.term_months} months
                                         </p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Next Due</p>
-                                        <p className="text-sm font-semibold text-primary">
+                                        <p className="text-sm font-semibold text-foreground">
                                             {getDateString(newDate)}
                                         </p>
                                     </div>
@@ -178,13 +178,13 @@ export default function MemberLoanView({
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.status}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.updated_at.split("T")[0] + " " +
                                                     new Date(loanDetail?.updated_at).toLocaleTimeString([], {
                                                         hour: '2-digit',
@@ -195,7 +195,7 @@ export default function MemberLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.purpose?.name}
                                             </p>
                                         </div>
@@ -203,19 +203,19 @@ export default function MemberLoanView({
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`${loanDetail?.term_months} Months, ${loanDetail?.interest_rate}% interest`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {memberData.processBy}
                                             </p>
                                         </div>
@@ -231,15 +231,15 @@ export default function MemberLoanView({
                                 <div className="flex flex-col p-5 gap-3">
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Name</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.name}</p>
+                                        <p className="text-sm font-semibold text-foreground">{prop.name}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Member ID</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.memId}</p>
+                                        <p className="text-sm font-semibold text-foreground">{prop.memId}</p>
                                     </div>
                                     <div className="flex flex-col">
                                         <p className="text-xs text-muted-foreground">Status</p>
-                                        <p className="text-sm font-semibold text-primary">{prop.memStatus}</p>
+                                        <p className="text-sm font-semibold text-foreground">{prop.memStatus}</p>
                                     </div>
                                 </div>
                             </div>
@@ -343,7 +343,7 @@ export default function MemberLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Rejected</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.updated_at.split("T")[0] + " " +
                                                     new Date(loanDetail?.updated_at).toLocaleTimeString([], {
                                                         hour: '2-digit',
@@ -354,7 +354,7 @@ export default function MemberLoanView({
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Purpose</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {loanDetail?.purpose?.name}
                                             </p>
                                         </div>
@@ -362,19 +362,19 @@ export default function MemberLoanView({
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Amount</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`₱ ${Number(loanDetail?.amount).toLocaleString("en-US")}`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Plan</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {`${loanDetail?.term_months} Months, ${loanDetail?.interest_rate}%`}
                                             </p>
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Processed By</p>
-                                            <p className="text-sm font-semibold text-primary">
+                                            <p className="text-sm font-semibold text-foreground">
                                                 {memberData.processBy}
                                             </p>
                                         </div>

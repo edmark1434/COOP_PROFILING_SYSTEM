@@ -41,8 +41,22 @@ export default function MemberLoans() {
     const { props } = usePage<PageProps>();
     const { currentLoans = [], previousLoans = [] } = props;
 
-    const handleLoanClick = (loanId: string | number) => {
-        router.visit(`/member/loan-details/${loanId}`);
+    // UPDATED: Modified handleLoanClick to check for pending status
+    const handleLoanClick = (loan: LoanData) => {
+        console.log('Clicked loan:', loan);
+        console.log('Loan status:', loan.status);
+        console.log('Status lowercase:', loan.status?.toLowerCase());
+        
+        // Check if loan status is pending (case insensitive)
+        if (loan.status && loan.status.toLowerCase() === 'pending') {
+            console.log('Redirecting to pending view:', `/member/loans/${loan.id}/pending`);
+            // Redirect to pending loan view
+            router.visit(`/member/loans/${loan.id}/pending`);
+        } else {
+            console.log('Redirecting to regular view:', `/member/loan-details/${loan.id}`);
+            // Redirect to regular loan details view
+            router.visit(`/member/loan-details/${loan.id}`);
+        }
     };
 
     return (
@@ -64,7 +78,7 @@ export default function MemberLoans() {
                                         "flex justify-between items-center px-4 py-3",
                                         "hover:bg-muted/40 transition-colors cursor-pointer"
                                     )}
-                                    onClick={() => handleLoanClick(item.id)}
+                                    onClick={() => handleLoanClick(item)}
                                 >
                                     <div className="flex flex-col gap-1">
                                         <p className="font-semibold text-sm">
@@ -108,7 +122,7 @@ export default function MemberLoans() {
                                         "flex justify-between items-center px-4 py-3",
                                         "hover:bg-muted/40 transition-colors cursor-pointer"
                                     )}
-                                    onClick={() => handleLoanClick(item.id)}
+                                    onClick={() => handleLoanClick(item)}
                                 >
                                     <div className="flex flex-col gap-1">
                                         <p className="font-semibold text-sm">
