@@ -15,13 +15,14 @@ class TellerMemberLookupController extends Controller
     public function index()
     {
         // Get members for the combobox dropdown
-        $members = Member::select('id', 'first_name', 'last_name', 'middle_name')
+        $members = Member::select('id', 'first_name', 'last_name', 'middle_name', 'id_coop')
             ->orderBy('first_name')
             ->get()
             ->map(function ($member) {
                 return [
-                    'id' => (string)$member->id, // Explicitly cast to string
-                    'name' => $member->first_name . ' ' . $member->last_name,
+                    'id' => (string)$member->id,
+                    // Format: "First Name Last Name (ID123)"
+                    'name' => trim($member->first_name . ' ' . $member->last_name) . ' (' . $member->id_coop . ')',
                 ];
             });
 
@@ -54,8 +55,11 @@ class TellerMemberLookupController extends Controller
         // Calculate delinquency rate
         $delinquencyRate = $this->calculateDelinquencyRate($id);
 
+        // Use id_coop (correct column name) if available, otherwise fall back to id
+        $displayId = $member->id_coop ?? $member->id;
+
         // Log what we're sending to frontend
-        \Log::info("Sending to frontend - Member: {$member->id_coop}, Delinquency Rate: {$delinquencyRate}%");
+        \Log::info("Sending to frontend - Member ID: {$member->id}, Coop ID: {$displayId}, Delinquency Rate: {$delinquencyRate}%");
 
         // BASE QUERIES (same as admin but for teller view)
         $transactionsBase = Transaction::with(['member','user'])
@@ -132,7 +136,8 @@ class TellerMemberLookupController extends Controller
 
         return Inertia::render('teller/member-profile', [
             'member'=> [
-                'id' => $member->id_coop, 
+                'id' => $displayId, // Use id_coop instead of coop_id
+                'id_coop' => $member->id_coop, // Also send for reference
                 'first_name' => $member->first_name,
                 'last_name' => $member->last_name,
                 'middle_name' => $member->middle_name,

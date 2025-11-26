@@ -14,7 +14,6 @@ export function ProfileCard({
                                 className,
                                ...props
                            }: ProfileCardProps) {
-    console.log(data.name);
 
     // Debug logging to check what data is received
     React.useEffect(() => {
@@ -95,8 +94,8 @@ export function ProfileCard({
                                 <p className="font-semibold text-2xl">{data.initial}</p>
                             </div>
                             <div className="flex-1 min-w-[200px]">
-                               <p className="font-semibold text-md">{ data.name}</p>
-                                <p className="text-xs text-muted-foreground">Member ID: {data.id}</p>
+                                <p className="font-semibold text-md">{ data.name}</p>
+                                <p className="text-xs text-muted-foreground">Member ID: {data.id_coop}</p>
                             </div>
                         </div>
                         <div className="flex-1 w-fit text-right">

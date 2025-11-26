@@ -91,9 +91,13 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: `Loan  >  ${loanDetail?.ref_no}`,
+            title: `Loan`,
+            href: admin.loanView(prop.id).url
+        },{
+            title: loanDetail?.ref_no,
             href: admin.loanView(prop.id).url
         }
+        
     ];
 
     const handleSortFieldChange = (value: string) => {
@@ -108,7 +112,7 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="ID" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                {loanDetail.status != 'Rejected' ? (
+                {loanDetail.status != 'Rejected' && loanDetail.status != 'Pending' ? (
                     <>
                         <div className="flex flex-col lg:flex-row gap-4">
                             {/* Balance Card */}
@@ -283,8 +287,9 @@ export default function LoanView({prop,loanDetail,member,installments,installmen
                                 <div className="grid grid-cols-2 gap-5">
                                     <div className="flex flex-col p-5 gap-3">
                                         <div className="flex flex-col">
-                                            <p className="text-xs text-muted-foreground">Status</p>
-                                            <p className="text-sm font-semibold text-destructive">{loanDetail?.status}</p>
+                                                <p className="text-xs text-muted-foreground">Status</p>
+                                                {loanDetail?.status != 'Pending' ? (<p className="text-sm font-semibold text-destructive">{loanDetail?.status}</p>):(<p className="text-sm font-semibold ">{loanDetail?.status}</p>)
+                                            }
                                         </div>
                                         <div className="flex flex-col">
                                             <p className="text-xs text-muted-foreground">Date Approved</p>

@@ -17,7 +17,7 @@ class LoanViewController extends Controller
         $loan = Loan::with([
             'member' => function($query) {
                 $query->with([
-                    'user', // Get the user for email
+                    'user',
                     'accounts' => function($query) {
                         $query->where('type', 'Equity')
                             ->orWhere('type', 'like', '%share capital%');
@@ -30,19 +30,23 @@ class LoanViewController extends Controller
         // Transform the data to include account information
         $loanData = $loan->toArray();
         $memberName = trim(
-                ($loan->member->first_name ?? "") . " " .
-                ($loan->member->middle_name ?? "") . " " .
-                ($loan->member->last_name ?? "") . " " .
-                ($loan->member->suffix ?? "")
-            );
+            ($loan->member->first_name ?? "") . " " .
+            ($loan->member->middle_name ?? "") . " " .
+            ($loan->member->last_name ?? "") . " " .
+            ($loan->member->suffix ?? "")
+        );
         $initials = CommonLogic::getInitials($memberName);
         $loanData['member']['initials'] = $initials;
+
         // Add user email to member data
         if ($loan->member->user) {
             $loanData['member']['email'] = $loan->member->user->email;
         } else {
             $loanData['member']['email'] = null;
         }
+
+        // Add id_coop directly from member (assuming it's a column in members table)
+        $loanData['member']['id_coop'] = $loan->member->id_coop ?? null;
 
         // Add account data (share capital and status from Account model)
         if ($loan->member->accounts->isNotEmpty()) {
@@ -69,16 +73,18 @@ class LoanViewController extends Controller
         // Formula: (number of overdue loans / total number of loans) * 100
         $totalLoans = Loan::where('member_id', $loan->member_id)->count();
         $overdueLoans = Loan::where('member_id', $loan->member_id)
-            ->where('status', 'Overdue') // Changed from 'OVERDUE' to 'Overdue'
+            ->where('status', 'Overdue')
             ->count();
 
         if ($totalLoans > 0) {
             $loanData['member']['delinquency_rate'] = round(($overdueLoans / $totalLoans) * 100, 2);
         } else {
-            $loanData['member']['delinquency_rate'] = 0.00; // Changed to 0.00 for consistency
+            $loanData['member']['delinquency_rate'] = 0.00;
         }
+
         $loanData['member']['name'] = $memberName;
         $loanData['member']['contact'] = $loan->member->contact_num;
+
         return Inertia::render('loan-officer/loan-view', [
             'loan' => $loanData,
         ]);
@@ -98,7 +104,7 @@ class LoanViewController extends Controller
 
         // Update loan status to Approved (matching the model's case)
         $loan->update([
-            'status' => 'Approved' // Changed from 'APPROVED' to 'Approved'
+            'status' => 'Approved'
         ]);
 
         return redirect()->route('loan-officer.loan-applications')

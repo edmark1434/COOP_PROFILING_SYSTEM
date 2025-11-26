@@ -18,7 +18,8 @@ interface LoanProp {
         id: number,
         name: string,
         memId: number,
-        memStatus: string
+        memStatus: string,
+        id_coop: string
     },
     loanDetail: any,
     member: any,
@@ -232,7 +233,7 @@ export default function LoanOfficerLoanView({
                                     <div className="flex flex-row lg:flex-col w-full justify-between gap-3">
                                         <div className="flex-1 flex-col">
                                             <p className="text-xs text-muted-foreground">Member ID</p>
-                                            <p className="text-sm font-semibold text-foreground">{prop.memId}</p>
+                                            <p className="text-sm font-semibold text-foreground">{prop.id_coop}</p>
                                         </div>
                                         <div className="flex-1 flex-col">
                                             <p className="text-xs text-muted-foreground">Status</p>
