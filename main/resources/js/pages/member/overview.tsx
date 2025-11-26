@@ -37,6 +37,25 @@ interface Loan {
     status: string;
 }
 
+// interface LoanData {
+//     id: number | string;
+//     member: {
+//         first_name: string;
+//         middle_name?: string;
+//         last_name: string;
+//         suffix?: string;
+//     };
+//     status?: string;
+//     type?: string;
+//     amount: string;
+//     purpose: {
+//         name?: string;
+//     };
+//     remarks?: string;
+//     application_date?: string;
+//     completion_date?: string;
+// }
+
 interface PageProps extends React.PropsWithChildren<Record<string, unknown>> {
     recentTransactions: Transaction[];
     currentLoans: Loan[];
@@ -121,10 +140,14 @@ export default function MemberOverview() {
         })}`;
     };
 
-    // Handle loan row click
-    const handleLoanClick = (loanId: string | number) => {
-        router.visit(`/member/loan-details/${loanId}`);
+    const handleLoanClick = (loan: Loan) => {
+        if (loan.status?.toLowerCase() === "pending") {
+            router.visit(`/member/loans/${loan.id}/pending`);
+        } else {
+            router.visit(`/member/loan-details/${loan.id}`);
+        }
     };
+
 
     React.useEffect(() => {
         let filteredTransactions = [...recentTransactions];
@@ -375,7 +398,7 @@ export default function MemberOverview() {
                                         {displayedLoans.map((loan, index) => (
                                             <div
                                                 key={index}
-                                                onClick={() => handleLoanClick(loan.id)}
+                                                onClick={() => handleLoanClick(loan)}
                                                 className={cn(
                                                     "flex flex-col md:flex-row justify-between items-start md:items-center border-b px-4 py-3 hover:bg-muted/40 transition-colors cursor-pointer"
                                                 )}

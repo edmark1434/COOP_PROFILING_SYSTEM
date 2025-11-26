@@ -46,12 +46,18 @@ export default function MemberLoans() {
         console.log('Clicked loan:', loan);
         console.log('Loan status:', loan.status);
         console.log('Status lowercase:', loan.status?.toLowerCase());
-        
+
         // Check if loan status is pending (case insensitive)
         if (loan.status && loan.status.toLowerCase() === 'pending') {
             console.log('Redirecting to pending view:', `/member/loans/${loan.id}/pending`);
             // Redirect to pending loan view
             router.visit(`/member/loans/${loan.id}/pending`);
+        }
+        else if
+            (loan.status && loan.status.toLowerCase() === 'rejected') {
+            console.log('Redirecting to pending view:', `/member/loans/${loan.id}/pending`);
+                // Redirect to pending loan view
+                router.visit(`/member/loans/${loan.id}/pending`);
         } else {
             console.log('Redirecting to regular view:', `/member/loan-details/${loan.id}`);
             // Redirect to regular loan details view
